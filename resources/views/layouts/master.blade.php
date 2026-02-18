@@ -3,7 +3,7 @@
 
     @include ('layouts.partials.header')
 
-    <body class="fixed-sn black-skin">
+    <body class="fixed-sn mdb-skin">
         <header>
             @includeWhen(false,'layouts.partials.menu.sidebar')
             <!-- Navbar -->

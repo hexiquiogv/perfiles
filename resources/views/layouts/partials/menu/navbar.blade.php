@@ -3,16 +3,7 @@
 
     <div class="d-flex flex-row">
         <div>
-            @if(false)
-                <a href="#" data-activates="slide-out" class="button-collapse">
-                    <img src="{{asset('images/logos/transparente.png')}}" width="55px">
-                </a>   
-            @endif
-            <a href="{{route('home')}}"
-            @if(false)
-                data-activates="slide-out" class="button-collapse"
-            @endif
-            >
+            <a href="{{route('home')}}">
                 <img src="{{asset('images/logos/transparente.png')}}" width="180px">
             </a>    
         </div>

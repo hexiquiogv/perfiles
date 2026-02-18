@@ -6,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'PEDRO MARTINEZ - ASESOR') }}</title>
+    <title>{{ config('app.name', 'Perfiles y Herrajes de Saltillo') }}</title>
 
     <!-- Font Awesome -->
     <link href="{{ asset('font_awesome/css/all.css') }}" rel="stylesheet">
