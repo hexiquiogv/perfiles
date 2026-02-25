@@ -16,6 +16,11 @@ class CatalogosTableSeeder extends Seeder
         //DB::statement("insert into catalogos (id,parent_id,name) select id,parent_id,name from poblaciones");
 
         $items = [
+            Catalogo::ESTATUS_MANTENIMIENTO,
+            Catalogo::ESTATUS_PERSONA,
+            Catalogo::MARCA,
+            Catalogo::TIPO_VEHICULO,
+            Catalogo::TIPO_PROVEEDOR,
             Catalogo::NOMBRE_PLAN,
             Catalogo::ESTATUS,
             Catalogo::METODO_PAGO,
@@ -31,68 +36,11 @@ class CatalogosTableSeeder extends Seeder
         self::store_data($items, null);
 
         $items = [
-            'SEGUBECA 18 UDI PRIMA CONSTANTE',
-            'ALFA MEDICAL FLEX A',
-            'ORVI 99-20 PAGOS UDIS',
-            'INTEGRO',
-            'DOTAL 20 UDIS',
-            'ORVI 99 10 UDIS',
-            'TEMPORAL 1 AÑO MN',
-            'NUEVO PLENITUD 60 15',
-            'VIDA MUJER',
-            'IMAGINA SER 65 PAGOS LIMITADOS 15',
-            'SL INTEGRO',
-            'TEMPORAL 10 UDIS',
-            'NUEVO PLENITUD 65 15',
-            'ALFA MEDICAL FLEX B',
-            'IMAGINA SER 65',
-            'TEMPORAL 20 UDIS',
-            'IMAGINA SER 65 PAGOS LIMITADOS 10',
-            'PRACTICO TOTAL',
-            'ORVI 99 UDIS',
-            'PLENO',
-            'VIDA MUJER AHORRO',
-            'IMAGINA SER 70',
-        ];
-        self::store_data($items, Catalogo::NOMBRE_PLAN);
-
-        $items = [
             Catalogo::EN_VIGOR,
             Catalogo::PRORROGADO,
             Catalogo::ANULADA
         ];
-        self::store_data($items, Catalogo::ESTATUS);
-
-        $items = [
-            'CARGO AUTOMATICO A TARJ CRED',
-            'TDD',
-            'MODO DIRECTO',
-            'AGENTE'
-        ];
-        self::store_data($items, Catalogo::METODO_PAGO);
-
-        $items = [
-            'VIDA INDIVIDUAL',
-            'GASTOS MEDICOS INDIVIDUAL',
-            'ACCIDENTES PERSONALES'
-        ];
-        self::store_data($items, Catalogo::TIPO_SEGURO);
-
-        $items = [
-            'ANUAL',
-            'MENSUAL',
-            'SEMESTRAL',
-            'TRIMESTRAL'
-        ];
-        self::store_data($items, Catalogo::FORMA_PAGO);
-
-        $items = [
-            'TRADICIONAL',
-            'GMM',
-            'AP',
-            'FLEXIBLE'
-        ];
-        self::store_data($items, Catalogo::CLASIFICACION_PLAN);
+        self::store_data($items, Catalogo::ESTATUS_MANTENIMIENTO);
 
         $items = [
             'HOMBRE',

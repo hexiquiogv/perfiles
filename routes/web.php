@@ -20,6 +20,6 @@ Route::view('/', 'welcome')->name('welcome');
 Route::middleware(['auth'])->group(function () {
 	Route::get('/home','HomeController@index')->name('home');
 	//Route::view('signature', 'test.signature_2')->name('signature');
-	Route::get('signaturepad', 'SignaturePadController@index');
+	Route::get('signaturepad', 'SignaturePadController@index')->name('signaturepad');
 	Route::post('signaturepad', 'SignaturePadController@upload')->name('signaturepad.upload');
 });

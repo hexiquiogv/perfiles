@@ -41,7 +41,8 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	                return $action_buttons;
 	            })
 	            ->make(TRUE);
-	})->name('list.catalogo');
+		})->name('list.catalogo');
+		
 	Route::get('list/{catalogo}', 'ListController@index')
 		->name('list.index');
 	Route::get('list/{catalogo}/create', 'ListController@create')

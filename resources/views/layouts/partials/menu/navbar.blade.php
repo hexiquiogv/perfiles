@@ -22,12 +22,18 @@
                     <i class="fa fa-bars white-text"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{route('seguros.index')}}">
-                        <i class="fa fa-paste pink-text"></i> Polizas Seguros </a>
+                    <a class="dropdown-item" href="{{route('mantenimientos.index')}}">
+                        <i class="fa fa-paste pink-text"></i> Mantenimientos </a>
                     <a class="dropdown-item" href="{{route('personas.index')}}">
-                        <i class="fa fa-users orange-text"></i> Personas </a>
+                        <i class="fa fa-users orange-text"></i> Personal </a>
+                    <a class="dropdown-item" href="{{route('vehiculos.index')}}">
+                        <i class="fa fa-bus green-text"></i> Vehículos </a>
+                    <a class="dropdown-item" href="{{route('proveedores.index')}}">
+                        <i class="fa fa-industry purple-text"></i> Proveedores </a>
                     <a class="dropdown-item" href="{{route('reports.index')}}">
                         <i class="fa fa-print text-info"></i> Reportes</a>
+                    <a class="dropdown-item" href="{{route('signaturepad')}}">
+                        <i class="fa fa-print text-info"></i> Firma Digital</a>
                     
                     <div class="dropdown-divider"></div>
                     @hasanyrole( 'super_admin' )

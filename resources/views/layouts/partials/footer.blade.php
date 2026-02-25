@@ -9,6 +9,11 @@
             </a>
         </div>
         <div class="p-2">
+            <a href="https://perfilesyherrajes.com.mx" target="_blank" class="white-text">
+                <i class="fa fa-instagram fa-1x"></i> https://perfilesyherrajes.com.mx
+            </a>
+        </div>
+        <div class="p-2">
             Contactanos : 
             <a href="mailto:infophs@perfilesyherrajes.com.mx" class="white-text">
                 <i class="fa fa-envelope"></i>

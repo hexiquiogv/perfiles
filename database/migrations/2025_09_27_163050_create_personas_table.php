@@ -19,10 +19,16 @@ class CreatePersonasTable extends Migration
             $table->string('nombre')->nullable();   
             $table->string('paterno')->nullable();   
             $table->string('materno')->nullable();   
+            $table->string('curp')->nullable();   
+            $table->string('rfc')->nullable();   
+            $table->string('nss')->nullable();  
+
             $table->date('fecha_nacimiento')->nullable();
             $table->string('email')->nullable();   
             $table->string('telefono')->nullable();   
             $table->integer('sexo_id')->nullable();  
+            $table->integer('tipo_sangre_id')->nullable();  
+
             $table->integer('estado_civil_id')->nullable();  
 
             $table->integer('user_id')->nullable();
