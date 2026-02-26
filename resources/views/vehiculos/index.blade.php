@@ -73,7 +73,7 @@
                 //scrollX: false,
                 columns: [
                     {data:'id', name:'id', searchable:false, orderable:true, width:'5%'},
-                    {data:'uuid', name:'uuid', orderable:false},
+                    {data:'uuid', name:'uuid', orderable:false, visible:false},
                     {data:'no_economico', name:'no_economico', orderable:false},
                     {data:'tipo_vehiculo.name', name:'tipo_vehiculo.name', class:'text-capitalize'},
                     {data:'marca.name', name:'marca.name', class:'text-capitalize'},

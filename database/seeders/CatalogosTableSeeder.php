@@ -31,7 +31,8 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::SI_NO,
             Catalogo::ORIGEN_INFORMACION,
             Catalogo::STATUS_REPORT,
-            Catalogo::ESTADO_CIVIL
+            Catalogo::ESTADO_CIVIL,
+            Catalogo::TIPO_PROVEEDOR,
         ];
         self::store_data($items, null);
 
@@ -62,6 +63,12 @@ class CatalogosTableSeeder extends Seeder
             'UNION LIBRE'
         ];
         self::store_data($items, Catalogo::ESTADO_CIVIL);
+
+        $items = [
+            'persona fisica',
+            'persona moral'
+        ];
+        self::store_data($items, Catalogo::TIPO_PROVEEDOR);
 
         $items = [
             'activo',

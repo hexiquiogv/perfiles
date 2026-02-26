@@ -41,4 +41,9 @@ class Vehiculo extends Model
             ->withDefault('name','');
     }
 
+    public function estatus() {
+        return $this->hasOne('App\Models\Catalogo', 'id', 'estatus_id')
+            ->withDefault('name','');
+    }
+
 }
