@@ -52,8 +52,8 @@
                 </div>    
                 <div class="md-form col-3 mt-1 p-3">
                     <label class="col-form-label active pl-3" style="margin-top: 10px;">No Serie</label>
-                    <input class="mt-3 col-11" id="serie" type="text" name="serie" 
-                        value="{{ old('serie',$registro->serie) }}">
+                    <input class="mt-3 col-11" id="numero_serie" type="text" name="numero_serie" 
+                        value="{{ old('numero_serie',$registro->numero_serie) }}">
                 </div>                        
             </div>
 

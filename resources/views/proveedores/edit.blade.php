@@ -13,7 +13,7 @@
 							<a class="nav-item nav-link" role="tab" aria-selected="false"
 							href="{{route($tab, $registro->id)}}">
 						@endif
-						{{__("client_topics.$tab")}}</a>
+						{{__("supplier.tabs.$tab")}}</a>
 					@endforeach
 					<a class="nav-item nav-link ml-auto active " 
 						href="{{route('proveedores.index')}}">

@@ -5,20 +5,22 @@ use Illuminate\Http\Request;
 
 Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(function () {
 
-	Route::resource('proveedores','ProveedorController')->parameters(['proveedores' => 'proveedor'])->except('show');
-	Route::get('generales/{proveedor}','ProveedorController@edit')
-		->name('generales');	
+	Route::get('proveedores','ProveedorController@index')->name('proveedores.index');	
+	Route::get('proveedores/create','ProveedorController@create')->name('proveedores.create');	
+	Route::post('proveedores','ProveedorController@store')->name('proveedores.store');	
+	Route::patch('proveedores/{uuid}','ProveedorController@update')->name('proveedores.update');	
+	Route::get('proveedores/{uuid}/edit','ProveedorController@edit')->name('proveedores.edit');	
+	Route::get('generales/{uuid}','ProveedorController@edit')->name('proveedores.generales');	
+
 	Route::match(['get', 'post'],'list.proveedores', function(Request $request) {
-		if ($request->tipo_proveedor_id){
-			$tipo_proveedor_id = App\Models\Catalogo::find_by_name($request->tipo_proveedor_id)->first()->id;
-			$items = Proveedor::query()->with('status')->with('tipo_proveedor')->where('tipo_proveedor_id','=',$tipo_proveedor_id);
-		} else {
-			$items = Proveedor::query()->with('status')->with('tipo_proveedor');
-		}
+		$items = Proveedor::query()
+			->with(['estatus:id,name','giro_proveedor:id,name'])
+			->select('proveedores.*');
+
 		return DataTables::eloquent($items)
 		        ->addColumn('acciones', function($item){
-		        	$item_id = $item->id;
-		        	$btn_edit = route('proveedores.edit',$item->id);
+		        	$item_id = $item->uuid;
+		        	$btn_edit = route('proveedores.edit',$item_id);
 					$btn_delete = "";
 					if (Auth::user()->isAdmin) {
 						$btn_delete = "#";

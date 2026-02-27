@@ -28,7 +28,7 @@ class Catalogo extends Model
     const COLOR = 'color';
     const TIPO_VEHICULO = 'tipo_vehiculo';
 
-    const TIPO_PROVEEDOR = 'tipo_proveedor';
+    const GIRO_PROVEEDOR = 'giro_proveedor';
 
     const SUCURSAL = 'sucursal';
 

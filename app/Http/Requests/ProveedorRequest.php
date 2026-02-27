@@ -27,13 +27,13 @@ class ProveedorRequest extends FormRequest
             'rfc' => 'required',
             'nombre_corto' => 'required',
             'razon_social' => 'required',
-            'poblacion_id' => 'required',
-            'municipio_id' => 'required',
-            'estado_id' => 'required',
-            'pais_id' => 'required',
-            'calle' => 'required',
-            'numero_exterior' => 'required',
-            'colonia'=>'required',
+            // 'poblacion_id' => 'required',
+            // 'municipio_id' => 'required',
+            // 'estado_id' => 'required',
+            // 'pais_id' => 'required',
+            // 'calle' => 'required',
+            // 'numero_exterior' => 'required',
+            // 'colonia'=>'required',
         ];
     }
 }

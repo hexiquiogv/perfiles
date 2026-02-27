@@ -25,178 +25,52 @@
                 @csrf
                 {{ method_field($method) }}
                 
-                <div class="row col-12">
-                    <div class="col-8"> 
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Tipo de proveedor</label>
-                            <div class="col-md-4">
-                                @foreach ($tipo_proveedor as $tp )
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input 
-                                            class="custom-control-input" 
-                                            type="radio" 
-                                            id="tipo_proveedor_{{$tp->id}}" 
-                                            name="tipo_proveedor" 
-                                            value={{$tp->id}}
-                                            {{$tp->id == $proveedor->tipo_proveedor_id ? 'checked':''}}
-                                            >
-                                        <label class="custom-control-label" for="tipo_proveedor_{{$tp->id}}">{{$tp->name}}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Primer apellido</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="primer_apellido" type="text" name="primer_apellido" 
-                                    value = "{{ old('primer_apellido',$proveedor->primer_apellido) }}" {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Segundo apellido</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="segundo_apellido" type="text" name="segundo_apellido" 
-                                    value = "{{ old('segundo_apellido',$proveedor->segundo_apellido) }}" {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Nombre</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="nombre" type="text" name="nombre" 
-                                    value = "{{ old('nombre',$proveedor->nombre) }}" {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                RFC</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="rfc" type="text" name="rfc" 
-                                    value = "{{ old('rfc',$proveedor->rfc) }}" {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Razón Social</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="razon_social" type="text" name="razon_social" 
-                                    value = "{{ old('razon_social',$proveedor->razon_social) }}"  
-                                        {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Nombre Corto</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="nombre_corto" type="text" name="nombre_corto" 
-                                    value = "{{ old('nombre_corto',$proveedor->nombre_corto) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                calle</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="calle" type="text" name="calle" 
-                                    value = "{{ old('calle',$proveedor->calle) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Número interior</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="numero_interior" type="text" name="numero_interior" 
-                                    value = "{{ old('numero_interior',$proveedor->numero_interior) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Nombre exterior</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="numero_exterior" type="text" name="numero_exterior" 
-                                    value = "{{ old('numero_exterior',$proveedor->numero_exterior) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Colonia</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="colonia" type="text" name="colonia" 
-                                    value = "{{ old('colonia',$proveedor->colonia) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Código postal</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="codigo_postal" type="text" name="codigo_postal" 
-                                    value = "{{ old('codigo_postal',$proveedor->codigo_postal) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Entre calles</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="entre_calles" type="text" name="entre_calles" 
-                                    value = "{{ old('entre_calles',$proveedor->entre_calles) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Número de Certificado</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="numero_certificado" type="text" name="numero_certificado" 
-                                    value = "{{ old('numerto_certificado',$proveedor->numero_certificado) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Email</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="email" type="text" name="email" 
-                                    value = "{{ old('email',$proveedor->email) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Teléfono</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="telefono" type="text" name="telefono" 
-                                    value = "{{ old('telefono',$proveedor->telefono) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row p-2">
-                            <label class="col-md-3 col-form-label text-md-right">
-                                Giro</label>
-                            <div class="col-md-4">
-                                <input class="form-control" id="giro" type="text" name="giro" 
-                                    value = "{{ old('giro',$proveedor->giro) }}"  {{ $readonly }} {{ $disabled }} >
-                            </div>
-                        </div>
-
+                <div class="d-flex flex-wrap col-12">
+                    <div class="md-form col-11">
+                        <label class="col-form-label active pl-3" style="margin-top: -8px;">Razón Social</label>
+                        <input class="mt-3 col-12" id="razon_social" type="text" 
+                            name="razon_social" value="{{ old('razon_social',$registro->razon_social) }}">
+                    </div> 
+                    <div class="md-form col-7">
+                        <label class="col-form-label active pl-3" style="margin-top: -8px;">Nombre Corto</label>
+                        <input class="mt-3 col-11" name="nombre_corto" id="nombre_corto" 
+                                value="{{ old('nombre_corto',$registro->nombre_corto) }}" >
+                    </div> 
+                    <div class="md-form col-2">
+                        <label class="col-form-label active pl-3" style="margin-top: -8px;">RFC</label>
+                        <input class="mt-3 col-12" id="rfc" type="text" name="rfc" 
+                            value="{{ old('rfc',$registro->rfc) }}">
+                    </div> 
+                    <div class="md-form col-6">
+                        <label class="col-form-label active pl-4" style="margin-top: -2px;">
+                            Giro Proveedor
+                        </label>
+                        <select id="giro_id" name="giro_id" searchable="Buscar ..."
+                            class="mdb-select md-form mt-1 col-11">
+                        </select>
                     </div>
                 </div>
+
+                <div class="d-flex flex-wrap col-12">
+                    <label class="col-form-label active pl-4" style="margin-top: -2px;">
+                            Servicios
+                    </label>
+                    <textarea class="col-md-12" id="servicios" type="textarea" 
+                    name="servicios" rows="4" >{{old('servicios',$registro->servicios??'')}}</textarea>
+                </div>
+
             </form>
         </div>
     </div> 
     <br>
     <br>
 @endsection
+
+@push('scripts2')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            dynamicDropdown("{{ route('items',App\Models\Catalogo::GIRO_PROVEEDOR) }}", 
+                {{ old('giro_id',$registro->giro_id??0) }}, 'giro_id');
+        });    
+    </script>
+@endpush
