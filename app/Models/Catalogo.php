@@ -18,6 +18,13 @@ class Catalogo extends Model
     
     const ESTATUS_MANTENIMIENTO = 'estatus_mantenimiento';
     const ESTATUS = 'estatus';
+    const REPROGRAMADO = "reprogramado";
+    const PROGRAMADO = "programado";
+    const EN_PROCESO = "en proceso";
+    const CANCELADO = "cancelado";
+    const GARANTIA = "garantía";
+    const AUTORIZADO = "autorizado";
+    const PENDIENTE_AUTORIZAR = "pendiente autorizar";
 
     const ESTATUS_PERSONA = 'estatus_persona';
     const SEXO = 'sexo';
@@ -30,6 +37,7 @@ class Catalogo extends Model
 
     const GIRO_PROVEEDOR = 'giro_proveedor';
 
+    const EMPRESA = 'empresa';
     const SUCURSAL = 'sucursal';
 
     const ORIGEN_INFORMACION = "origen_informacion";

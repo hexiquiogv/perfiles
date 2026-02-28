@@ -39,8 +39,8 @@ class ProveedorController extends Controller
         $route = route('proveedores.update',$proveedor->uuid);
         $method = "PATCH";
         $title = "Edición Registro (" . $proveedor->uuid . ")" ;
-        //$opciones = ["generales","domicilio","contactos"];
-        $opciones = ["generales"];
+        $opciones = ["generales","domicilio","contactos"];
+        //$opciones = ["generales"];
         $opcion = "generales";
         return view('proveedores.edit',compact('registro','route','method','title','opciones','opcion'));
     }

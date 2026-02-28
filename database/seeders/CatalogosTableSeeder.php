@@ -20,26 +20,26 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::ESTATUS_PERSONA,
             Catalogo::MARCA,
             Catalogo::TIPO_VEHICULO,
-            Catalogo::TIPO_PROVEEDOR,
-            Catalogo::NOMBRE_PLAN,
+            Catalogo::GIRO_PROVEEDOR,
             Catalogo::ESTATUS,
-            Catalogo::METODO_PAGO,
-            Catalogo::TIPO_SEGURO,
-            Catalogo::FORMA_PAGO,
-            Catalogo::CLASIFICACION_PLAN,
+            Catalogo::SUCURSAL,
             Catalogo::SEXO,
             Catalogo::SI_NO,
             Catalogo::ORIGEN_INFORMACION,
             Catalogo::STATUS_REPORT,
             Catalogo::ESTADO_CIVIL,
-            Catalogo::TIPO_PROVEEDOR,
+            Catalogo::EMPRESA
         ];
         self::store_data($items, null);
 
         $items = [
-            Catalogo::EN_VIGOR,
-            Catalogo::PRORROGADO,
-            Catalogo::ANULADA
+            Catalogo::REPROGRAMADO,
+            Catalogo::PROGRAMADO,
+            Catalogo::EN_PROCESO,
+            Catalogo::CANCELADO,
+            Catalogo::GARANTIA,
+            Catalogo::AUTORIZADO,
+            Catalogo::PENDIENTE_AUTORIZAR,
         ];
         self::store_data($items, Catalogo::ESTATUS_MANTENIMIENTO);
 
@@ -65,10 +65,36 @@ class CatalogosTableSeeder extends Seeder
         self::store_data($items, Catalogo::ESTADO_CIVIL);
 
         $items = [
-            'persona fisica',
-            'persona moral'
+            'automotriz',
+            'contrucción',
+            'papelería',
+            'articulos de oficina',
+            'sistemas y tecnologías de información',
+            'telefonia',
         ];
-        self::store_data($items, Catalogo::TIPO_PROVEEDOR);
+        self::store_data($items, Catalogo::GIRO_PROVEEDOR);
+
+        $items = [
+            "ALVIREGIO",
+            "AVA",
+            "CASC",
+            "DASC",
+            "PHS" ,
+            "SOS",
+        ];
+        self::store_data($items, Catalogo::EMPRESA);
+        $catalogo = Catalogo::whereNull('parent_id')->where('name',Catalogo::EMPRESA)->first();
+        $empresa = Catalogo::where('parent_id',$catalogo->id)->first();
+
+        $items = [
+            '1|MATRIZ',
+            '2|GUAYULERA',
+            '3|PERIFERICO',
+            '4|RAMOS ARIZPE',
+            '5|MORELOS',
+            '6|MADERO',
+        ];
+        self::store_data($items, $empresa->id);
 
         $items = [
             'activo',

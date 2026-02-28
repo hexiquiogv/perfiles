@@ -37,7 +37,7 @@
         <textarea class="col-md-12" id="servicios" type="textarea" 
         name="servicios" rows="4" >{{old('servicios',$registro->servicios??'')}}</textarea>
     </div>
-
+    
     @include('proveedores.buttons',['url' => url()->current()])
 
 </form>
