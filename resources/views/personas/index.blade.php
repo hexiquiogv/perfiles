@@ -26,11 +26,13 @@
                     <tr>
                         <th>Id</th>                        
                         <th>UUID</th>
+                        <th>No Empleado</th>  
                         <th>Nombre</th>                        
                         <th>Paterno</th>
                         <th>Materno</th>
                         <th>Nombre</th>
-                        <th>Polizas</th>
+                        <th>Puesto</th>
+                        <th>Empresa</th>
                         <th>Sexo</th>
                         <th>Estado Civil</th>
                         <th>Fecha Nacimiento</th>
@@ -69,19 +71,16 @@
                 //scrollX: false,
                 columns: [
                     {data:'id', name:'id', searchable:false, orderable:true, width:'5%'},
-                    {data:'uuid', name:'uuid', orderable:false},
+                    {data:'uuid', name:'uuid', orderable:false,visible:false},
+                    {data:'numero_empleado', name:'numero_empleado'},
                     {data:'nombre', name:'nombre', class:'text-capitalize', visible:false},
                     {data:'paterno', name:'paterno', class:'text-capitalize', visible:false},
                     {data:'materno', name:'materno', class:'text-capitalize', visible:false},
-                    {data:'fullname', name:'fullname', class:'text-capitalize', searchable:false},
-                    {data:'polizas', name:'polizas', orderable:false,
-                        width:'10%',
-                        render: function(data,style,row,meta){
-                             return $("<div/>").html(data).text();
-                        }
-                    },
-                    {data:'sexo.name', name:'sexo.name', class:'text-capitalize'},
-                    {data:'estado_civil.name', name:'estado_civil.name', class:'text-capitalize'},
+                    {data:'fullname', name:'fullname', class:'text-uppercase', searchable:false},
+                    {data:'puesto.name', name:'puesto.name', class:'text-uppercase'},
+                    {data:'empresa.name', name:'empresa.name', class:'text-uppercase'},
+                    {data:'sexo.name', name:'sexo.name', class:'text-uppercase'},
+                    {data:'estado_civil.name', name:'estado_civil.name', class:'text-uppercase'},
                     {data:'fecha_nacimiento', name:'fecha_nacimiento',
                         render: function(data,style,row,meta){
                             if (data == null) return "";
@@ -97,7 +96,7 @@
                         }
                     }
                 ],
-                order: [ 0, "desc" ]
+                order: [ 2, "asc" ]
             });
         });
 

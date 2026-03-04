@@ -26,8 +26,29 @@ class Persona extends Model
             ->withDefault('name','');
     }
 
-    public function persona_seguros() {
-        return $this->hasMany('App\Models\SeguroPersona','persona_id', 'id');
+    public function empresa() {
+        return $this->hasOne('App\Models\Catalogo', 'id','empresa_id')
+            ->withDefault('name','');
+    }
+
+    public function sucursal() {
+        return $this->hasOne('App\Models\Catalogo', 'id','sucursal_id')
+            ->withDefault('name','');
+    }
+
+    public function area() {
+        return $this->hasOne('App\Models\Catalogo', 'id','area_id')
+            ->withDefault('name','');
+    }
+
+    public function puesto() {
+        return $this->hasOne('App\Models\Catalogo', 'id','puesto_id')
+            ->withDefault('name','');
+    }
+
+    public function tipo_sangre() {
+        return $this->hasOne('App\Models\Catalogo', 'id','tipo_sangre_id')
+            ->withDefault('name','');
     }
 
 }

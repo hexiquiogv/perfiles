@@ -22,13 +22,13 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::TIPO_VEHICULO,
             Catalogo::GIRO_PROVEEDOR,
             Catalogo::ESTATUS,
-            Catalogo::SUCURSAL,
             Catalogo::SEXO,
             Catalogo::SI_NO,
             Catalogo::ORIGEN_INFORMACION,
             Catalogo::STATUS_REPORT,
             Catalogo::ESTADO_CIVIL,
-            Catalogo::EMPRESA
+            Catalogo::EMPRESA,
+            Catalogo::PUESTO
         ];
         self::store_data($items, null);
 
@@ -48,6 +48,28 @@ class CatalogosTableSeeder extends Seeder
             'MUJER'
         ];
         self::store_data($items, Catalogo::SEXO);
+
+        $items = [
+            'VOLKSWAGEN', 
+            'DODGE', 
+            'RENAULT', 
+            'MAZDA', 
+            'TOYOTA', 
+            'PORCHE', 
+            'GMC', 
+            'RANGE ROVER', 
+            'FORD', 
+            'NISSAN', 
+            'FREIGHTLINER', 
+            'RAM', 
+            'CHEVROLET', 
+            'MITSUBISHI', 
+            'CATERPILLAR', 
+            'COMBILIFT', 
+            'KAMATSU', 
+            'JETTA', 
+        ];
+        self::store_data($items, Catalogo::MARCA);
 
         $items = [
             'SI',
@@ -87,12 +109,13 @@ class CatalogosTableSeeder extends Seeder
         $empresa = Catalogo::where('parent_id',$catalogo->id)->first();
 
         $items = [
-            '1|MATRIZ',
-            '2|GUAYULERA',
-            '3|PERIFERICO',
-            '4|RAMOS ARIZPE',
-            '5|MORELOS',
-            '6|MADERO',
+            'MATRIZ',
+            'GUAYULERA',
+            'PERIFERICO',
+            'RAMOS ARIZPE',
+            'MORELOS',
+            'MADERO',
+            'VITO ALESIO'
         ];
         self::store_data($items, $empresa->id);
 
@@ -106,6 +129,74 @@ class CatalogosTableSeeder extends Seeder
             'mysql'
         ];
         self::store_data($items, Catalogo::ORIGEN_INFORMACION);
+
+        $items = [
+            "DIRECCION GENERAL",                 
+            "DIRECCION COMERCIAL",               
+            "DIRECCION ADMINISTRATIVA",          
+            "CHOFER",                            
+            "ENCARGADO DE TRASPASOS",            
+            "VELADOR",                           
+            "CONTRALOR",                         
+            "AUDITORIA OPERATIVA",               
+            "ADMINISTRACION",                    
+            "CREDITO Y COBRANZA",                
+            "AUXILIAR DE TRASPASOS",             
+            "SUPERVISOR DIV. ACERO",             
+            "AUXILIAR DIVISION ACERO",           
+            "PROGRAMACION",                      
+            "ARCHIVO GENERAL",                   
+            "EMPLEADO",                          
+            "ENCARGADO",                         
+            "SUPERVISOR DIV. TEMPLADO",          
+            "SUPERVISOR DE AREA OPERATIVA",      
+            "GERENTE DE PLANTA",                 
+            "CHOFER DE REPARTO",                 
+            "AUXILIAR DE CREDITO Y COBRANZA",    
+            "RECURSOS MATERIALES EDIFICIOS",     
+            "CONTADOR P.F.",                     
+            "CHOFER/AUXILIAR GENERAL",           
+            "CAJERA/FACTURISTA",                 
+            "RECURSOS HUMANOS",                  
+            "CONTADOR ALUMINIOS",                
+            "RECURSOS MATERIALES EQ. TRANSPORTE",
+            "LIMPIEZA",                          
+            "AUXILIAR DE PROYECTOS",             
+            "ENCARGADO DE PROYECTOS",            
+            "ENCARGADO DE SUCURSAL",             
+            "INVENTARIOS",                       
+            "INVENTARIOS MATERIALES",            
+            "INVENTARIOS HERRAJES",              
+            "ALMACENISTA DE HERRAJES",           
+            "ENCARGADO DE PATIO",                
+            "VENDEDOR DE CAMPO",                 
+            "AUXILIAR DE ALMACEN",               
+            "ENCARGADO PATIO MAT. PESADO",       
+            "AUXILIAR MONTACARGAS",              
+            "TRAFICO Y LOGISTICA",               
+            "MONTACARGUISTA",                    
+            "COMODIN VENTAS",                    
+            "ENCARGADO DE ALMACEN MATERIALES",   
+            "COORDINADOR SECTOR PONIENTE",       
+            "CHOFER FORANEO",                    
+            "GERENTE DE VENTAS",                 
+            "AUXILIAR DE ALMACEN MAT. PESADO",   
+            "MONTACARGUISTA SUCURSAL",           
+            "ENCARGADO BASCULA CLIENTES",        
+            "CONTADOR GENERAL",                  
+            "COMPRAS",                           
+            "ENCARGADO BASCULA EMB.",            
+            "AUXILIAR CONTABLE",                 
+            "TRAFICO Y LOGISTICA TRASPASOS",     
+            "CHOFER DE TRASPASOS",               
+            "ADMINISTRATIVO DE TRASPASOS",       
+            "CAJERA",                            
+            "FACTURISTA",                        
+            "RECEPCIONISTA",                     
+            "INTENDENCIA", 
+        ];
+        self::store_data($items, Catalogo::PUESTO);
+
     }
 
     function store_data($items, $catalogo_name = null, $delete = FALSE) {

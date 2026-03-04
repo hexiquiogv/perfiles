@@ -42,6 +42,7 @@ class Catalogo extends Model
 
     const ORIGEN_INFORMACION = "origen_informacion";
     const STATUS_REPORT = "status_report";
+    const PUESTO = "puesto";
 
     public function scopeFind_by_name($query, $nombre_catalogo=null) {
         if (is_null($nombre_catalogo)) {

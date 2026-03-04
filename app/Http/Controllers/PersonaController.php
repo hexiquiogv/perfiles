@@ -74,10 +74,10 @@ class PersonaController extends Controller
         $persona = Persona::where('uuid',$uuid)->first();
         if (is_null($persona)) dd("registro no encontrado");
 
-        $oldSeguro = $persona->replicate();
-        $oldSeguro->created_at = now();
-        $oldSeguro->save();
-        $oldSeguro->delete();
+        $oldPersona = $persona->replicate();
+        $oldPersona->created_at = now();
+        $oldPersona->save();
+        $oldPersona->delete();
 
         $persona = self::persist_data($request, $persona);
 
@@ -86,14 +86,22 @@ class PersonaController extends Controller
     }
 
     private function persist_data(Request $request, Persona $persona){
+        $persona->numero_empleado = $request->numero_empleado ?? null;
         $persona->nombre = $request->nombre ?? null;
         $persona->paterno = $request->paterno ?? null;
         $persona->materno = $request->materno ?? null;
         $persona->fecha_nacimiento = $request->fecha_nacimiento ?? null;
         $persona->sexo_id = $request->sexo_id ?? null;
+        $persona->tipo_sangre_id = $request->tipo_sangre_id ?? null;
+
         $persona->estado_civil_id = $request->estado_civil_id ?? null;
+        $persona->curp = $request->curp ?? null;
+        $persona->rfc = $request->rfc ?? null;
+        $persona->nss = $request->nss ?? null;
+        
         $persona->email = $request->email ?? null;
-        $persona->telefono = $request->telefono ?? null;        
+        $persona->telefono = $request->telefono ?? null;      
+        $persona->comentarios = $request->comentarios ?? null;      
         
         $persona->user_id = Auth::id();
         $persona->save();

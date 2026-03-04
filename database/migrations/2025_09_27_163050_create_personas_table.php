@@ -22,14 +22,21 @@ class CreatePersonasTable extends Migration
             $table->string('curp')->nullable();   
             $table->string('rfc')->nullable();   
             $table->string('nss')->nullable();  
+            $table->integer('numero_empleado')->nullable();  
 
             $table->date('fecha_nacimiento')->nullable();
-            $table->string('email')->nullable();   
-            $table->string('telefono')->nullable();   
             $table->integer('sexo_id')->nullable();  
             $table->integer('tipo_sangre_id')->nullable();  
 
             $table->integer('estado_civil_id')->nullable();  
+            $table->integer('empresa_id')->nullable();  
+            $table->integer('sucursal_id')->nullable();  
+            $table->integer('area_id')->nullable();  
+            $table->integer('puesto_id')->nullable();  
+            $table->date('fecha_ingreso')->nullable();  
+
+            $table->string('email')->nullable();   
+            $table->string('telefono')->nullable();   
 
             $table->integer('user_id')->nullable();
             $table->text('comentarios')->nullable();    

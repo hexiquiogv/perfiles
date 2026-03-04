@@ -15,7 +15,7 @@ class CreateInstalacionsTable extends Migration
     {
         Schema::create('instalaciones', function (Blueprint $table) {
             $table->id();
-            $table->integer('cliente_id');
+            $table->integer('proveedor_id');
             $table->string('nombre');
             $table->integer('contacto_id')->nullable();
             $table->string('calle')->nullable();
