@@ -12,8 +12,8 @@ class CatalogosTableSeeder extends Seeder
 {
     public function run()
     {
-      Catalogo::truncate();
-        //DB::statement("insert into catalogos (id,parent_id,name) select id,parent_id,name from poblaciones");
+        Catalogo::truncate();
+        DB::statement("insert into catalogos (id,parent_id,name) select id,parent_id,name from poblaciones");
 
         $items = [
             Catalogo::ESTATUS_MANTENIMIENTO,
@@ -108,7 +108,7 @@ class CatalogosTableSeeder extends Seeder
         self::store_data($items, Catalogo::ORIGEN_INFORMACION);
     }
 
-    function store_data($items, $catalogo_name = null, $delete = TRUE) {
+    function store_data($items, $catalogo_name = null, $delete = FALSE) {
         $catalogo = Catalogo::where('name','=',$catalogo_name)->first();
         $parent_id = is_null($catalogo) ? null : $catalogo->id ; 
 

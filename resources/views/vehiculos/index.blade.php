@@ -27,13 +27,14 @@
                         <th>Id</th>                        
                         <th>UUID</th>
 
+                        <th>Placas</th>
                         <th>No Economico</th>
                         <th>Tipo Vehículo</th>
                         <th>Marca</th>
                         <th>Línea</th>
                         <th>Modelo</th>
-                        <th>Placas</th>
 
+                        <th>Empresa</th>
                         <th>Sucursal</th>
                         <th>Area</th>
 
@@ -74,13 +75,14 @@
                 columns: [
                     {data:'id', name:'id', searchable:false, orderable:true, width:'5%'},
                     {data:'uuid', name:'uuid', orderable:false, visible:false},
+                    {data:'placa', name:'placa', class:'text-capitalize'},
                     {data:'no_economico', name:'no_economico', orderable:false},
                     {data:'tipo_vehiculo.name', name:'tipo_vehiculo.name', class:'text-capitalize'},
                     {data:'marca.name', name:'marca.name', class:'text-capitalize'},
                     {data:'linea.name', name:'linea.name', class:'text-capitalize'},
                     {data:'modelo', name:'modelo', class:'text-capitalize'},
-                    {data:'placa', name:'placa', class:'text-capitalize'},
 
+                    {data:'empresa.name', name:'empresa.name', class:'text-capitalize'},
                     {data:'sucursal.name', name:'sucursal.name', class:'text-capitalize'},
                     {data:'area.name', name:'area.name', class:'text-capitalize'},
 

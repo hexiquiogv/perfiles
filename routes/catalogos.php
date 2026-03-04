@@ -15,7 +15,10 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::match(['get', 'post'],'list.catalogo/{catalogo}', 
 		function(Request $request, $catalogo) {
 			$parent = Catalogo::find_by_name($catalogo)->first();
-			$items =  Catalogo::where('parent_id',$parent->id);
+			$items =  Catalogo::whereNull('parent_id');
+			if(!is_null($parent)) {
+				$items = Catalogo::where('parent_id',$parent->id);
+			} 
 
 			return DataTables::eloquent($items)
 		        ->addColumn('acciones', function($item){ 

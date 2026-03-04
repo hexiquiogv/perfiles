@@ -84,12 +84,16 @@ class VehiculoController extends Controller
         $vehiculo->linea_id = $request->linea_id ?? null;
         $vehiculo->modelo = $request->modelo ?? null;
         $vehiculo->numero_serie = $request->numero_serie ?? null;
+        $vehiculo->empresa_id = $request->empresa_id ?? null;
         $vehiculo->sucursal_id = $request->sucursal_id ?? null;
         $vehiculo->area_id = $request->area_id ?? null;  
         $vehiculo->chofer_id = $request->chofer_id ?? null;  
         $vehiculo->color_id = $request->color_id ?? null;  
         $vehiculo->estatus_id = $request->estatus_id ?? null;  
         $vehiculo->observaciones = $request->observaciones ?? null;  
+        $vehiculo->poliza = $request->poliza ?? null;  
+        $vehiculo->fecha_vencimiento = $request->fecha_vencimiento ?? null;  
+        $vehiculo->valor = $request->valor ?? null;  
         
         $vehiculo->user_id = Auth::id();
         $vehiculo->save();

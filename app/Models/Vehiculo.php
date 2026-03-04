@@ -9,7 +9,7 @@ class Vehiculo extends Model
 {
     use SoftDeletes;
     protected $guarded = [];
-    protected $dates = ['created_at','updated_at','deleted_at'];
+    protected $dates = ['created_at','updated_at','deleted_at','fecha_vencimiento'];
 
     public function tipo_vehiculo() {
         return $this->hasOne('App\Models\Catalogo', 'id', 'tipo_vehiculo_id')
@@ -23,6 +23,11 @@ class Vehiculo extends Model
 
     public function linea() {
         return $this->hasOne('App\Models\Catalogo', 'id', 'linea_id')
+            ->withDefault('name','');
+    }
+
+    public function empresa() {
+        return $this->hasOne('App\Models\Catalogo', 'id', 'empresa_id')
             ->withDefault('name','');
     }
 

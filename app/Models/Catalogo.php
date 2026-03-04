@@ -15,6 +15,7 @@ class Catalogo extends Model
     protected $dates = ['created_at','updated_at','deleted_at'];
        
     const MEXICO = 154;
+    const COAHUILA = 249;
     
     const ESTATUS_MANTENIMIENTO = 'estatus_mantenimiento';
     const ESTATUS = 'estatus';
@@ -38,7 +39,6 @@ class Catalogo extends Model
     const GIRO_PROVEEDOR = 'giro_proveedor';
 
     const EMPRESA = 'empresa';
-    const SUCURSAL = 'sucursal';
 
     const ORIGEN_INFORMACION = "origen_informacion";
     const STATUS_REPORT = "status_report";

@@ -25,10 +25,14 @@ class CreateVehiculosTable extends Migration
             $table->integer('linea_id')->nullable(); 
             $table->integer('color_id')->nullable(); 
             $table->integer('tipo_vehiculo_id')->nullable();  
-            $table->string('numero_serie')->nullable();  
+            $table->string('numero_serie')->nullable(); 
+            $table->integer('empresa_id')->nullable();  
             $table->integer('sucursal_id')->nullable(); 
             $table->integer('area_id')->nullable(); 
             $table->integer('estatus_id')->nullable(); 
+            $table->integer('poliza')->nullable(); 
+            $table->date('fecha_vencimiento')->nullable(); 
+            $table->double('valor')->nullable(); 
 
             $table->integer('user_id')->nullable();
             $table->text('observaciones')->nullable();    

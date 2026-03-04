@@ -23,7 +23,7 @@
             </a>
         </div>           
     </div> 
-    <div class="mt-4">
+    <div class="my-4">
         <form id="vehiculo_form" method="POST" action="{{ $route }}" class="ml-4">
 
             @csrf
@@ -83,15 +83,40 @@
 
             <div class="form-row">  
                 <div class="col-md-3">
+                    <div class="md-form"><label class="active">Empresa</label></div>
+                    <select class="mdb-select md-form" id="empresa_id" searchable="Buscar ..."
+                        name="empresa_id"></select>
+                </div> 
+                <div class="col-md-4">
                     <div class="md-form"><label class="active">Sucursal</label></div>
                     <select class="mdb-select md-form" id="sucursal_id" searchable="Buscar ..."
                         name="sucursal_id"></select>
                 </div>  
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="md-form"><label class="active">Area</label></div>
                     <select class="mdb-select md-form" id="area_id" searchable="Buscar ..."
                         name="area_id"></select>
                 </div> 
+            </div>
+
+            <div class="form-row">  
+                <div class="md-form col-2 mt-1 p-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Poliza</label>                    
+                    <input class="mt-3 col-11" id="poliza" type="text" name="poliza" 
+                        value="{{ old('poliza',$registro->poliza) }}">
+                </div> 
+                <div class="md-form col-2 mt-1 p-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Fecha Vencimiento</label>                    
+                    <input class="mt-3 col-11" id="fecha_vencimiento" type="date" name="fecha_vencimiento" 
+                        value="{{ old('fecha_vencimiento',$registro->fecha_vencimiento) }}">
+                </div> 
+                
+                <div class="md-form col-2 mt-1 p-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Valor</label>                    
+                    <input class="mt-3 col-11" id="valor" type="float" name="valor" 
+                        value="{{ old('valor',$registro->valor) }}">
+                </div>   
+
                 <div class="col-md-2">
                     <div class="md-form"><label class="active">Estatus</label></div>
                     <select class="mdb-select md-form" id="estatus_id" searchable="Buscar"
@@ -107,6 +132,7 @@
         </form>
     </div>
 </div>
+<br>
 
 @endsection
 
@@ -119,18 +145,27 @@
 
             dynamicDropdown("{{ route('items',App\Models\Catalogo::MARCA) }}", 
                 {{ old('marca_id',$registro->marca_id??0) }}, 'marca_id');
-            dynamicDropdown("{{ route('items',".($registro->marca_id??0).") }}", 
+            dynamicDropdown("{{ route('items',$registro->marca_id??0) }}", 
                 {{ old('linea_id',$registro->linea_id??0) }}, 'linea_id');
 
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::SUCURSAL) }}", 
+            dynamicDropdown("{{ route('items',App\Models\Catalogo::EMPRESA) }}", 
+                {{ old('empresa_id',$registro->empresa_id??0) }}, 'empresa_id');
+            dynamicDropdown("{{ route('items',$registro->empresa_id??0) }}", 
                 {{ old('sucursal_id',$registro->sucursal_id??0) }}, 'sucursal_id');
-            dynamicDropdown("{{ route('items',".($registro->sucursal_id??0).") }}", 
+            dynamicDropdown("{{ route('items',$registro->sucursal_id??0) }}", 
                 {{ old('area_id',$registro->area_id??0) }}, 'area_id');
 
             $('#marca_id').change(function(e){
                 var optionId = $('select[name="marca_id"] option:selected').val();
                 clearDropdown( $('select[name="linea_id"]') );
                 dynamicDropdown("/items/"+optionId, 0, 'linea_id');  
+            });
+
+            $('#empresa_id').change(function(e){
+                var optionId = $('select[name="empresa_id"] option:selected').val();
+                clearDropdown( $('select[name="sucursal_id"]') );
+                clearDropdown( $('select[name="area_id"]') );
+                dynamicDropdown("/items/"+optionId, 0, 'sucursal_id');  
             });
 
             $('#sucursal_id').change(function(e){

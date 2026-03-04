@@ -15,7 +15,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::match(['get', 'post'],'vehiculos.list', function() {
 			$items =  Vehiculo::query()
 					->with(['marca:id,name','tipo_vehiculo:id,name','linea:id,name','estatus:id,name',
-							'sucursal:id,name','area:id,name'])
+							'empresa:id,name','sucursal:id,name','area:id,name'])
 					->select("vehiculos.*");
 
 			return DataTables::eloquent($items)
