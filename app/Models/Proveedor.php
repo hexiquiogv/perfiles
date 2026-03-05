@@ -21,10 +21,8 @@ class Proveedor extends Model
             ->withDefault('name','');
     }
 
-    public function domicilio(){
-        $domicilio = Domicilio::morphic(get_class($this), $this->id)->first();
-        if (is_null($domicilio)) $domicilio = new Domicilio;
-        return $domicilio;
+    public function contactos() {
+        return $this->hasMany('App\Models\Contacto','proveedor_id', 'id');
     }
 
 }

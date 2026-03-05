@@ -11,8 +11,8 @@ class Contacto extends Model
     use HasFactory, SoftDeletes;
     protected $dates = ['created_at','updated_at','deleted_at'];
 
-    public function cliente() {
-        return $this->hasOne('App\Models\Cliente', 'id', 'cliente_id');
+    public function proveedor() {
+        return $this->hasOne('App\Models\Proveedor', 'id', 'proveedor_id');
     }
 
     public function representante() {

@@ -1,22 +1,25 @@
 <?php
 
+use App\Models\Proveedor;
 use App\Models\Contacto;
 use Illuminate\Http\Request;
 
 Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(function () {
-	Route::get('contactos/{cliente}','ContactoController@index')
+	Route::get('contactos/{uuid}','ContactoController@index')
 		->name('contactos');
-	Route::get('contactos.create/{cliente}','ContactoController@create')
+	Route::get('contactos.create/{uuid}','ContactoController@create')
 		->name('contactos.create');
-	Route::post('contactos.store/{cliente}','ContactoController@store')
+	Route::post('contactos.store/{uuid}','ContactoController@store')
 		->name('contactos.store');	
-	Route::match(['get', 'post'],'list.contactos/{cliente}', function(Request $request, $cliente) {
-		$items = Contacto::where('cliente_id',$cliente)
-						->with('representante')
-						->select('contactos.*');
+	Route::match(['get', 'post'],'list.contactos/{uuid}', function(Request $request, $uuid) {
+		$proveedor = Proveedor::where('uuid',$uuid)->first();
+		$items = Contacto::where('proveedor_id',$proveedor->id)
+			->with('representante:id,name')
+			->select('contactos.*');
+						
 		return DataTables::eloquent($items)
 		        ->addColumn('acciones', function($item){ 
-		        	$item_id = $item->id;
+		        	$item_id = $item->uuid;
 		        	$btn_edit = route('contactos.edit',$item_id);
 					$btn_delete = "";
 					if (Auth::user()->isAdmin) {
@@ -45,8 +48,8 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 	            ->make(TRUE);
 	})->name('list.contactos');
 
-	Route::match(['get', 'post'],'contactos_items/{cliente}', function(Request $request, $cliente) {
-		$data = Contacto::where('cliente_id',$cliente)->select('nombre as name','id')->get();
+	Route::match(['get', 'post'],'contactos_items/{uuid}', function(Request $request, $uuid) {
+		$data = Contacto::where('uuid',$uuid)->select('nombre as name','id')->get();
 		return response()->json([
 	        'status' => 'ok',
 	        'data' => $data
@@ -56,11 +59,11 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 });
 
 Route::middleware(['administrator'])->group(function () {
-	Route::get('contactos.edit/{contacto}','ContactoController@edit')
+	Route::get('contactos.edit/{uuid}','ContactoController@edit')
 		->name('contactos.edit');
-	Route::patch('contactos.update/{contacto}','ContactoController@update')
+	Route::patch('contactos.update/{uuid}','ContactoController@update')
 		->name('contactos.update');
-	Route::post('contactos.delete/{contacto}','ContactoController@destroy')
+	Route::post('contactos.delete/{uuid}','ContactoController@destroy')
 		->name('contactos.delete');
 });
 

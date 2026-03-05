@@ -9,12 +9,12 @@
                     @foreach($opciones as $tab)
                         @if($tab == $opcion)
                             <a class="nav-item nav-link active" role="tab" aria-selected="true"
-                                href="{{route($tab, $registro->id)}}">
+                                href="{{route($tab, $registro->uuid)}}">
                         @else
                             <a class="nav-item nav-link" role="tab" aria-selected="false"
-                                href="{{route($tab, $registro->id)}}">
+                                href="{{route($tab, $registro->uuid)}}">
                         @endif
-                        {{__("client_topics.$tab")}}</a>
+                        {{__("supplier.tabs.$tab")}}</a>
                     @endforeach
                     <a class="nav-item nav-link ml-auto active " 
                         href="{{route('proveedores.index')}}">
@@ -23,7 +23,7 @@
                 </div>
             </nav>
             <div class="ml-4 mt-3">
-                <form id="client_topic_form" method="POST" action="{{ $route }}" class="ml-2">
+                <form id="contactos_form" method="POST" action="{{ $route }}" class="ml-2">
 
                     @csrf
                     {{ method_field($method) }}
@@ -55,7 +55,7 @@
                         </div> 
                     </div>
 
-                    @include('proveedores.buttons',['url' => route('contactos',$registro->id)])
+                    @include('proveedores.buttons',['url' => route('contactos',$registro->uuid)])
                 </form>
             </div>
         </div>
@@ -66,7 +66,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#btn_save').on('click', function() {
-                $('#client_topic_form').submit();
+                $('#contactos_form').submit();
             });
             dynamicCheckboxes("/items/{{ App\Models\Catalogo::SI_NO }}", 
                 {{old('representante_id',$contacto->representante_id??0)}}, 

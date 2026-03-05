@@ -15,7 +15,8 @@ class CreateContactosTable extends Migration
     {
         Schema::create('contactos', function (Blueprint $table) {
             $table->id();
-            $table->integer('cliente_id');
+            $table->string('uuid');
+            $table->integer('proveedor_id');
             $table->string('nombre');
             $table->string('puesto')->nullable();
             $table->string('email')->nullable();

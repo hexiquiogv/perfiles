@@ -3,68 +3,88 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contacto;
-use App\Models\Cliente;
+use App\Models\Proveedor;
+use Illuminate\Support\Str;
 use Lang;
 use Validator;
 
 class ContactoController extends Controller
 {
-    public function index(Cliente $cliente)
+    public function index($uuid)
     {
-        $registro = $cliente;
+        $proveedor = Proveedor::where('uuid',$uuid)->first();
+        if (is_null($proveedor)) return back()->withError("Registro no encontrado");
+
+        $registro = $proveedor;
         $route = 'contactos';
         $method = "";
 
-        $opciones = array_keys( Lang::get('client_topics') );
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = 'contactos';
         
-        return view('clientes.edit',compact('registro','route','method','opcion','opciones'));
+        return view('proveedores.edit',compact('registro','route','method','opcion','opciones'));
     }
 
-    public function create(Cliente $cliente)
+    public function create($uuid)
     {
-        $registro = $cliente;
-        $route = route('contactos.store',$registro->id);
+        $proveedor = Proveedor::where('uuid',$uuid)->first();
+        if (is_null($proveedor)) return back()->withError("Registro no encontrado");
+
+        $registro = $proveedor;
+        $route = route('contactos.store',$registro->uuid);
         $method = "POST";
 
-        $opciones = array_keys( Lang::get('client_topics') );
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = 'contactos';
         $contacto = new Contacto;
         
-        return view('clientes.sub_forms.contacto',
+        return view('proveedores.sub_forms.contacto',
                     compact('registro','route','method','opcion','opciones', 'contacto'));
     }
 
-    public function edit(Contacto $contacto)
+    public function edit($uuid)
     {
-        $registro = $contacto->cliente;
-        $route = route('contactos.update',$contacto->id);
+        $contacto = Contacto::where('uuid',$uuid)->first();
+        if (is_null($contacto)) return back()->withError("Registro no encontrado");
+
+        $registro = $contacto   ;
+        $route = route('contactos.update',$contacto->uuid);
         $method = "PATCH";
 
-        $opciones = array_keys( Lang::get('client_topics') );
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = 'contactos';
         
-        return view('clientes.sub_forms.contacto',
+        return view('proveedores.sub_forms.contacto',
                     compact('registro','route','method','opcion','opciones','contacto'));
     }
 
-    public function store(Request $request, Cliente $cliente){
+    public function store(Request $request, $uuid){
+        $proveedor = Proveedor::where('uuid',$uuid)->first();
+        if (is_null($proveedor)) return back()->withError("Registro no encontrado");
+        
         $contacto = new Contacto;
-        $contacto->cliente_id = $cliente->id;
+
+        $contacto->proveedor_id = $proveedor->id;
         self::persist_data($contacto,$request);
 
-        return redirect()->route('contactos',$contacto->cliente_id)
+        return redirect()->route('contactos',$contacto->proveedor->uuid)
                             ->withSuccess("Registro almacenado");
     }
 
-    public function update(Request $request, Contacto $contacto){
+    public function update(Request $request, $uuid){
+        $contacto = Contacto::where('uuid',$uuid)->first();
+        if (is_null($contacto)) return back()->withError("Registro no encontrado");
+
         self::persist_data($contacto,$request);
 
-        return redirect()->route('contactos',$contacto->cliente_id)
+        return redirect()->route('contactos',$contacto->proveedor->uuid)
                             ->withSuccess("Registro actualizado");
     }
 
     private function persist_data(Contacto $contacto, Request $request){
+        if (is_null($contacto->uuid)){
+            $contacto->uuid = (string)Str::orderedUuid();
+        }
         $contacto->nombre = $request->nombre;
         $contacto->puesto = $request->puesto ?? null;
         $contacto->email = $request->email ?? null;
@@ -74,9 +94,12 @@ class ContactoController extends Controller
         return $contacto;
     }
 
-    public function destroy(Contacto $contacto){
+    public function destroy($uuid){
+        $contacto = Contacto::where('uuid',$uuid)->first();
+        if (is_null($contacto)) return back()->withError("Registro no encontrado");
+
         $contacto->delete();
-        return redirect()->route('contactos',$contacto->cliente_id)
+        return redirect()->route('contactos',$contacto->proveedor_id)
                     ->withSuccess("Contacto Eliminado");
     }
     

@@ -1,6 +1,6 @@
 <div class="mt-3 row col-12 justify-content-between">
 	<div class="p-1">
- 		<a href="{{route('contactos.create',$registro->id)}}" class="d-flex flex-row text-default">
+ 		<a href="{{route('contactos.create',$registro->uuid)}}" class="d-flex flex-row text-default">
 	    	<h5 class="m-1">Contactos</h5>
 	    	<i class="fa fa-plus-circle fa-2x"></i>
 	    </a>
@@ -46,7 +46,7 @@
                 serverSide: true,
                 dom: '<"d-flex flex-row-reverse">t<"d-flex justify-content-between" ip>r',
                 ajax: {
-                    url: "{{ route('list.contactos',$registro->id) }}",
+                    url: "{{ route('list.contactos',$registro->uuid) }}",
                 },
                 columns: [
                     {data:'id', name:'id', searchable:false},

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Proveedor;
 use App\Http\Requests\ProveedorRequest;
 use Auth;
+use Lang;
 
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Hash;
@@ -39,8 +40,7 @@ class ProveedorController extends Controller
         $route = route('proveedores.update',$proveedor->uuid);
         $method = "PATCH";
         $title = "Edición Registro (" . $proveedor->uuid . ")" ;
-        $opciones = ["generales","domicilio","contactos"];
-        //$opciones = ["generales"];
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = "generales";
         return view('proveedores.edit',compact('registro','route','method','title','opciones','opcion'));
     }
@@ -50,7 +50,7 @@ class ProveedorController extends Controller
         $proveedor = new Proveedor;
         $proveedor = self::persist_data($request, $proveedor);
 
-        return redirect(route('proveedores.edit',["id" => $proveedor->uuid]))
+        return redirect(route('proveedores.edit',$proveedor->uuid))
                     ->withSuccess('Datos almacenados con éxito');
     }
 

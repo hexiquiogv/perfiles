@@ -11,7 +11,7 @@
 							<a class="nav-item nav-link active" href="#" role="tab" aria-selected="true">
 						@else
 							<a class="nav-item nav-link" role="tab" aria-selected="false"
-							href="{{route($tab, $registro->id)}}">
+							href="{{route($tab, $registro->uuid)}}">
 						@endif
 						{{__("supplier.tabs.$tab")}}</a>
 					@endforeach
