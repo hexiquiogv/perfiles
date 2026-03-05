@@ -1,9 +1,7 @@
 @extends('layouts.master')
 
-@section('content')
-
-
-    <div class="container">
+@section('main-content')
+<div class="m-2 p-1">
         <div class="card col-md-12 badge badge-light">
             <div class="d-flex flex-row mx-2 mt-2 mb-1">
                 <div class="h4 pt-1">Proveedores</div>
