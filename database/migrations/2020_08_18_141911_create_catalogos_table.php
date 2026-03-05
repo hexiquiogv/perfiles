@@ -22,6 +22,9 @@ class CreateCatalogosTable extends Migration
 
             $table->softDeletes(); // <-- This will add a deleted_at field
             $table->timestamps();
+
+            // alter table catalogos add index name (name,parent_id);
+            // $table->index(['name', 'parent_id']);
         });
     }
 

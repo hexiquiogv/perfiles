@@ -76,7 +76,7 @@
                     {data:'nombre', name:'nombre', class:'text-capitalize', visible:false},
                     {data:'paterno', name:'paterno', class:'text-capitalize', visible:false},
                     {data:'materno', name:'materno', class:'text-capitalize', visible:false},
-                    {data:'fullname', name:'fullname', class:'text-uppercase', searchable:false},
+                    {data:'fullname', name:'fullname', class:'text-uppercase nombre', searchable:false},
                     {data:'puesto.name', name:'puesto.name', class:'text-uppercase'},
                     {data:'empresa.name', name:'empresa.name', class:'text-uppercase'},
                     {data:'sexo.name', name:'sexo.name', class:'text-uppercase'},
