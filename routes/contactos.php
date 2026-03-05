@@ -49,7 +49,10 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 	})->name('list.contactos');
 
 	Route::match(['get', 'post'],'contactos_items/{uuid}', function(Request $request, $uuid) {
-		$data = Contacto::where('uuid',$uuid)->select('nombre as name','id')->get();
+		$proveedor = Proveedor::where('uuid',$uuid)->first();
+		$data = Contacto::where('proveedor_id',$proveedor->id)
+			->select('nombre as name','id')->get();
+			
 		return response()->json([
 	        'status' => 'ok',
 	        'data' => $data

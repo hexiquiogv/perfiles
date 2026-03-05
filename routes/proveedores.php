@@ -10,7 +10,7 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 	Route::post('proveedores','ProveedorController@store')->name('proveedores.store');	
 	Route::patch('proveedores/{uuid}','ProveedorController@update')->name('proveedores.update');	
 	Route::get('proveedores/{uuid}/edit','ProveedorController@edit')->name('proveedores.edit');	
-	Route::get('generales/{uuid}','ProveedorController@edit')->name('proveedores.generales');	
+	Route::get('generales/{uuid}','ProveedorController@edit')->name('generales');	
 
 	Route::match(['get', 'post'],'list.proveedores', function(Request $request) {
 		$items = Proveedor::query()
@@ -48,8 +48,8 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 	            ->make(TRUE);
 	})->name('list.proveedores');
 		
-	Route::get('domicilio/{proveedor}','DomicilioController@edit')->name('domicilio');
-	Route::post('domicilio/{id}/{type}','DomicilioController@store')->name('domicilios.store');
+	Route::get('domicilio/{uuid}','DomicilioController@edit')->name('domicilio');
+	Route::post('domicilio/{uuid}/{type}','DomicilioController@store')->name('domicilios.store');
 
 	Route::match(['get', 'post'],'/items.proveedores', function(Request $request) {
 	    $data = Proveedor::select('nombre_corto as name','id')->get();

@@ -3,75 +3,80 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Instalacion;
-use App\Models\Cliente;
+use App\Models\Proveedor;
 use App\Models\Catalogo;
+use Illuminate\Support\Str;
 use Lang;
 use Validator;
 
 class InstalacionController extends Controller
 {
-    public function index(Cliente $cliente)
+    public function index($uuid)
     {
-        $this->authorize('viewAny', Instalacion::class);
-
-        $registro = $cliente;
+        $registro = Proveedor::where('uuid',$uuid)->first();
+        if (is_null($registro)) return back()->withError("Registro no encontrado");
         $route = 'instalaciones';
         $method = "";
 
-        $opciones = array_keys( Lang::get('client_topics') );
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = 'instalaciones';
         
-        return view('clientes.edit',compact('registro','route','method','opcion','opciones'));
+        return view('proveedores.edit',compact('registro','route','method','opcion','opciones'));
     }
 
-    public function create(Cliente $cliente)
+    public function create($uuid)
     {
-        $this->authorize('create', Instalacion::class);
+        $registro = Proveedor::where('uuid',$uuid)->first();
+        if (is_null($registro)) return back()->withError("Registro no encontrado");
 
-        $registro = $cliente;
-        $route = route('instalaciones.store',$registro->id);
+        $route = route('instalaciones.store',$registro->uuid);
         $method = "POST";
 
-        $opciones = array_keys( Lang::get('client_topics') );
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = 'instalaciones';
         $instalacion = new Instalacion(['pais_id'=>Catalogo::MEXICO]);
         
-        return view('clientes.sub_forms.instalacion',
+        return view('proveedores.sub_forms.instalacion',
                     compact('registro','route','method','opcion','opciones', 'instalacion'));
     }
 
-    public function edit(Instalacion $instalacion)
+    public function edit($uuid)
     {
-        $this->authorize('edit', $instalacion);
+        $instalacion = Instalacion::where('uuid',$uuid)->first();
+        if (is_null($instalacion)) return back()->withError("Registro no encontrado");
 
-        $registro = $instalacion->cliente;
-        $route = route('instalaciones.update',$instalacion->id);
+        $registro = $instalacion->proveedor;
+        $route = route('instalaciones.update',$instalacion->uuid);
         $method = "PATCH";
 
-        $opciones = array_keys( Lang::get('client_topics') );
+        $opciones = array_keys( Lang::get('supplier.tabs') );
         $opcion = 'instalaciones';
         
-        return view('clientes.sub_forms.instalacion',
+        return view('proveedores.sub_forms.instalacion',
                     compact('registro','route','method','opcion','opciones','instalacion'));
     }
 
-    public function store(Request $request, Cliente $cliente){
-        $this->authorize('store', Instalacion::class);
+    public function store(Request $request, $uuid){
+        $registro = Proveedor::where('uuid',$uuid)->first();
+        if (is_null($registro)) return back()->withError("Registro no encontrado");
 
         $instalacion = new Instalacion;
-        $instalacion->cliente_id = $cliente->id;
+        $instalacion->proveedor_id = $registro->id;
+        $instalacion->uuid = (string)Str::orderedUuid();
+
         self::persist_data($instalacion,$request);
 
-        return redirect()->route('instalaciones',$instalacion->cliente_id)
+        return redirect()->route('instalaciones',$instalacion->instalacion->uuid)
                             ->withSuccess("Registro almacenado");
     }
 
-    public function update(Request $request, Instalacion $instalacion){
-        $this->authorize('update', $instalacion);
+    public function update(Request $request, $uuid){
+        $instalacion = Instalacion::where('uuid',$uuid)->first();
+        if (is_null($instalacion)) return back()->withError("Registro no encontrado");
 
         self::persist_data($instalacion,$request);
 
-        return redirect()->route('instalaciones',$instalacion->cliente_id)
+        return redirect()->route('instalaciones',$instalacion->proveedor->uuid)
                             ->withSuccess("Registro actualizado");
     }
 
@@ -94,11 +99,12 @@ class InstalacionController extends Controller
         return $instalacion;
     }
 
-    public function destroy(Instalacion $instalacion){
-        $this->authorize('delete', $instalacion);
+    public function destroy($uuid){
+        $instalacion = Instalacion::where('uuid',$uuid)->first();
+        if (is_null($instalacion)) return back()->withError("Registro no encontrado");
 
         $instalacion->delete();
-        return redirect()->route('instalaciones',$instalacion->cliente_id)
+        return redirect()->route('instalaciones',$instalacion->proveedor->uuid)
                     ->withSuccess("Instalacion Eliminada");
     }
     

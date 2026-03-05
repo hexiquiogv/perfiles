@@ -1,6 +1,6 @@
 <div class="mt-3 row col-12 justify-content-between">
 	<div class="p-1">
- 		<a href="{{route('instalaciones.create',$registro->id)}}" class="d-flex flex-row text-default">
+ 		<a href="{{route('instalaciones.create',$registro->uuid)}}" class="d-flex flex-row text-default">
 	    	<h5 class="m-1">{{__('messages.instalacion')}}</h5>
 	    	<i class="fa fa-plus-circle fa-2x"></i>
 	    </a>
@@ -45,7 +45,7 @@
                 serverSide: true,
                 dom: '<"d-flex flex-row-reverse">t<"d-flex justify-content-between" ip>r',
                 ajax: {
-                    url: "{{ route('list.instalaciones',$registro->id) }}",
+                    url: "{{ route('list.instalaciones',$registro->uuid) }}",
                 },
                 columns: [
                     {data:'id', name:'id', searchable:false},

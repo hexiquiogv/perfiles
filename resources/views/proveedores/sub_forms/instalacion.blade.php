@@ -9,12 +9,12 @@
                     @foreach($opciones as $tab)
                         @if($tab == $opcion)
                             <a class="nav-item nav-link active" role="tab" aria-selected="true"
-                                href="{{route($tab, $registro->id)}}">
+                                href="{{route($tab, $registro->uuid)}}">
                         @else
                             <a class="nav-item nav-link" role="tab" aria-selected="false"
-                                href="{{route($tab, $registro->id)}}">
+                                href="{{route($tab, $registro->uuid)}}">
                         @endif
-                        {{__("client_topics.$tab")}}</a>
+                        {{__("supplier.tabs.$tab")}}</a>
                     @endforeach
                     <a class="nav-item nav-link ml-auto active " 
                         href="{{route('proveedores.index')}}">
@@ -23,7 +23,7 @@
                 </div>
             </nav>
             <div class="ml-4 mt-3">
-                <form id="client_topic_form" method="POST" action="{{ $route }}" class="ml-2">
+                <form id="proveedores_inatalaciones_form" method="POST" action="{{ $route }}" class="ml-2">
 
                     @csrf
                     {{ method_field($method) }}
@@ -112,7 +112,7 @@
                         </div> 
                     </div>
 
-                    @include('proveedores.buttons',['url' => route('contactos',$registro->id)])
+                    @include('proveedores.buttons',['url' => route('instalaciones',$registro->uuid)])
                 </form>
             </div>
         </div>
@@ -125,10 +125,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#btn_save').on('click', function() {
-                $('#client_topic_form').submit();
+                $('#proveedores_inatalaciones_form').submit();
             });
 
-            dynamicDropdown("/contactos_items/{{$registro->id}}", 
+            dynamicDropdown("/contactos_items/{{$registro->uuid}}", 
                     {{old('contacto_id',$instalacion->contacto_id ?? 0)}}, 'contacto_id');
 
             dynamicDropdown("/items/{{$instalacion->pais_id}}", 
