@@ -63,6 +63,17 @@ class CatalogosTableSeeder extends Seeder
         self::store_data($items, Catalogo::SEXO);
 
         $items = [
+            'MONTACARGA',
+            'SEDAN',
+            'CAMIONETA',
+            'CAMION',
+            'TRACTOR',
+            'SUV',
+            'REMOLQUE'
+        ];
+        self::store_data($items, Catalogo::TIPO_VEHICULO);
+
+        $items = [
             'VOLKSWAGEN', 
             'DODGE', 
             'RENAULT', 

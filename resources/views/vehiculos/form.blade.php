@@ -143,6 +143,9 @@
             dynamicDropdown("{{ route('items',App\Models\Catalogo::TIPO_VEHICULO) }}", 
                 {{ old('tipo_vehiculo_id',$registro->tipo_vehiculo_id??0) }}, 'tipo_vehiculo_id');
 
+            dynamicDropdown("{{ route('personal') }}", 
+                {{ old('chofer_id',$registro->chofer_id??0) }}, 'chofer_id');
+
             dynamicDropdown("{{ route('items',App\Models\Catalogo::MARCA) }}", 
                 {{ old('marca_id',$registro->marca_id??0) }}, 'marca_id');
             dynamicDropdown("{{ route('items',$registro->marca_id??0) }}", 

@@ -23,20 +23,23 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{route('mantenimientos.index')}}">
-                        <i class="fa fa-paste pink-text"></i> Mantenimientos </a>
+                        <i class="fa fa-paste orange-text"></i> Mantenimientos </a>
                     <a class="dropdown-item" href="{{route('personas.index')}}">
-                        <i class="fa fa-users orange-text"></i> Personal </a>
+                        <i class="fa fa-users blue-text"></i> Personal </a>
                     <a class="dropdown-item" href="{{route('vehiculos.index')}}">
-                        <i class="fa fa-bus green-text"></i> Vehículos </a>
+                        <i class="fa fa-bus purple-text"></i> Vehículos </a>
                     <a class="dropdown-item" href="{{route('proveedores.index')}}">
-                        <i class="fa fa-industry purple-text"></i> Proveedores </a>
+                        <i class="fa fa-industry pink-text"></i> Proveedores </a>
                     <a class="dropdown-item" href="{{route('reports.index')}}">
-                        <i class="fa fa-print text-info"></i> Reportes</a>
-                    <a class="dropdown-item" href="{{route('signaturepad')}}">
-                        <i class="fa fa-print text-info"></i> Firma Digital</a>
+                        <i class="fa fa-print text-info"></i> Reportes</a>                    
                     
                     <div class="dropdown-divider"></div>
                     @hasanyrole( 'super_admin' )
+                        <a class="dropdown-item" href="{{route('signaturepad')}}">
+                            <i class="fa fa-pencil black-text"></i> Firma Digital</a>
+                        <a class="dropdown-item" href="{{route('calendar')}}">
+                            <i class="fa fa-calendar black-text"></i> Calendario</a>
+
                         <a class="dropdown-item" href="{{route('consultas.index')}}">
                             <i class="fa fa-square blue-text"></i> 
                             Consultas
