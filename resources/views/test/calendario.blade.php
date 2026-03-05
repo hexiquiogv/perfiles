@@ -1,9 +1,5 @@
 @extends('layouts.master')
 
-    <link href="{{ asset('MDB/css/addons-pro/stepper.css') }}" rel="stylesheet">
-
-    <script type="text/javascript" src="{{ asset('MDB/js/jquery-3.4.1.min.js') }}" ></script>
-
 @section('custom_css')    
     <link href="{{ asset('MDB/fullcalendar-3.10.0/fullcalendar.min.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('MDB/fullcalendar-3.10.0/lib/moment.min.js') }}"></script>

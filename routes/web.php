@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +18,14 @@ Auth::routes([ 'register'=>false, 'password.request'=>false]);
 Route::view('/', 'welcome')->name('welcome');
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/home','HomeController@index')->name('home');
+	Route::get('/home','HomeController@index')->name('home');	
+});
+
+Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.Role::SUPER_ADMIN])->group(function () {
 	//Route::view('signature', 'test.signature_2')->name('signature');
+	Route::view('calendar', 'test.calendario')->name('calendar');
+	Route::view('charts', 'test.charts')->name('charts');
 	Route::get('signaturepad', 'SignaturePadController@index')->name('signaturepad');
 	Route::post('signaturepad', 'SignaturePadController@upload')->name('signaturepad.upload');
 });
+

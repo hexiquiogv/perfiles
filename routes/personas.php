@@ -44,19 +44,19 @@ Route::middleware(['auth'])->group(function () {
 	            ->make(TRUE);
 	})->name('personas.list');
 
-	// Route::match(['get', 'post'],'personas.seguro', function() {
-	// 	$data = [];
-	// 	foreach (Persona::query()->get() as $persona) {
-	// 	 	$data[] = [
-	// 	 		'name'=>$persona->fullname,
-	// 	 		'id'=>$persona->id
-	// 	 	];
-	// 	 } ;
-	//     return response()->json([
-	//         'status' => 'ok',
-	//         'data' => $data
-	//     ]);
-	// })->name('personas.seguro');
+	Route::match(['get', 'post'],'personal', function() {
+		$data = [];
+		foreach (Persona::query()->get() as $persona) {
+		 	$data[] = [
+		 		'name'=>$persona->fullname,
+		 		'id'=>$persona->id
+		 	];
+		 } ;
+	    return response()->json([
+	        'status' => 'ok',
+	        'data' => $data
+	    ]);
+	})->name('personal');
 
 
 });	
