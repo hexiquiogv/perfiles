@@ -20,6 +20,7 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::ESTATUS_PERSONA,
             Catalogo::MARCA,
             Catalogo::TIPO_VEHICULO,
+            Catalogo::TIPO_SANGRE,
             Catalogo::GIRO_PROVEEDOR,
             Catalogo::ESTATUS,
             Catalogo::SEXO,
@@ -42,6 +43,18 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::PENDIENTE_AUTORIZAR,
         ];
         self::store_data($items, Catalogo::ESTATUS_MANTENIMIENTO);
+
+        $items = [
+            'A+',
+            'A-',
+            'B+',
+            'B-',
+            'AB+',
+            'AB-',
+            'O+',
+            'O-'
+        ];
+        self::store_data($items, Catalogo::TIPO_SANGRE);
 
         $items = [
             'HOMBRE',

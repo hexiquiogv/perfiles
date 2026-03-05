@@ -35,6 +35,7 @@ class Catalogo extends Model
     const MARCA = 'marca';
     const COLOR = 'color';
     const TIPO_VEHICULO = 'tipo_vehiculo';
+    const TIPO_SANGRE = 'tipo_sangre';
 
     const GIRO_PROVEEDOR = 'giro_proveedor';
 
@@ -49,8 +50,8 @@ class Catalogo extends Model
             return $query->whereNull('parent_id');
         }
 
-        $query->whereRaw("LOWER(name) = '". strtolower($nombre_catalogo) . "'");
-        return $query->where('name',ucwords($nombre_catalogo));
+        return $query->whereRaw("LOWER(name) = '". strtolower($nombre_catalogo) . "'");
+        // return $query->where('name',ucwords($nombre_catalogo));
     }
 
     public function current_catalogo(){

@@ -4,11 +4,11 @@
 <div class="m-2 p-1">
     <div class="card col-md-12 badge badge-light">
         <div class="d-flex flex-row mx-2 mt-2 mb-1">
-            <div class="h4 pt-1">Agregar Persona</div>
+            <div class="h4 pt-1">Agregar Personal</div>
             <div class="pt-1">
                 <a href="{{route('personas.create')}}" 
                     class="text-success text-capitalize mx-2 justify-vertical" 
-                    style="margin-top: -2px;" title='Agregar Persona'>
+                    style="margin-top: -2px;" title='Agregar Personal'>
                     <i class="fa fa-plus-circle fa-2x pt-1"></i> 
                 </a>
             </div>
