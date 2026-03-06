@@ -11,15 +11,19 @@ class Mantenimiento extends Model
     protected $guarded = [];
     protected $dates = ['created_at','updated_at','deleted_at','fecha_emision','fecha_recibido',
         'fecha_ingreso_taller','fecha_salida_taller'];
-    protected $appends = ['dias_vencimiento'];
 
-    public function forma_pago() {
-        return $this->hasOne('App\Models\Catalogo', 'id', 'forma_pago_id')
+    public function empresa() {
+        return $this->hasOne('App\Models\Catalogo', 'id','empresa_id')
             ->withDefault('name','');
     }
 
-    public function clasificacion_plan() {
-        return $this->hasOne('App\Models\Catalogo', 'id', 'clasificacion_plan_id')
+    public function sucursal() {
+        return $this->hasOne('App\Models\Catalogo', 'id','sucursal_id')
+            ->withDefault('name','');
+    }
+
+    public function area() {
+        return $this->hasOne('App\Models\Catalogo', 'id','area_id')
             ->withDefault('name','');
     }
 
@@ -28,37 +32,25 @@ class Mantenimiento extends Model
             ->withDefault('name','');
     }
 
-    public function tipo_seguro() {
-        return $this->hasOne('App\Models\Catalogo', 'id', 'tipo_seguro_id')
+    public function vehiculo() {
+        return $this->hasOne('App\Models\Vehiculo', 'id', 'vehiculo_id')
             ->withDefault('name','');
     }
 
-    public function metodo_pago() {
-        return $this->hasOne('App\Models\Catalogo', 'id', 'metodo_pago_id')
-            ->withDefault('name','');
+    public function chofer() {
+        return $this->hasOne('App\Models\Persona', 'id', 'persona_id');            
     }
 
-    public function nombre_plan() {
-        return $this->hasOne('App\Models\Catalogo', 'id', 'nombre_plan_id')
-            ->withDefault('name','');
-    }        
-
-    public function contratante() {
-        return $this->hasOne('App\Models\Persona', 'id', 'contratante_id')
-            ->withDefault('fullname','');
-    } 
-
-    public function asegurado_principal() {
-        return $this->hasOne('App\Models\Persona', 'id', 'asegurado_principal_id')
-            ->withDefault('fullname','');
-    }        
+    public function instalaciones() {
+        return $this->hasOne('App\Models\Instalaciones', 'id', 'proveedor_id');
+    }  
+    
+    public function garantia() {
+        return $this->hasOne('App\Models\Catalogo', 'id', 'garantia_id');
+    }  
 
     public function getDiasVencimientoAttribute(){
         return 0; 
-    }
-
-    public function seguro_personas() {
-        return $this->hasMany('App\Models\SeguroPersona','persona_id', 'id');
     }
 
 }

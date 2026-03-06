@@ -13,21 +13,38 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 		->name('mantenimientos.delete');
 
 	Route::match(['get', 'post'],'mantenimientos.list', function() {
-			$items =  Mantenimiento::query()
-					// ->with(['nombre_plan:id,name','tipo_seguro:id,name','clasificacion_plan:id,name','estatus:id,name',
-					// 		'contratante:id,nombre,paterno,materno'])
-					->select("matenimientos.*");
+			$sql_query = "
+				select  m.uuid as uuid,m.folio folio, v.no_economico no_economico, tv.name as tipo_vehiculo,
+						mc.name as marca, l.name as linea, v.placa as placa, e.name as empresa,
+						s.name as sucursal, a.name as area,
+						CONCAT(p.nombre,' ',p.paterno,' ',p.materno) as chofer,' ' as servicios,
+						IF( g.name is null || LOWER(g.name)='si', '', 'garantia'),
+						SUBSTRING(m.fecha_reporte,1,10) as fecha_reporte,
+						SUBSTRING(m.fecha_entregado,1,10) as fecha_entregado,
+						SUBSTRING(m.updated_at,1,10) as fecha_estatus,
+						em.name as estatus,
+						CONCAT(t.razon_social,' ',i.nombre) as proveedor
+					from mantenimientos m 
+						left join vehiculos v on m.vehiculo_id=v.id
+						left join catalogos tv on v.tipo_vehiculo_id = tv.id
+						left join catalogos mc on v.marca_id = mc.id
+						left join catalogos l on v.linea_id = l.id
+						left join catalogos e on v.empresa_id=v.id
+						left join catalogos s on v.sucursal_id=s.id
+						left join catalogos a on v.area_id=a.id
+						left join personas p on v.chofer_id=p.id
+						left join catalogos g on garantia_id=g.id
+						left join catalogos em on m.estatus_id=em.id
+						inner join instalaciones i on m.proveedor_id=i.id
+						inner join proveedores t on i.proveedor_id = t.id
+					where 
+						m.deleted_at is null
+			";
+			$items = DB::select($sql_query);
 
-			return DataTables::eloquent($items)
-				// ->addColumn('dias_vencimiento', function($item){ 
-				// 	return 1;
-				// })
-				// ->addColumn('fullname', function($item){ 
-				// 	return $item->contratante->fullname;
-				// })
+			return DataTables::of($items)
 		        ->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
-
 					$btn_delete = "#";
 					$btn_delete = "
 						<a href='$btn_delete' class='px-1 delete-button' 

@@ -16,15 +16,27 @@ class CreateMantenimientosTable extends Migration
         Schema::create('mantenimientos', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
+            $table->string('folio')->nullable();
             $table->string('vehiculo_id');
             $table->string('chofer_id')->nullable();
+
+            $table->string('empresa_id')->nullable();
+            $table->string('sucursal_id')->nullable();
+            $table->string('area_id')->nullable();
+
+            $table->integer('garantia_id')->nullable();
+            $table->string('proveedor_id')->nullable();
+
             $table->date('fecha_reporte')->nullable();
-            $table->date('fecha_revisado')->nullable();
-            $table->date('fecha_autorizado')->nullable();
+            $table->date('fecha_reporte_revisado')->nullable();
+            $table->date('fecha_reporte_autorizado')->nullable();
             $table->date('programado_para_ingreso')->nullable();
             $table->date('fecha_ingresado')->nullable();
             $table->date('fecha_entregado')->nullable();
-            $table->string('taller_id')->nullable();
+            
+            $table->string('kilometraje')->nullable();
+            $table->string('servicios')->nullable();
+            $table->text('descripcion_falla')->nullable();
 
             $table->integer('estatus_id')->nullable(); 
 

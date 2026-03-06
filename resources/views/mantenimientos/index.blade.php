@@ -26,17 +26,27 @@
                     <tr>
                         <th>Id</th>                        
                         <th>UUID</th>
-                        <th>Folio</th>
-                        <th>Nombre</th>                        
-                        <th>Paterno</th>
-                        <th>Materno</th>
-                        <th>Chofer</th>
+
+                        <th>Folio</th>                        
                         <th>Unidad</th>
-                        <th>Nombre de Plan</th>
-                        <th>Tipo de Seguro</th>
-                        <th>Fecha Emisión</th>
-                        <th>Clasificación de Plan</th>
-                        <th>Días para Vencimiento</th>
+                        <th>Tipo Vehiculo</th>
+                        <th>Marca</th>
+                        <th>Linea</th>
+                        <th>Placas</th>
+
+                        <th>Empresa</th>
+                        <th>Sucursal</th>
+                        <th>Area</th>
+                        <th>Chofer</th>
+
+                        <th>Proveedor</th>
+                        <th>Servicio(s)</th>
+                        <th>Garantia</th>
+
+                        <th>Fecha Reporte</th>
+                        <th>Fecha Entrega</th>
+                        <th>Fecha Estatus</th>
+                        
                         <th>Estatus</th>
                         <th>Acciones</th>
                     </tr>
@@ -55,43 +65,41 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var mantenimientos_table = $('#mantenimientos_table').DataTable({
-                // autoWidth: false,
                 responsive: !0,
                 select: !0,
                 searching: true,
                 processing: true,
                 serverSide: false,
-                // stateSave -  preserva el estado del datatable, cuando el usuario regresa
-                //              le muestra el datatable en el mismo estado 
                 dom: '<"d-flex flex-row-reverse">t<"d-flex justify-content-between" ip>r',
                 ajax: {
-                        url: "{!! route('seguros.list') !!}",
+                        url: "{!! route('mantenimientos.list') !!}",
                 },
                 
                 //scrollX: false,
                 columns: [
                     {data:'id', name:'id', searchable:false, orderable:true, width:'5%'},
-                    {data:'uuid', name:'uuid', orderable:false},
-                    {data:'fullname', name:'fullname', class:'text-capitalize',
-                        searchable:false, orderable:true, visible:true},
-                    {data:'contratante.nombre', name:'contratante.nombre', class:'text-capitalize',
-                        searchable:true, orderable:false, visible:false},
-                    {data:'contratante.paterno', name:'contratante.paterno', class:'text-capitalize',
-                        searchable:true, orderable:false, visible:false},
-                    {data:'contratante.materno', name:'contratante.materno', class:'text-capitalize',
-                        searchable:true, orderable:false, visible:false},
-                    {data:'poliza', name:'poliza', class:'text-capitalize nombre',
-                        searchable:true, orderable:true},
-                    {data:'nombre_plan.name', name:'nombre_plan.name', class:'text-capitalize'},
-                    {data:'tipo_seguro.name', name:'tipo_seguro.name', class:'text-capitalize'},
-                    {data:'fecha_emision', name:'fecha_emision',
-                        render: function(data,style,row,meta){
-                            if (data == null) return "";
-                            return data.substring(0,10);
-                        }
-                    },
-                    {data:'clasificacion_plan.name', name:'clasificacion_plan.name', class:'text-capitalize'},
-                    {data:'dias_vencimiento', name:'dias_vencimiento', class:'text-capitalize'},
+                    {data:'uuid', name:'uuid', orderable:false, visible:false},
+
+                    {data:'folio', name:'folio'},
+                    {data:'no_economico', name:'no_economico'},
+                    {data:'tipo_vehiculo', name:'tipo_vehiculo', class:'text-capitalize'},
+                    {data:'marca', name:'marca', class:'text-capitalize'},
+                    {data:'linea', name:'linea', class:'text-capitalize'},
+                    {data:'placa', name:'placa', class:'text-capitalize'},
+
+                    {data:'empresa', name:'empresa', class:'text-capitalize'},
+                    {data:'sucursal', name:'sucursal', class:'text-capitalize'},
+                    {data:'area', name:'area', class:'text-capitalize'},
+                    {data:'chofer', name:'chofer', class:'text-uppercase', orderable:true, visible:true},
+
+                    {data:'proveedor', name:'proveedor', class:'text-capitalize'},
+                    {data:'servicios', name:'servicios', class:'text-capitalize'},
+                    {data:'garantia', name:'garantia', class:'text-capitalize'},
+                    
+                    {data:'fecha_reporte', name:'fecha_reporte'},
+                    {data:'fecha_entregado', name:'fecha_entregado'},
+                    {data:'fecha_estatus', name:'fecha_estatus'},
+                    
                     {data:'estatus.name', name:'estatus.name', class:'text-capitalize'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
                         width:'10%',

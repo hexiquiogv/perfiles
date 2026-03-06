@@ -19,12 +19,6 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 					->select("vehiculos.*");
 
 			return DataTables::eloquent($items)
-				// ->addColumn('dias_vencimiento', function($item){ 
-				// 	return 1;
-				// })
-				// ->addColumn('fullname', function($item){ 
-				// 	return $item->contratante->fullname;
-				// })
 		        ->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
 
