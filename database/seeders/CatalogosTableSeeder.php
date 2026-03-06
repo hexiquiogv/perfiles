@@ -17,6 +17,7 @@ class CatalogosTableSeeder extends Seeder
 
         $items = [
             Catalogo::ESTATUS_MANTENIMIENTO,
+            Catalogo::MANTENIMIENTOS,
             Catalogo::ESTATUS_PERSONA,
             Catalogo::MARCA,
             Catalogo::TIPO_VEHICULO,
@@ -37,12 +38,29 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::REPROGRAMADO,
             Catalogo::PROGRAMADO,
             Catalogo::EN_PROCESO,
+            Catalogo::EN_TALLER,
             Catalogo::CANCELADO,
             Catalogo::GARANTIA,
             Catalogo::AUTORIZADO,
             Catalogo::PENDIENTE_AUTORIZAR,
         ];
         self::store_data($items, Catalogo::ESTATUS_MANTENIMIENTO);
+
+        $items = [
+            Catalogo::PREVENTIVO_5000KM,
+            Catalogo::PREVENTIVO_10000KM,
+            Catalogo::TRANSMISION,
+            Catalogo::SUSPENCION,
+            Catalogo::ELECTRICO,
+            Catalogo::MOTOR,
+            Catalogo::ENDERAZO_Y_PINTURA,
+            Catalogo::DIRECCION,
+            Catalogo::ALINEACION,
+            Catalogo::BALANCEO,
+            Catalogo::VULCANIZACION,
+            Catalogo::LLANTAS,
+        ];
+        self::store_data($items, Catalogo::MANTENIMIENTOS);
 
         $items = [
             'A+',

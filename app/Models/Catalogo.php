@@ -16,12 +16,13 @@ class Catalogo extends Model
        
     const MEXICO = 154;
     const COAHUILA = 249;
-    
+        
     const ESTATUS_MANTENIMIENTO = 'estatus_mantenimiento';
     const ESTATUS = 'estatus';
     const REPROGRAMADO = "reprogramado";
     const PROGRAMADO = "programado";
     const EN_PROCESO = "en proceso";
+    const EN_TALLER = "en taller";
     const CANCELADO = "cancelado";
     const GARANTIA = "garantía";
     const AUTORIZADO = "autorizado";
@@ -44,6 +45,20 @@ class Catalogo extends Model
     const ORIGEN_INFORMACION = "origen_informacion";
     const STATUS_REPORT = "status_report";
     const PUESTO = "puesto";
+
+    const MANTENIMIENTOS = 'mantenimientos';
+    const PREVENTIVO_5000KM = 'PREVENTIVO 5,000KM'; 
+    const PREVENTIVO_10000KM = 'PREVENTIVO 10,000KM'; 
+    const TRANSMISION = 'TRANSMISION'; 
+    const SUSPENCION = 'SUSPENSION'; 
+    const ELECTRICO = 'electrico'; 
+    const MOTOR = 'motor'; 
+    const ENDERAZO_Y_PINTURA = 'enderezado y pintura'; 
+    const DIRECCION = 'direccion'; 
+    const ALINEACION = 'alineacion'; 
+    const BALANCEO = 'balanceo'; 
+    const VULCANIZACION = 'vulcanizacion'; 
+    const LLANTAS = 'llantas'; 
 
     public function scopeFind_by_name($query, $nombre_catalogo=null) {
         if (is_null($nombre_catalogo)) {
