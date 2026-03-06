@@ -8,9 +8,12 @@ use App\Models\Role;
 Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 		Role::SUPER_ADMIN])->group(function () {
 
-	Route::resource('vehiculos', 'VehiculoController')->except(['show']);
 	Route::post('vehiculos/{uuid}/delete', 'VehiculoController@destroy')
 		->name('vehiculos.delete');
+});	
+
+Route::middleware(['auth'])->group(function () {
+	Route::resource('vehiculos', 'VehiculoController')->except(['show']);
 
 	Route::match(['get', 'post'],'vehiculos.list', function() {
 			$items =  Vehiculo::query()
@@ -64,8 +67,17 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	    ]);
 	})->name('flotilla');
 
+	Route::match(['get', 'post'],'v_vehiculo/{vehiculo}', function(Vehiculo $vehiculo) {
+		$data = [];
+		if(!is_null($vehiculo)){
+		 	$data[] = $vehiculo;
+		 } ;
+	    return response()->json([
+	        'status' => 'ok',
+	        'data' => $data
+	    ]);
+	})->name('v_vehiculo');
+
 	
-
-});	
-
+});
 

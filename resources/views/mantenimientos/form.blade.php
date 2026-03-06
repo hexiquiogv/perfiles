@@ -29,9 +29,9 @@
             @csrf
             {{ method_field($method) }}
                
-            <div class="form-row col-12">  
+            <div class="form-row">  
                 <div class="md-form col-2 mt-1 py-3">
-                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Folio</label>
+                    <label class="col-form-label active" style="margin-top: 10px;">Folio</label>
                     <input class="mt-3 col-11" id="folio" type="text" name="folio" 
                         value="{{ old('folio',$registro->folio) }}">
                 </div> 
@@ -128,14 +128,8 @@
 
             $('#vehiculo_id').change(function(e){
                 var optionId = $('select[name="vehiculo_id"] option:selected').val();
-                clearDropdown( $('select[name="empresa_id"]') );
-                clearDropdown( $('select[name="sucursal_id"]') );
-                clearDropdown( $('select[name="area_id"]') );
 
-                dynamicDropdown("/v_empresa/"+optionId, 0, 'empresa_id');  
-                dynamicDropdown("/v_sucursal/"+optionId, 0, 'sucursal_id');  
-                dynamicDropdown("/v_area/"+optionId, 0, 'area_id');  
-
+                getVehiculo(optionId);
             });
 
         });

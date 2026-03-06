@@ -69,7 +69,7 @@
         $.fn.dataTable.ext.errMode = 'none';
     });
 
-    function dynamicDropdown(url, id = null, target, otro = null) {
+    function dynamicDropdown(url, id = null, target, otro = null, unico_valor = null) {
 
         let data = {
             id: id
@@ -82,7 +82,7 @@
             $select.empty();
             let options = [];
 
-            if(null == data.id){
+            if(null == data.id && null == unico_valor) {
                 options.push(`<option value="" selected>`+target+
                     ` - seleccione una opción</option</option>`);
             } else {
@@ -279,12 +279,33 @@
         });
     }
 
-    function getArticuloCodigoDelito(url, id){
+    function getVehiculo(vehiculo_id){
+        let url="/v_vehiculo/"+vehiculo_id;
         $.post(url, function(results){
             if(results.status === 'ok'){
-                //let articulo = results.data[0].CatDelito_id + " - " + results.data[0].cClaveDelito;
-                let articulo = results.data[0].cClaveDelito;
-                $("#"+id).val(articulo);
+                let registro = results.data[0];
+                //console.log(registro);
+                clearDropdown( $('select[name="empresa_id"]') );
+                clearDropdown( $('select[name="sucursal_id"]') );
+                clearDropdown( $('select[name="area_id"]') );
+                clearDropdown( $('select[name="chofer_id"]') );
+                clearDropdown( $('select[name="tipo_vehiculo_id"]') );
+                clearDropdown( $('select[name="marca_id"]') );
+                clearDropdown( $('select[name="linea_id"]') );
+
+                dynamicDropdown("/items/empresa", registro.empresa_id, 'empresa_id', null, false);  
+                dynamicDropdown("/items/registro.empresa_id", registro.sucursal_id, 'sucursal_id', null, false);  
+                dynamicDropdown("/items/"+registro.sucursal_id, registro.area_id, 'area_id', null, false); 
+
+                dynamicDropdown("{{ route('personal') }}", registro.chofer_id, 'chofer_id'); 
+                
+                dynamicDropdown("/items/tipo_vehiculo", registro.tipo_vehiculo_id, 'tipo_vehiculo_id', null, false);  
+                dynamicDropdown("/items/marca", registro.marca_id, 'marca_id', null, false);  
+                dynamicDropdown("/items/"+registro.marca_id, registro.linea_id, 'linea_id', null, false); 
+
+                $("#no_economico").val(registro.no_economico);
+                $("#modelo").val(registro.modelo);
+
             };
             return results;
         });
