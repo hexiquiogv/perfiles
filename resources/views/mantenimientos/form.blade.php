@@ -8,132 +8,102 @@
         </div>
 
         <div class="ml-auto d-flex flex-row p-2">
-            <a href="{!! route('seguros.index') !!}" 
+            <a href="{!! route('mantenimientos.index') !!}" 
                     class="m-1 p-1 badge-info z-depth-2">
                 <i class="fa fa-undo fa-2x" aria-hidden="true"></i>
             </a>
-            @if(false and $registro->id > 0)
+            @if($registro->id > 0)
             <a id="camara_modal" class="upload_form_modal m-1 py-1 px-2 badge black z-depth-2" href="#">
                 <i class="fa fa-camera fa-2x pt-1" aria-hidden="true"></i>
             </a>
             @endif
             <a href="#" class="m-1 badge-warning text-white p-1 z-depth-2"
-                    onclick="document.getElementById('seguro_form').submit();">
+                    onclick="document.getElementById('mantenimiento_form').submit();">
                 <i class="fa fa-save fa-2x" aria-hidden="true"></i>
             </a>
         </div>           
     </div> 
     <div class="mt-4">
-        <form id="seguro_form" method="POST" action="{{ $route }}" class="ml-4">
+        <form id="mantenimiento_form" method="POST" action="{{ $route }}" class="ml-4">
 
             @csrf
             {{ method_field($method) }}
                
+            <div class="form-row col-12">  
+                <div class="md-form col-2 mt-1 py-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Folio</label>
+                    <input class="mt-3 col-11" id="folio" type="text" name="folio" 
+                        value="{{ old('folio',$registro->folio) }}">
+                </div> 
+                <div class="md-form col-2 mt-1 py-3 ml-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Fecha reporte</label>
+                    <input class="mt-3 col-11" id="fecha_reporte" type="date" name="fecha_reporte" 
+                        value="{{ old('fecha_reporte',
+                                is_null($registro->fecha_reporte) ? '' :
+                                $registro->fecha_reporte->format('Y-m-d')) }}">
+                </div>                 
+                <div class="col-md-1 ml-2">
+                    <div class="md-form"><label class="active">Placa Vehiculo</label></div>
+                    <select class="mdb-select md-form" id="vehiculo_id" searchable="Buscar ..."
+                        name="vehiculo_id"></select>
+                </div>  
+                <div class="col-md-4">
+                    <div class="md-form"><label class="active">Chofer</label></div>
+                    <select class="mdb-select md-form" id="chofer_id" searchable="Buscar ..."
+                        name="chofer_id"></select>
+                </div>  
+                <div class="md-form col-2 mt-1 py-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Kilometraje</label>
+                    <input class="mt-3 col-11" id="kilometraje" type="text" name="kilometraje" 
+                        value="{{ old('kilometraje',$registro->kilometraje) }}">
+                </div> 
+            </div>
+
             <div class="form-row">  
                 <div class="col-md-3">
-                    <div class="md-form"><label class="active">Nombre de Plan</label></div>
-                    <select class="mdb-select md-form" id="nombre_plan_id" searchable="Buscar ..."
-                        name="nombre_plan_id"></select>
-                </div>  
-                <div class="col-md-2">
-                    <div class="md-form"><label class="active">Clasificación de Plan</label></div>
-                    <select class="mdb-select md-form" id="clasificacion_plan_id" searchable="Buscar ..."
-                        name="clasificacion_plan_id"></select>
-                </div>  
-                <div class="md-form col-3">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Número de Póliza</label>
-                    <input class="mt-3 col-11" id="poliza" type="text" name="poliza" 
-                        value="{{ old('poliza',$registro->poliza) }}">
+                    <div class="md-form"><label class="active">Tipo Vehiculo</label></div>
+                    <select class="mdb-select md-form disabled" id="tipo_vehiculo_id"></select>
                 </div> 
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Fecha emisión</label>
-                    <input class="mt-3 col-11" id="fecha_emision" type="date" name="fecha_emision" 
-                        value="{{ old('fecha_emision',
-                                is_null($registro->fecha_emision) ? '' :
-                                $registro->fecha_emision->format('Y-m-d')) }}">
-                </div> 
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Fecha terminacion</label>
-                    <input class="mt-3 col-11" id="fecha_terminacion" type="date" name="fecha_terminacion" 
-                        value="{{ old('fecha_terminacion',
-                                is_null($registro->fecha_terminacion) ? '' :
-                                $registro->fecha_terminacion->format('Y-m-d')) }}">
-                </div>                 
-            </div>
-
-            <div class="form-row">   
                 <div class="col-md-2">
-                    <div class="md-form"><label class="active">Tipo de Seguro</label></div>
-                    <select class="mdb-select md-form" id="tipo_seguro_id" searchable="Buscar ..."
-                        name="tipo_seguro_id"></select>
-                </div>  
-                <div class="col-md-2">
-                    <div class="md-form"><label class="active">Método de Pago</label></div>
-                    <select class="mdb-select md-form" id="metodo_pago_id" 
-                        name="metodo_pago_id"></select>
-                </div>  
-                <div class="col-md-2">
-                    <div class="md-form"><label class="active">Forma de Pago</label></div>
-                    <select class="mdb-select md-form" id="forma_pago_id" 
-                        name="forma_pago_id"></select>
+                    <div class="md-form"><label class="active">Marca</label></div>
+                    <select class="mdb-select md-form disabled" id="marca_id"></select>
                 </div>  
                 <div class="col-md-3">
-                    <div class="md-form"><label class="active">Contratante</label></div>
-                    <select class="mdb-select md-form" id="contratante_id" searchable="Buscar ..."
-                        name="contratante_id"></select>
-                </div>  
-                <div class="col-md-3">
-                    <div class="md-form"><label class="active">Asegurado Principal</label></div>
-                    <select class="mdb-select md-form" id="asegurado_principal_id" searchable="Buscar ..."
-                        name="asegurado_principal_id"></select>
-                </div>  
+                    <div class="md-form"><label class="active">Linea</label></div>
+                    <select class="mdb-select md-form disabled" id="linea_id"></select>
+                </div> 
+                <div class="md-form col-1 mt-1 py-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Año</label>
+                    <input class="mt-3 col-11 readonly" id="modelo" type="text" value="">
+                </div> 
+                <div class="md-form col-2 mt-1 py-3 mx-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">No Económico</label>
+                    <input class="mt-3 col-11 readonly" id="no_economico" type="text" value="">
+                </div> 
             </div>
 
-            <div class="form-row">   
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Suma Asegurada</label>
-                    <input class="mt-3 col-11" id="suma_asegurada" type="text" name="suma_asegurada" 
-                        value="{{ old('suma_asegurada',$registro->suma_asegurada) }}">
+            <div class="form-row">  
+                <div class="col-md-3">
+                    <div class="md-form"><label class="active">Empresa</label></div>
+                    <select class="mdb-select md-form disabled" id="empresa_id" searchable="Buscar ..."
+                        name="empresa_id"></select>
+                </div> 
+                <div class="col-md-4">
+                    <div class="md-form"><label class="active">Sucursal</label></div>
+                    <select class="mdb-select md-form disabled" id="sucursal_id" searchable="Buscar ..."
+                        name="sucursal_id"></select>
                 </div>  
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Suma Asegurada Convertida</label>
-                    <input class="mt-3 col-11" id="suma_asegurada_convertida" type="text" name="suma_asegurada_convertida" 
-                        value="{{ old('suma_asegurada_convertida',$registro->suma_asegurada_convertida) }}">
-                </div>  
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Prima Anual</label>
-                    <input class="mt-3 col-11" id="prima_anual" type="text" name="prima_anual" 
-                        value="{{ old('prima_anual',$registro->prima_anual) }}">
-                </div>  
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Prima Anual Convertida</label>
-                    <input class="mt-3 col-11" id="prima_anual_convertida" type="text" name="prima_anual_convertida" 
-                        value="{{ old('prima_anual_convertida',$registro->prima_anual_convertida) }}">
-                </div>  
-                <div class="md-form col-2">
-                    <label class="col-form-label active pl-3" 
-                        style="margin-top: -8px;">Deducible Convertido</label>
-                    <input class="mt-3 col-11" id="deducible_convertido" type="text" name="deducible_convertido" 
-                        value="{{ old('deducible_convertido',$registro->deducible_convertido) }}">
-                </div>  
-                <div class="col-md-2">
-                    <div class="md-form"><label class="active">Estatus</label></div>
-                    <select class="mdb-select md-form" id="estatus_id" searchable="Buscar"
-                        name="estatus_id"></select>
-                </div>   
+                <div class="col-md-4">
+                    <div class="md-form"><label class="active">Area</label></div>
+                    <select class="mdb-select md-form disabled" id="area_id" searchable="Buscar ..."
+                        name="area_id"></select>
+                </div> 
             </div>
 
             <div class="form-row">
-                <label class="col-md-3">Comentarios</label>
-                <textarea class="col-md-12" id="comentarios" type="textarea" 
-                name="comentarios" rows="4" >{{old('comentarios',$registro->comentarios??'')}}</textarea>
+                <label class="col-md-3">Descripción de Falla</label>
+                <textarea class="col-md-12" id="descripcion_falla" type="textarea" 
+                name="descripcion_falla" rows="4" >{{old('descripcion_falla',$registro->descripcion_falla??'')}}</textarea>
             </div>
         </form>
     </div>
@@ -144,27 +114,29 @@
 @push('scripts2')
     <script type="text/javascript">
         $(document).ready(function() {
+            dynamicDropdown("{{ route('personal') }}", 
+                {{ old('chofer_id',$registro->chofer_id??0) }}, 'chofer_id');
+            dynamicDropdown("{{ route('flotilla') }}", 
+                {{ old('vehiculo_id',$registro->vehiculo_id??0) }}, 'vehiculo_id');
             
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::NOMBRE_PLAN) }}", 
-                {{ old('nombre_plan_id',$registro->nombre_plan_id??0) }}, 'nombre_plan_id');
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::CLASIFICACION_PLAN) }}", 
-                {{ old('clasificacion_plan_id',$registro->clasificacion_plan_id??0) }}, 'clasificacion_plan_id');
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::METODO_PAGO) }}", 
-                {{ old('metodo_pago_id',$registro->metodo_pago_id??0) }}, 'metodo_pago_id');
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::TIPO_SEGURO) }}", 
-                {{ old('tipo_seguro_id',$registro->tipo_seguro_id??0) }}, 'tipo_seguro_id');
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::FORMA_PAGO) }}", 
-                {{ old('forma_pago_id',$registro->forma_pago_id??0) }}, 'forma_pago_id');
+            dynamicDropdown("{{ route('flotilla') }}", 
+                {{ old('empresa_id',$registro->empresa_id??0) }}, 'empresa_id');
+            dynamicDropdown("{{ route('flotilla') }}", 
+                {{ old('sucursal_id',$registro->sucursal_id??0) }}, 'sucursal_id');
+            dynamicDropdown("{{ route('flotilla') }}", 
+                {{ old('area_id',$registro->area_id??0) }}, 'area_id');
 
-            dynamicDropdown("{{ route('personas.seguro') }}", 
-                {{ old('contratante_id',$registro->contratante_id??0) }}, 'contratante_id');
-            dynamicDropdown("{{ route('personas.seguro') }}", 
-                {{ old('asegurado_principal_id',$registro->asegurado_principal_id??0) }}, 'asegurado_principal_id');
+            $('#vehiculo_id').change(function(e){
+                var optionId = $('select[name="vehiculo_id"] option:selected').val();
+                clearDropdown( $('select[name="empresa_id"]') );
+                clearDropdown( $('select[name="sucursal_id"]') );
+                clearDropdown( $('select[name="area_id"]') );
 
-            dynamicDropdown("{{ route('items',App\Models\Catalogo::ESTATUS) }}", 
-                {{ old('estatus_id',$registro->estatus_id??0) }}, 'estatus_id');
+                dynamicDropdown("/v_empresa/"+optionId, 0, 'empresa_id');  
+                dynamicDropdown("/v_sucursal/"+optionId, 0, 'sucursal_id');  
+                dynamicDropdown("/v_area/"+optionId, 0, 'area_id');  
 
-
+            });
 
         });
   </script>

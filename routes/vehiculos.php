@@ -50,6 +50,22 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	            ->make(TRUE);
 	})->name('vehiculos.list');	
 
+	Route::match(['get', 'post'],'flotilla', function() {
+		$data = [];
+		foreach (Vehiculo::query()->get() as $vehiculo) {
+		 	$data[] = [
+		 		'name'=>$vehiculo->placa,
+		 		'id'=>$vehiculo->id
+		 	];
+		 } ;
+	    return response()->json([
+	        'status' => 'ok',
+	        'data' => $data
+	    ]);
+	})->name('flotilla');
+
+	
+
 });	
 
 

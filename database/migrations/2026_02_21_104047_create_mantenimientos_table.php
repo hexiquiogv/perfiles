@@ -35,13 +35,15 @@ class CreateMantenimientosTable extends Migration
             $table->date('fecha_entregado')->nullable();
             
             $table->string('kilometraje')->nullable();
+            $table->double('total_bruto')->nullable();
+            $table->double('total_neto')->nullable();
             $table->string('servicios')->nullable();
             $table->text('descripcion_falla')->nullable();
 
             $table->integer('estatus_id')->nullable(); 
 
             $table->integer('user_id')->nullable();
-            $table->text('observaciones')->nullable();    
+            $table->text('comentarios')->nullable();    
 
             $table->timestamps();
             $table->softDeletes();

@@ -5,21 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Mantenimiento;
+use App\Models\Vehiculo;
+use App\Models\Instalacion;
 use Auth;
 
 class MantenimientoController extends Controller
 {
-    public function destroy($uuid)
-    {
-        $mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
-        if (is_null($mantenimiento)) dd("Registro no encontrado");
-
-        $mantenimiento->delete();
-
-        return redirect(route('mantenimientos.index'))
-                    ->withSucess("Se eliminó el registro {$mantenimiento->folio} con éxito");
-    }
-
     public function index()
     {
         return view('mantenimientos.index');
@@ -28,93 +19,98 @@ class MantenimientoController extends Controller
     public function create()
     {
         $registro = new Mantenimiento;
-        $route = route('seguros.store');
+        $route = route('mantenimientos.store');
         $method = "post";
-        $title = "Poliza - Nuevo Registro";
+        $title = "Reporte Mantenimiento - Nuevo Registro";
 
-        return view('seguros.form', 
+        return view('mantenimientos.form', 
                     compact('registro','title','route','method'));
     }
 
     public function edit($uuid)
     {
         $registro = Mantenimiento::where('uuid',$uuid)->first();
-        if (is_null($registro)) dd("registro no encontrado");
+        if (is_null($registro)) dd("Reporte no encontrado");
 
-        $route = route('seguros.update',$registro->uuid);
+        $route = route('mantenimientos.update',$registro->uuid);
         $method = "patch";
-        $title = "Poliza - Edición de Registro";
+        $title = "Reporte Mantenimiento - Edición de Registro";
 
-        return view('seguros.form', 
+        return view('mantenimientos.form', 
                     compact('registro','title','route','method'));
     }
 
     public function store(Request $request)
     {
-        $mantenimiento = new Seguro;
+        $mantenimiento = new Mantenimiento;
         $mantenimiento->uuid = (string)Str::orderedUuid();        
 
         $mantenimiento = self::persist_data($request, $mantenimiento);
 
-        return redirect()->route('seguros.edit',$mantenimiento->uuid)
-                    ->withSuccess('Poliza almacenada exitosamente');
+        return redirect()->route('mantenimientos.edit',$mantenimiento->uuid)
+                    ->withSuccess('Reporte almacenado exitosamente');
     }
 
     public function update(Request $request, $uuid)
     {
         $mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
-        if (is_null($mantenimiento)) dd("Poliza no encontrado");
+        if (is_null($mantenimiento)) dd("Reporte no encontrado");
 
-        $oldSeguro = $mantenimiento->replicate();
-        $oldSeguro->created_at = now();
-        $oldSeguro->save();
-        $oldSeguro->delete();
+        $oldReporte = $mantenimiento->replicate();
+        $oldReporte->created_at = now();
+        $oldReporte->save();
+        $oldReporte->delete();
 
         $mantenimiento = self::persist_data($request, $mantenimiento);
 
-        return redirect()->route('seguros.edit',$mantenimiento->uuid)
-                    ->withSuccess("Poliza {$mantenimiento->poliza} actualizada exitosamente");
+        return redirect()->route('mantenimientos.edit',$mantenimiento->uuid)
+                    ->withSuccess("Reporte {$mantenimiento->folio} actualizado exitosamente");
     }
 
-    private function persist_data(Request $request, Seguro $mantenimiento){
-        $mantenimiento->poliza = $request->poliza ?? null;
+    private function persist_data(Request $request, Mantenimiento $mantenimiento){        
+        $mantenimiento->folio = $request->folio ?? null;
+                
+        $mantenimiento->chofer_id = $request->chofer_id ?? null;
+        $mantenimiento->garantia_id = $request->garantia_id ?? null;
+        $mantenimiento->proveedor_id = $request->proveedor_id ?? null;
+        
+        $mantenimiento->vehiculo_id = $request->vehiculo_id ?? null;
+        $vehiculo = Vehiculo::find($mantenimiento->vehiculo_id);
+        if (!is_null($vehiculo)){
+            $mantenimiento->empresa_id = $vehiculo->empresa_id ?? null;
+            $mantenimiento->sucursal_id = $vehiculo->sucursal_id ?? null;
+            $mantenimiento->area_id = $vehiculo->area_id ?? null;
+        }
+
+        $mantenimiento->fecha_reporte = $request->fecha_reporte ?? null;
+        $mantenimiento->fecha_reporte_revisado = $request->fecha_reporte_revisado ?? null;        
+        $mantenimiento->fecha_reporte_autorizado = $request->fecha_reporte_autorizado ?? null;
+        $mantenimiento->programado_para_ingreso = $request->programado_para_ingreso ?? null;
+        $mantenimiento->fecha_ingresado = $request->fecha_ingresado ?? null;
+        $mantenimiento->fecha_entregado = $request->fecha_entregado ?? null;
+        $mantenimiento->kilometraje = $request->kilometraje ?? null;
+
+        // todo : consolidar tipo de servicios por checkboxes
+        $mantenimiento->servicios = $request->servicios ?? null;
+        $mantenimiento->descripcion_falla = $request->descripcion_falla ?? null;
+
+        $mantenimiento->observaciones = $request->comentarios ?? null;
         $mantenimiento->estatus_id = $request->estatus_id ?? null;
-        $mantenimiento->nombre_plan_id = $request->nombre_plan_id ?? null;
-        $mantenimiento->fecha_emision = $request->fecha_emision ?? null;
-        $mantenimiento->fecha_terminacion = $request->fecha_terminacion ?? null;
-        $mantenimiento->metodo_pago_id = $request->metodo_pago_id ?? null;
-        $mantenimiento->tipo_seguro_id = $request->tipo_seguro_id ?? null;
-        $mantenimiento->forma_pago_id = $request->forma_pago_id ?? null;        
-        $mantenimiento->clasificacion_plan_id = $request->clasificacion_plan_id ?? null;
-        $mantenimiento->contratante_id = $request->contratante_id ?? null;
-        $mantenimiento->asegurado_principal_id = $request->asegurado_principal_id ?? null;
-
-        $mantenimiento->suma_asegurada = $request->suma_asegurada ?? null;
-        $mantenimiento->suma_asegurada_convertida = $request->suma_asegurada_convertida ?? null;
-
-        $mantenimiento->prima_anual = $request->prima_anual ?? null;
-        $mantenimiento->prima_anual_convertida = $request->prima_anual_convertida ?? null;
-        $mantenimiento->deducible_convertido = $request->deducible_convertido ?? null;
-
-        $mantenimiento->comentarios = $request->comentarios ?? null;
         
         $mantenimiento->user_id = Auth::id();
         $mantenimiento->save();
 
-        SeguroPersona::where('seguro_id',$mantenimiento->id)->delete();
-        if (!is_null($mantenimiento->contratante_id)) {
-            $mantenimiento_persona = new SeguroPersona;
-            $mantenimiento_persona->seguro_id = $mantenimiento->id;
-            $mantenimiento_persona->persona_id = $mantenimiento->contratante_id;
-            $mantenimiento_persona->save();
-        }
-        if (!is_null($mantenimiento->asegurado_principal_id) && $mantenimiento->asegurado_principal_id <> $mantenimiento->contratante_id) {
-            $mantenimiento_persona = new SeguroPersona;
-            $mantenimiento_persona->seguro_id = $mantenimiento->id;
-            $mantenimiento_persona->persona_id = $mantenimiento->asegurado_principal_id;
-            $mantenimiento_persona->save();
-        }
-
         return $mantenimiento;
+    }
+
+    public function destroy($uuid)
+    {
+        $mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($mantenimiento)) dd("Reporte no encontrado");
+
+        $mantenimiento->delete();
+
+        return redirect(route('mantenimientos.index'))
+                    ->withSucess("Se eliminó el reporte {$mantenimiento->folio} con éxito");
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Role;
 Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 		Role::SUPER_ADMIN])->group(function () {
 
-	Route::resource('mantenimientos', 'MantenimientoController')->except(['show']);
+	Route::resource('mantenimientos', 'MantenimientoController')->except(['show']);	
 	Route::post('mantenimientos/{uuid}/delete', 'MantenimientoController@destroy')
 		->name('mantenimientos.delete');
 

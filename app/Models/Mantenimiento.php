@@ -9,8 +9,8 @@ class Mantenimiento extends Model
 {
     use SoftDeletes;
     protected $guarded = [];
-    protected $dates = ['created_at','updated_at','deleted_at','fecha_emision','fecha_recibido',
-        'fecha_ingreso_taller','fecha_salida_taller'];
+    protected $dates = ['created_at','updated_at','deleted_at','fecha_reporte','fecha_reporte_revisado',
+        'fecha_reporte_autorizado','programado_para_ingreso','fecha_ingresado','fecha_entregado'];
 
     public function empresa() {
         return $this->hasOne('App\Models\Catalogo', 'id','empresa_id')
