@@ -85,14 +85,14 @@
                     {data:'tipo_vehiculo', name:'tipo_vehiculo', class:'text-capitalize'},
                     {data:'marca', name:'marca', class:'text-capitalize'},
                     {data:'linea', name:'linea', class:'text-capitalize'},
-                    {data:'placa', name:'placa', class:'text-capitalize'},
+                    {data:'placa', name:'placa', class:'text-uppercase'},
 
-                    {data:'empresa', name:'empresa', class:'text-capitalize'},
-                    {data:'sucursal', name:'sucursal', class:'text-capitalize'},
-                    {data:'area', name:'area', class:'text-capitalize'},
+                    {data:'empresa', name:'empresa', class:'text-uppercase'},
+                    {data:'sucursal', name:'sucursal', class:'text-uppercase'},
+                    {data:'area', name:'area', class:'text-uppercase'},
                     {data:'chofer', name:'chofer', class:'text-uppercase', orderable:true, visible:true},
 
-                    {data:'proveedor', name:'proveedor', class:'text-capitalize'},
+                    {data:'proveedor', name:'proveedor', class:'text-uppercase'},
                     {data:'servicios', name:'servicios', class:'text-capitalize'},
                     {data:'garantia', name:'garantia', class:'text-capitalize'},
                     
@@ -100,7 +100,7 @@
                     {data:'fecha_entregado', name:'fecha_entregado'},
                     {data:'fecha_estatus', name:'fecha_estatus'},
                     
-                    {data:'estatus.name', name:'estatus.name', class:'text-capitalize'},
+                    {data:'estatus', name:'estatus', class:'text-uppercase'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
                         width:'10%',
                         render: function(data,style,row,meta){

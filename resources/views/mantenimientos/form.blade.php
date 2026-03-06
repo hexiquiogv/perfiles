@@ -23,7 +23,7 @@
             </a>
         </div>           
     </div> 
-    <div class="mt-4">
+    <div class="my-4">
         <form id="mantenimiento_form" method="POST" action="{{ $route }}" class="ml-4">
 
             @csrf
@@ -100,8 +100,14 @@
                 </div> 
             </div>
 
-            <div class="form-row">
-                <label class="col-md-3">Descripción de Falla</label>
+            <div>
+                <label class="col-form-label active">Seleccione el/los Servicio(s) Requeridos</label>
+                <br>
+                <div id="servicios" class="d-flex flex-wrap col-md-12"></div>
+            </div>
+
+            <div class="form-row mt-4">
+                <label class="col-md-3 active">Descripción de Falla</label>
                 <textarea class="col-md-12" id="descripcion_falla" type="textarea" 
                 name="descripcion_falla" rows="4" >{{old('descripcion_falla',$registro->descripcion_falla??'')}}</textarea>
             </div>
@@ -119,18 +125,16 @@
             dynamicDropdown("{{ route('flotilla') }}", 
                 {{ old('vehiculo_id',$registro->vehiculo_id??0) }}, 'vehiculo_id');
             
-            dynamicDropdown("{{ route('flotilla') }}", 
-                {{ old('empresa_id',$registro->empresa_id??0) }}, 'empresa_id');
-            dynamicDropdown("{{ route('flotilla') }}", 
-                {{ old('sucursal_id',$registro->sucursal_id??0) }}, 'sucursal_id');
-            dynamicDropdown("{{ route('flotilla') }}", 
-                {{ old('area_id',$registro->area_id??0) }}, 'area_id');
+            getVehiculo({{ $registro->vehiculo_id }});
 
             $('#vehiculo_id').change(function(e){
                 var optionId = $('select[name="vehiculo_id"] option:selected').val();
 
                 getVehiculo(optionId);
             });
+
+            dynamicCheckboxes("/items/{{ App\Models\Catalogo::MANTENIMIENTOS }}", 
+                "{{ $registro->servicios }}",  "servicios", "checkbox", "col-md-4");
 
         });
   </script>

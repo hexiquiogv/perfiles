@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use App\Models\Instalacion;
+use App\Models\Catalogo;
 use Auth;
 
 class MantenimientoController extends Controller
@@ -94,8 +95,11 @@ class MantenimientoController extends Controller
         $mantenimiento->servicios = $request->servicios ?? null;
         $mantenimiento->descripcion_falla = $request->descripcion_falla ?? null;
 
-        $mantenimiento->observaciones = $request->comentarios ?? null;
+        $mantenimiento->comentarios = $request->comentarios ?? null;
         $mantenimiento->estatus_id = $request->estatus_id ?? null;
+
+        $servicios = isset($request->servicios) ? implode(',',$request->servicios) : "";
+        $mantenimiento->servicios = $servicios;
         
         $mantenimiento->user_id = Auth::id();
         $mantenimiento->save();
@@ -113,4 +117,18 @@ class MantenimientoController extends Controller
         return redirect(route('mantenimientos.index'))
                     ->withSucess("Se eliminó el reporte {$mantenimiento->folio} con éxito");
     }
+
+    // private function checkboxes_consolidate($ids, $catalogo_name){
+    //     $catalogo = Catalogo::find_by_name($catalogo_name)->first();
+    //     $items = $catalogo->items->pluck('descripcion','id');
+
+    //     $result = 0;
+    //     if (isset($ids) & !is_null($ids)) {
+    //       foreach ($ids as $id => $value) {
+    //           $result += $items[$ids];
+    //       }
+    //     }
+
+    //     return $result;
+    // }
 }

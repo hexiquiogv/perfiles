@@ -29,14 +29,14 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 						left join catalogos tv on v.tipo_vehiculo_id = tv.id
 						left join catalogos mc on v.marca_id = mc.id
 						left join catalogos l on v.linea_id = l.id
-						left join catalogos e on v.empresa_id=v.id
+						left join catalogos e on v.empresa_id=e.id
 						left join catalogos s on v.sucursal_id=s.id
 						left join catalogos a on v.area_id=a.id
 						left join personas p on v.chofer_id=p.id
 						left join catalogos g on garantia_id=g.id
 						left join catalogos em on m.estatus_id=em.id
-						inner join instalaciones i on m.proveedor_id=i.id
-						inner join proveedores t on i.proveedor_id = t.id
+						left join instalaciones i on m.proveedor_id=i.id
+						left join proveedores t on i.proveedor_id = t.id
 					where 
 						m.deleted_at is null
 			";

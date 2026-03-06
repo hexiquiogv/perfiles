@@ -143,19 +143,19 @@
                 var checked_ids = [];
                 if (typeof data.id === 'object') {
                     checked_ids = Object.values(data.id);
-                    //console.log('objeto');
+                    console.log('objeto');
                 } else if (typeof data.id === 'array' & data.id.length > 0) {
                     checked_ids = data.id;
-                    //console.log('arreglo');
+                    console.log('arreglo');
                 } else if (typeof data.id === 'string' & data.id.length > 0) {
                     checked_ids = data.id.split(',').map(function(item) {
                         if ($.isNumeric( item )) return parseInt(item, 10);
                         return item;
                     });
-                    //console.log('string');
+                    console.log('string');
                 }
 
-                //console.log(checked_ids);
+                console.log(checked_ids);
                 
                 let j = 0; 
 
