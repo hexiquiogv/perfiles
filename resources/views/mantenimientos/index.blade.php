@@ -102,7 +102,7 @@
                     
                     {data:'estatus', name:'estatus', class:'text-uppercase'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
-                        width:'10%',
+                        width:'15%',
                         render: function(data,style,row,meta){
                              return $("<div/>").html(data).text();
                         }

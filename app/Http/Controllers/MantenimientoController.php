@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
 use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use App\Models\Instalacion;
 use App\Models\Catalogo;
+
+use Illuminate\Support\Facades\Storage;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Helpers\CodeGenerator;
 use Auth;
+use Cezpdf;
+use Lang;
+
 
 class MantenimientoController extends Controller
 {
@@ -23,9 +31,10 @@ class MantenimientoController extends Controller
         $route = route('mantenimientos.store');
         $method = "post";
         $title = "Reporte Mantenimiento - Nuevo Registro";
+        $back_url = "#";
 
         return view('mantenimientos.form', 
-                    compact('registro','title','route','method'));
+                    compact('registro','title','route','method','back_url'));
     }
 
     public function edit($uuid)
@@ -36,9 +45,10 @@ class MantenimientoController extends Controller
         $route = route('mantenimientos.update',$registro->uuid);
         $method = "patch";
         $title = "Reporte Mantenimiento - Edición de Registro";
+        $back_url = route('mantenimientos.edit',$registro->uuid);
 
         return view('mantenimientos.form', 
-                    compact('registro','title','route','method'));
+                    compact('registro','title','route','method','back_url'));
     }
 
     public function store(Request $request)
@@ -118,17 +128,133 @@ class MantenimientoController extends Controller
                     ->withSucess("Se eliminó el reporte {$mantenimiento->folio} con éxito");
     }
 
-    // private function checkboxes_consolidate($ids, $catalogo_name){
-    //     $catalogo = Catalogo::find_by_name($catalogo_name)->first();
-    //     $items = $catalogo->items->pluck('descripcion','id');
+    public function reporte($uuid){        
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Reporte no encontrado");
 
-    //     $result = 0;
-    //     if (isset($ids) & !is_null($ids)) {
-    //       foreach ($ids as $id => $value) {
-    //           $result += $items[$ids];
-    //       }
-    //     }
+        $variables = [
+            "<unidad>" => $registro->vehiculo->numero_economico,
+            "<tipo_vehiculo>" => $registro->vehiculo->tipo_vehiculo->name,
+            "<marca>" => strtoupper($registro->vehiculo->marca->name),
+            "<linea>" => strtoupper($registro->vehiculo->linea->name),
+            "<modelo>" => $registro->vehiculo->modelo,
+            "<serie>" => strtoupper($registro->vehiculo->numero_serie),
+            "<placas>" => strtoupper($registro->vehiculo->placa),
+            "<chofer>" => strtoupper($registro->vehiculo->chofer->fullname),
+            "<falla>" => $registro->descripcion_falla,
+            "<empresa>" => strtoupper($registro->empresa->name),
+        ];
 
-    //     return $result;
-    // }
+        setlocale(LC_ALL, 'es_ES');
+        $fecha=$registro->updated_at->translatedFormat('l j \\d\\e F \\d\\e Y');
+        
+        $pdf = new Cezpdf($paper = 'A4', $orientation = 'portrait'); // $orientation = 'landscape';
+        
+        $pdf->ezSetMargins($top = 30, $bottom = 30, $left = 30, $right = 30);
+        $pdf->ezSetDy(0, 'makeSpace');
+
+        $logo = "images/logos/transparente.png";
+        $pdf->addPngFromFile($logo, 25, 730, 90, 75);
+
+        $pdf->ezSetDy(-80, 'makeSpace');   
+        $pdf->ezText("FECHA : $fecha",10, array('justification' => 'right'));
+                 
+        $y = $pdf->y;
+        $y = $y - 20;
+        $pdf->addText(30,$y,12,"CHOFER");        
+        $pdf->addText(90,$y,10,$variables["<chofer>"]);
+
+        $y = $y - 20;
+        $pdf->addText(30,$y,12,"UNIDAD");        
+        $pdf->addText(130,$y,10,$variables["<unidad>"]);
+        $pdf->addText(200,$y,12,"MARCA");        
+        $pdf->addText(255,$y,10,$variables["<marca>"]);
+        $pdf->addText(340,$y,12,"MODELO");        
+        $pdf->addText(400,$y,10,$variables["<modelo>"]);
+
+        $y = $y - 20;
+        $pdf->addText(30,$y,12,"NUMERO DE SERIE");        
+        $pdf->addText(150,$y,10,$variables["<serie>"]);
+        $pdf->addText(360,$y,12,"PLACAS");        
+        $pdf->addText(415,$y,10,$variables["<placas>"]);
+
+
+        $pdf->y = $y - 20;
+        $pdf->ezText("DESCRIPCION DETALLADA DE FALLA MECANICA" , 12, array('justification' => 'center')); 
+        $pdf->ezSetDy(-20, 'makeSpace');     
+        $pdf->ezText($variables["<falla>"] , 10, array('justification' => 'full'));   
+        $pdf->ezSetDy(-20, 'makeSpace'); 
+
+        // $pdf->line(30, $y, ,$pdf->y);
+        $pdf->setLineStyle(1);
+        $pdf->rectangle($pdf->ez['leftMargin'] - 10, $y-20, 
+                        $pdf->ez['pageWidth'] - $pdf->ez['rightMargin'] - $pdf->ez['leftMargin'] + 20, 
+                        $pdf->y - $y + 10);
+        
+        $pdf->ezSetDy(-20, 'makeSpace');   
+        $pdf->ezText("FIRMA DE CHOFER",12,array('justification'=>'center'));
+
+        $pdf->ezSetDy(-20, 'makeSpace');   
+        $pdf->ezText("<strong>".str_repeat("_",strlen($variables["<chofer>"]))."</strong>",12,
+            array('justification'=>'center'));
+        $pdf->ezSetDy(-20, 'makeSpace');   
+        $pdf->ezText("<strong>".$variables["<chofer>"]."</strong>",12,array('justification'=>'center'));
+
+        //$pdf->addText(360,290,12,"FIRMA DE CHOFER");   
+        //$pdf->addText(88,80,12,"<strong>".$variables["<chofer>"]."</strong>");   
+
+        $qr = CodeGenerator::qrcodeGenerate(route('mantenimientos.edit',$registro->uuid));
+        Storage::disk('public')->put('qr.png',base64_decode($qr));
+        $url = storage_path('/app/public/qr.png');
+
+        $pdf->addPngFromFile($url,400,100,100);
+        $pdf->addText(400,85,8,"EMPRESA : ".$variables["<empresa>"]);
+
+        if (ob_get_contents()) ob_end_clean();
+
+        // Se graba el pdf en el sistema de archivos
+        $disk = env('FILESYSTEM_DRIVER','local');
+        Storage::disk($disk)->put("{$uuid}.pdf", $pdf->Output());
+        $url = "{$uuid}.pdf";
+
+        // $catalogo = Catalogo::where('name',Catalogo::DOCUMENT_TYPE)->whereNull('parent_id')->first();        
+        // $document = Catalogo::where('parent_id',$catalogo->id)->where('name','like','Carta%')->first();
+
+        // $media = Media::where('uuid',$uuid)->first();
+        // if (is_null($media)) {
+        //     $media = new Media;
+        //     $media->extension = "pdf";
+        //     $media->url = "{$uuid}.pdf";
+        //     $media->uuid = $uuid;
+        //     $media->mime_type = "application/pdf";
+        //     $media->model_name = Reservacion::class;
+        //     $media->model_id = $registro->id;
+        //     $media->document_type_id = $document->id;
+        //     $media->observations = "$uuid.pdf";
+        //     $media->save();
+        // }
+
+        // envio mensaje a telegram
+        
+
+        $reporte = Lang::get("telegram.reporte_falla");        
+        $mensaje = strtr($reporte, $variables);        
+
+        $channel_id = env('TELEGRAM_CHANNEL_ID', '');
+        Telegram::sendMessage([
+            'chat_id' => $channel_id,
+            'parse_mode' => 'HTML',
+            'text' => $mensaje
+        ]);
+
+        // cambio de estatus
+        $catalogo = Catalogo::where('name',Catalogo::ESTATUS_MANTENIMIENTO)->whereNull('parent_id')->first();        
+        $generada = Catalogo::where('parent_id',$catalogo->id)->where('name','like',Catalogo::EN_PROCESO)->first();
+        $registro->estatus_id = $generada->id;
+        $registro->save();
+        
+        return response()->file(storage_path("app/public/$url"));
+    }
+
+    
 }

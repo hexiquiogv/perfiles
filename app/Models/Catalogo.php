@@ -15,18 +15,9 @@ class Catalogo extends Model
     protected $dates = ['created_at','updated_at','deleted_at'];
        
     const MEXICO = 154;
-    const COAHUILA = 249;
-        
-    const ESTATUS_MANTENIMIENTO = 'estatus_mantenimiento';
+    const COAHUILA = 249;   
+    
     const ESTATUS = 'estatus';
-    const REPROGRAMADO = "reprogramado";
-    const PROGRAMADO = "programado";
-    const EN_PROCESO = "en proceso";
-    const EN_TALLER = "en taller";
-    const CANCELADO = "cancelado";
-    const GARANTIA = "garantía";
-    const AUTORIZADO = "autorizado";
-    const PENDIENTE_AUTORIZAR = "pendiente autorizar";
 
     const ESTATUS_PERSONA = 'estatus_persona';
     const SEXO = 'sexo';
@@ -45,6 +36,16 @@ class Catalogo extends Model
     const ORIGEN_INFORMACION = "origen_informacion";
     const STATUS_REPORT = "status_report";
     const PUESTO = "puesto";
+
+    const ESTATUS_MANTENIMIENTO = 'estatus_mantenimiento';    
+    const REPROGRAMADO = "reprogramado";
+    const PROGRAMADO = "programado";
+    const EN_PROCESO = "en proceso";
+    const EN_TALLER = "en taller";
+    const CANCELADO = "cancelado";
+    const GARANTIA = "garantía";
+    const AUTORIZADO = "autorizado";
+    const PENDIENTE_AUTORIZAR = "pendiente autorizar";
 
     const MANTENIMIENTOS = 'mantenimientos';
     const PREVENTIVO_5000KM = 'PREVENTIVO 5,000KM'; 

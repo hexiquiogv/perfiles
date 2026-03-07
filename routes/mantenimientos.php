@@ -11,6 +11,8 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::resource('mantenimientos', 'MantenimientoController')->except(['show']);	
 	Route::post('mantenimientos/{uuid}/delete', 'MantenimientoController@destroy')
 		->name('mantenimientos.delete');
+	Route::get('mantenimientos.reporte/{uuid}', 'MantenimientoController@reporte')
+		->name('mantenimientos.reporte');
 
 	Route::match(['get', 'post'],'mantenimientos.list', function() {
 			$sql_query = "
@@ -62,9 +64,18 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 							</span>
 						</a>";
 
+					$btn_reporte = route('mantenimientos.reporte',$item_id);
+					$btn_reporte = "
+						<a href='$btn_reporte' target='_blank' class='px-1' title='Reporte Falla'>
+							<span class='badge purple text-white shadow'>
+								<i class='fa fa-exclamation-triangle fa-2x'></i>
+							</span>
+						</a>";
+
 					$action_buttons = "
 						<div class='row d-flex justify-content-center'>
 							$btn_edit
+							$btn_reporte
 							$btn_delete
 						</div>";
 					

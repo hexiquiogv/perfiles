@@ -100,6 +100,8 @@
                 </div> 
             </div>
 
+            <div class="dropdown-divider"></div>
+
             <div>
                 <label class="col-form-label active">Seleccione el/los Servicio(s) Requeridos</label>
                 <br>
@@ -115,9 +117,18 @@
     </div>
 </div>
 
+<div class="d-flex flex-wrap">
+    <div class="col-lg-9">
+        @include('layouts.partials.camara.views.show_media')
+    </div>
+</div>
+
 @endsection
 
 @push('scripts2')
+    @include('layouts.partials.camara.views.camaraModal', ['back_url'=>$back_url, 
+        'model_name'=>get_class($registro),'model_id'=>$registro->uuid ])
+
     <script type="text/javascript">
         $(document).ready(function() {
             dynamicDropdown("{{ route('personal') }}", 
