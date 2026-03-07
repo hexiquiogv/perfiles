@@ -11,6 +11,7 @@ class Mantenimiento extends Model
     protected $guarded = [];
     protected $dates = ['created_at','updated_at','deleted_at','fecha_reporte','fecha_reporte_revisado',
         'fecha_reporte_autorizado','programado_para_ingreso','fecha_ingresado','fecha_entregado'];
+    protected $appends = ['files'];
 
     public function empresa() {
         return $this->hasOne('App\Models\Catalogo', 'id','empresa_id')
@@ -63,6 +64,11 @@ class Mantenimiento extends Model
             }
         }
         return $results;
+    }    
+
+    public function getFilesAttribute() {
+        return Media::where('model_name', 'App\Models\Mantenimiento')
+                    ->where('model_id', $this->id)->get();
     }
 
 }

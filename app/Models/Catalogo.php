@@ -61,6 +61,8 @@ class Catalogo extends Model
     const VULCANIZACION = 'vulcanizacion'; 
     const LLANTAS = 'llantas'; 
 
+    const DOCUMENT_TYPE = 'document_type';
+
     public function scopeFind_by_name($query, $nombre_catalogo=null) {
         if (is_null($nombre_catalogo)) {
             return $query->whereNull('parent_id');

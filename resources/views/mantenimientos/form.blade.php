@@ -147,6 +147,16 @@
             dynamicCheckboxes("/items/{{ App\Models\Catalogo::MANTENIMIENTOS }}", 
                 "{{ $registro->servicios }}",  "servicios", "checkbox", "col-md-4");
 
+            @if($registro->id >0 || xAuth::check())
+                $("#camara_modal").on('click', function() {
+                    $("#open_camara_modal").trigger("click");
+                });
+                
+                dynamicDropdown("{{ route('items',App\Models\Catalogo::DOCUMENT_TYPE ) }}", 
+                    {{old('document_type_id',0)}}, 'document_type_id');
+
+            @endif
+
         });
   </script>
 @endpush  

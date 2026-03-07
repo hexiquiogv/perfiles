@@ -30,7 +30,8 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::STATUS_REPORT,
             Catalogo::ESTADO_CIVIL,
             Catalogo::EMPRESA,
-            Catalogo::PUESTO
+            Catalogo::PUESTO,
+            Catalogo::DOCUMENT_TYPE
         ];
         self::store_data($items, null);
 
