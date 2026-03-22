@@ -8,7 +8,7 @@ use App\Models\Role;
 Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 		Role::SUPER_ADMIN])->group(function () {
 
-	Route::resource('mantenimientos', 'MantenimientoController')->except(['show']);	
+	Route::resource('mantenimientos', 'MantenimientoController')->except(['show','destroy']);	
 	Route::post('mantenimientos/{uuid}/delete', 'MantenimientoController@destroy')
 		->name('mantenimientos.delete');
 	Route::get('mantenimientos.reporte/{uuid}', 'MantenimientoController@reporte')
@@ -16,7 +16,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 
 	Route::match(['get', 'post'],'mantenimientos.list', function() {
 			$sql_query = "
-				select  m.uuid as uuid,m.folio folio, v.no_economico no_economico, tv.name as tipo_vehiculo,
+				select  m.id,m.uuid as uuid,m.folio folio, v.no_economico no_economico, tv.name as tipo_vehiculo,
 						mc.name as marca, l.name as linea, v.placa as placa, e.name as empresa,
 						s.name as sucursal, a.name as area,
 						CONCAT(p.nombre,' ',p.paterno,' ',p.materno) as chofer,' ' as servicios,

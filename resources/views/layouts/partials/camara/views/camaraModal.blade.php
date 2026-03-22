@@ -72,9 +72,11 @@
     </div>
 </div>
 
-@push('scripts2')
-    @include('layouts.partials.camara.js.upload_file_app')    
+@section('custom_scripts')
+    @include('layouts.partials.camara.js.upload_file_app')   
+@endsection
 
+@push('scripts2')
     <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="document_type_id"]').change(function(e){
@@ -92,7 +94,15 @@
                 }
                     
             });
+        
+            $("#camara_modal").on('click', function() {
+                alert('camara');
+                $("#open_camara_modal").trigger("click");
+            });
+            
+            dynamicDropdown("{{ route('items',App\Models\Catalogo::DOCUMENT_TYPE ) }}", 
+                {{old('document_type_id',0)}}, 'document_type_id');
+
         });
     </script>
 @endpush
-

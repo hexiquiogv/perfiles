@@ -77,7 +77,7 @@
                 
                 //scrollX: false,
                 columns: [
-                    {data:'id', name:'id', searchable:false, orderable:true, width:'5%'},
+                    {data:'id', name:'id', searchable:false, orderable:true, width:'8%'},
                     {data:'uuid', name:'uuid', orderable:false, visible:false},
 
                     {data:'folio', name:'folio'},

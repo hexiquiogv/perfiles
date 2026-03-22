@@ -31,7 +31,7 @@ class MantenimientoController extends Controller
         $route = route('mantenimientos.store');
         $method = "post";
         $title = "Reporte Mantenimiento - Nuevo Registro";
-        $back_url = "#";
+        $back_url = route('mantenimientos.index');
 
         return view('mantenimientos.form', 
                     compact('registro','title','route','method','back_url'));

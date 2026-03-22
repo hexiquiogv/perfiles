@@ -54,12 +54,12 @@ class Mantenimiento extends Model
         return 0; 
     }
 
-    public function servicios(){
+    public function getServicios(){
         $catalogo = Catalogo::find_by_name(Catalogo::MANTENIMIENTOS)->first();
         $items = $catalogo->items->pluck('id','descripcion');
         $results = [];
         foreach ($items as $key => $value) {
-            if($key & $this->servicioss) {
+            if($key & $this->servicios) {
                 $results[] = $value;
             }
         }

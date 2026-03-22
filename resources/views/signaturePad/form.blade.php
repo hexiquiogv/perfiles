@@ -34,20 +34,7 @@
                             <strong>{{ $message }}</strong>
                         </div>
                     @endif
-                    <form method="POST" action="{{ route('signaturepad.upload') }}">
-                        @csrf
-                        <div class="col-md-12">
-                            <label class="" for="">Firmar en el recuadro:</label>
-                            <br/>
-                            <div id="sig" ></div>
-                            <br/>
-                            <button id="clear" class="btn btn-danger btn-sm">Borrar</button>
-                            <textarea id="signature64" name="signed" style="display: none"></textarea>
-                        </div>
-                        <br/>
-                        <button class="btn btn-success">Guardar</button>
-                        <a class="btn btn-warning" href="{{ route('welcome') }}">Cancelar</a>
-                    </form>
+                    
                </div>
            </div>
        </div>

@@ -39,6 +39,8 @@
                             <i class="fa fa-pencil black-text"></i> Firma Digital</a>
                         <a class="dropdown-item" href="{{route('calendar')}}">
                             <i class="fa fa-calendar black-text"></i> Calendario</a>
+                        <a class="dropdown-item" href="{{route('charts')}}">
+                            <i class="fa fa-bar-chart black-text"></i> Dashboard</a>
 
                         <a class="dropdown-item" href="{{route('consultas.index')}}">
                             <i class="fa fa-square blue-text"></i> 

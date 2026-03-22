@@ -48,8 +48,8 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 	            ->make(TRUE);
 	})->name('list.proveedores');
 		
-	Route::get('domicilio/{uuid}','DomicilioController@edit')->name('domicilio');
-	Route::post('domicilio/{uuid}/{type}','DomicilioController@store')->name('domicilios.store');
+	// Route::get('domicilio/{uuid}','DomicilioController@edit')->name('domicilio');
+	// Route::post('domicilio/{uuid}/{type}','DomicilioController@store')->name('domicilios.store');
 
 	Route::match(['get', 'post'],'/items.proveedores', function(Request $request) {
 	    $data = Proveedor::select('nombre_corto as name','id')->get();
