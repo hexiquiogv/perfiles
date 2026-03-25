@@ -25,7 +25,7 @@
        <div class="col-md-6 offset-md-3 mt-5">
            <div class="card">
                <div class="card-header">
-                   <h5>Firma Digital</h5>
+                   <h5>Laravel Signature Pad Tutorial Example - ItSolutionStuff.com </h5>
                </div>
                <div class="card-body">
                     @if ($message = Session::get('success'))
@@ -34,7 +34,19 @@
                             <strong>{{ $message }}</strong>
                         </div>
                     @endif
-                    
+                    <form method="POST" action="{{ route('signaturepad.upload') }}">
+                        @csrf
+                        <div class="col-md-12">
+                            <label class="" for="">Signature:</label>
+                            <br/>
+                            <div id="sig" ></div>
+                            <br/>
+                            <button id="clear" class="btn btn-danger btn-sm">Clear Signature</button>
+                            <textarea id="signature64" name="signed" style="display: none"></textarea>
+                        </div>
+                        <br/>
+                        <button class="btn btn-success">Save</button>
+                    </form>
                </div>
            </div>
        </div>
