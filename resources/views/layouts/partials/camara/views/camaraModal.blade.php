@@ -96,7 +96,6 @@
             });
         
             $("#camara_modal").on('click', function() {
-                alert('camara');
                 $("#open_camara_modal").trigger("click");
             });
             
