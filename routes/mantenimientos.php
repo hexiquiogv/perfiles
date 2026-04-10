@@ -13,6 +13,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 		->name('mantenimientos.delete');
 	Route::get('mantenimientos.reporte/{uuid}', 'MantenimientoController@reporte')
 		->name('mantenimientos.reporte');
+	Route::view('mantenimientos.menu','mantenimientos.menu')->name('mantenimientos.menu');
 
 	Route::match(['get', 'post'],'mantenimientos.list', function() {
 			$sql_query = "
@@ -84,6 +85,8 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	            ->make(TRUE);
 	})->name('mantenimientos.list');	
 
+	Route::get('signaturepad', 'SignaturePadController@index')->name('signaturepad');
+	Route::post('signaturepad', 'SignaturePadController@upload')->name('signaturepad.upload');
 });	
 
 

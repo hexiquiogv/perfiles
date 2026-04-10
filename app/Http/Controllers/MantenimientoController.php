@@ -9,6 +9,7 @@ use App\Models\Mantenimiento;
 use App\Models\Vehiculo;
 use App\Models\Instalacion;
 use App\Models\Catalogo;
+use App\Models\Media;
 
 use Illuminate\Support\Facades\Storage;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -194,10 +195,12 @@ class MantenimientoController extends Controller
         $pdf->ezSetDy(-20, 'makeSpace');   
         $pdf->ezText("FIRMA DE CHOFER",12,array('justification'=>'center'));
 
-        $pdf->ezSetDy(-20, 'makeSpace');   
+        $firma = 'storage/'.$registro->firmaChofer->url;
+        $pdf->addPngFromFile($firma, 230, 460, 140, 75);
+
+        $pdf->ezSetDy(-45, 'makeSpace');   
         $pdf->ezText("<strong>".str_repeat("_",strlen($variables["<chofer>"]))."</strong>",12,
             array('justification'=>'center'));
-        $pdf->ezSetDy(-20, 'makeSpace');   
         $pdf->ezText("<strong>".$variables["<chofer>"]."</strong>",12,array('justification'=>'center'));
 
         //$pdf->addText(360,290,12,"FIRMA DE CHOFER");   
@@ -205,55 +208,52 @@ class MantenimientoController extends Controller
 
         $qr = CodeGenerator::qrcodeGenerate(route('mantenimientos.edit',$registro->uuid));
         Storage::disk('public')->put('qr.png',base64_decode($qr));
-        $url = storage_path('/app/public/qr.png');
 
-        $pdf->addPngFromFile($url,400,100,100);
+        $pdf->addPngFromFile("storage/qr.png",400,100,100);
         $pdf->addText(400,85,8,"EMPRESA : ".$variables["<empresa>"]);
 
         if (ob_get_contents()) ob_end_clean();
 
         // Se graba el pdf en el sistema de archivos
+        $filename = "{$uuid}.pdf";
         $disk = env('FILESYSTEM_DRIVER','local');
-        Storage::disk($disk)->put("{$uuid}.pdf", $pdf->Output());
-        $url = "{$uuid}.pdf";
+        Storage::disk($disk)->put($filename, $pdf->Output());
 
-        // $catalogo = Catalogo::where('name',Catalogo::DOCUMENT_TYPE)->whereNull('parent_id')->first();        
-        // $document = Catalogo::where('parent_id',$catalogo->id)->where('name','like','Carta%')->first();
+        $documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::REPORTE)->first();
 
-        // $media = Media::where('uuid',$uuid)->first();
-        // if (is_null($media)) {
-        //     $media = new Media;
-        //     $media->extension = "pdf";
-        //     $media->url = "{$uuid}.pdf";
-        //     $media->uuid = $uuid;
-        //     $media->mime_type = "application/pdf";
-        //     $media->model_name = Reservacion::class;
-        //     $media->model_id = $registro->id;
-        //     $media->document_type_id = $document->id;
-        //     $media->observations = "$uuid.pdf";
-        //     $media->save();
-        // }
+        $model_name = get_class($registro);
+        $model_id = $registro->id;
+        Media::where('model_name',$model_name)->where('model_id',$model_id)
+                    ->where('document_type_id',$documento_type->id)
+                    ->delete(); 
+
+        $media = new Media;
+        $media->extension = "pdf";
+        $media->url = $filename;
+        $media->uuid = (string)Str::orderedUuid(); 
+        $media->mime_type = "application/pdf";
+        $media->model_name = $model_name;
+        $media->model_id = $model_id;
+        $media->document_type_id = $documento_type->id;
+        $media->save();
 
         // envio mensaje a telegram
-        
-
         $reporte = Lang::get("telegram.reporte_falla");        
         $mensaje = strtr($reporte, $variables);        
 
-        $channel_id = env('TELEGRAM_CHANNEL_ID', '');
-        Telegram::sendMessage([
-            'chat_id' => $channel_id,
-            'parse_mode' => 'HTML',
-            'text' => $mensaje
-        ]);
+        // $channel_id = env('TELEGRAM_CHANNEL_ID', '');
+        // Telegram::sendMessage([
+        //     'chat_id' => $channel_id,
+        //     'parse_mode' => 'HTML',
+        //     'text' => $mensaje
+        // ]);
 
         // cambio de estatus
-        $catalogo = Catalogo::where('name',Catalogo::ESTATUS_MANTENIMIENTO)->whereNull('parent_id')->first();        
-        $generada = Catalogo::where('parent_id',$catalogo->id)->where('name','like',Catalogo::EN_PROCESO)->first();
-        $registro->estatus_id = $generada->id;
+        $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::EN_PROCESO)->first();
+        $registro->estatus_id = $estatus->id;
         $registro->save();
         
-        return response()->file(storage_path("app/public/$url"));
+        return response()->file("storage/$filename");
     }
 
     

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Catalogo;
 
 class Mantenimiento extends Model
 {
@@ -11,7 +12,7 @@ class Mantenimiento extends Model
     protected $guarded = [];
     protected $dates = ['created_at','updated_at','deleted_at','fecha_reporte','fecha_reporte_revisado',
         'fecha_reporte_autorizado','programado_para_ingreso','fecha_ingresado','fecha_entregado'];
-    protected $appends = ['files'];
+    protected $appends = ['files','firmaChofer'];
 
     public function empresa() {
         return $this->hasOne('App\Models\Catalogo', 'id','empresa_id')
@@ -71,6 +72,14 @@ class Mantenimiento extends Model
                     ->where('model_id', $this->id)->get();
     }
 
+    public function getFirmaChoferAttribute() {
+        $documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::FIRMA)->first();
+
+        return Media::where('model_name', 'App\Models\Mantenimiento')
+                    ->where('model_id', $this->id)
+                    ->where('document_type_id',$documento_type->id)
+                    ->first();
+    }
 }
 
 

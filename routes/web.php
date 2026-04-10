@@ -22,10 +22,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.Role::SUPER_ADMIN])->group(function () {
-	//Route::view('signature', 'test.signature_2')->name('signature');
 	Route::view('calendar', 'test.calendario')->name('calendar');
-	Route::view('charts', 'test.charts')->name('charts');
-	Route::get('signaturepad', 'SignaturePadController@index')->name('signaturepad');
-	Route::post('signaturepad', 'SignaturePadController@upload')->name('signaturepad.upload');
+	Route::view('charts', 'test.charts')->name('charts');	
 });
 

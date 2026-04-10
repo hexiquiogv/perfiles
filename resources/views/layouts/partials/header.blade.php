@@ -18,7 +18,7 @@
     <!-- Material Design Bootstrap -->
     <link href="{{ asset('MDB/css/mdb.min.css') }}" rel="stylesheet">
     <link href="{{ asset('MDB/css/addons/datatables.min.css') }}">
-    <link href="{{ asset('MDB/css/addons/datatables-select.css') }}">
+    <link href="{{ asset('MDB/css/addons/datatables-select.css') }}">    
 
     <!-- Stepper CSS -->
     <link href="{{ asset('MDB/css/addons-pro/stepper.css') }}" rel="stylesheet">

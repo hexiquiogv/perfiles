@@ -36,6 +36,12 @@ class CatalogosTableSeeder extends Seeder
         self::store_data($items, null);
 
         $items = [
+            Catalogo::FIRMA,
+            Catalogo::REPORTE
+        ];
+        self::store_data($items, Catalogo::DOCUMENT_TYPE);
+
+        $items = [
             Catalogo::REPROGRAMADO,
             Catalogo::PROGRAMADO,
             Catalogo::EN_PROCESO,

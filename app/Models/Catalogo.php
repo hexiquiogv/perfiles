@@ -62,6 +62,8 @@ class Catalogo extends Model
     const LLANTAS = 'llantas'; 
 
     const DOCUMENT_TYPE = 'document_type';
+    const FIRMA = 'firma';
+    const REPORTE = 'reporte de falla o mantenimiento';
 
     public function scopeFind_by_name($query, $nombre_catalogo=null) {
         if (is_null($nombre_catalogo)) {
@@ -70,6 +72,13 @@ class Catalogo extends Model
 
         return $query->whereRaw("LOWER(name) = '". strtolower($nombre_catalogo) . "'");
         // return $query->where('name',ucwords($nombre_catalogo));
+    }
+
+    public function scopeFind_item($query, $parent_name, $child_name) {
+        $parent = Catalogo::whereNull('parent_id')->where('name',$parent_name)->first();
+
+        return $query->where('parent_id',$parent->id)
+                    ->where("name",'like', "%".$child_name."%");
     }
 
     public function current_catalogo(){

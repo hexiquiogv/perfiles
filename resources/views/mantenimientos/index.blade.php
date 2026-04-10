@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="card-block">            
-        <div id="table-container" class="p-3 col-12">
-            <table class="table table-striped" cellspacing="0" width="100%" 
+        <div id="table-container" class="p-3 col-md-12">
+            <table class="table table-striped col-md-12" cellspacing="0" 
             id="mantenimientos_table" data-form="deleteForm">
                 <thead class="">
                     <tr>

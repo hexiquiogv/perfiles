@@ -1,24 +1,14 @@
 @extends('layouts.master')
 
-@section('custom_css')
-    <style type="text/css">
-        #footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }   
-    </style>
-@endsection
-
 @section('content')
-    <div class="container col-md-12 justify-content-between"> 
-        
-        <img src="{{asset('images/publicidad/imagen2.png')}}" class="p-4 z-depth-2" width="600px">
-        <img src="{{asset('images/publicidad/imagen3.png')}}" class="mt-4 p-4 z-depth-2" width="300px">
-        <img src="{{asset('images/publicidad/imagen1.png')}}" class="mt-4 p-4 z-depth-2" width="300px">
-    </div>  
-@endsection
-
-@section('footer')
-    @include('layouts.partials.footer')
+    <div class="d-flex flex-wraper">
+        <div class="m-1 p-1 z-depth-3 rounded">
+            <a href="{{route('mantenimientos.menu')}}" title="Mantenimiento Vehóculos">
+                <img src="{{asset('images/check_list.jpeg')}}" width="300px">
+            </a>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 @endsection

@@ -35,8 +35,6 @@
                     
                     <div class="dropdown-divider"></div>
                     @hasanyrole( 'super_admin' )
-                        <a class="dropdown-item" href="{{route('signaturepad')}}">
-                            <i class="fa fa-pencil black-text"></i> Firma Digital</a>
                         <a class="dropdown-item" href="{{route('calendar')}}">
                             <i class="fa fa-calendar black-text"></i> Calendario</a>
                         <a class="dropdown-item" href="{{route('charts')}}">

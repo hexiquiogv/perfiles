@@ -16,7 +16,8 @@
             <a id="camara_modal" class="upload_form_modal m-1 py-1 px-2 badge black z-depth-2" href="#">
                 <i class="fa fa-camera fa-2x pt-1" aria-hidden="true"></i>
             </a>
-            <a id="firma_modal" class="firma_form_modal m-1 py-1 px-2 badge green z-depth-2" href="#">
+            <a class="m-1 py-1 px-2 badge green z-depth-2" 
+                href="{{ route('signaturepad',['model_name'=>get_class($registro),'model_id'=>$registro->uuid]) }}">
                 <i class="fa fa-send fa-2x pt-1" aria-hidden="true"></i>
             </a>
             @endif
@@ -38,14 +39,13 @@
     </div>
 </div>
 
-@endsection
-
-
-@includeWhen($registro->id ?? 0 > 0, 'layouts.partials.firma.views.firmaModal', ['back_url'=>$back_url, 
-        'model_name'=>get_class($registro),'model_id'=>$registro->uuid ])
 @includeWhen($registro->id ?? 0 > 0, 'layouts.partials.camara.views.camaraModal', ['back_url'=>$back_url, 
         'model_name'=>get_class($registro),'model_id'=>$registro->uuid ])
   
+@endsection
+
+
+
 
 
 
