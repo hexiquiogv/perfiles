@@ -16,7 +16,9 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::view('mantenimientos.menu','mantenimientos.menu')->name('mantenimientos.menu');
 
 	Route::match(['get', 'post'],'mantenimientos.list', function() {
-			$sql_query = "
+		$documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::REPORTE)->first();
+		$documento_type_id = $documento_type->id;
+		$sql_query = "
 				select  m.id,m.uuid as uuid,m.folio folio, v.no_economico no_economico, tv.name as tipo_vehiculo,
 						mc.name as marca, l.name as linea, v.placa as placa, e.name as empresa,
 						s.name as sucursal, a.name as area,
@@ -41,7 +43,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 						left join instalaciones i on m.proveedor_id=i.id
 						left join proveedores t on i.proveedor_id = t.id
 					where 
-						m.deleted_at is null
+						m.deleted_at is null 	
 			";
 			$items = DB::select($sql_query);
 
@@ -65,13 +67,23 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 							</span>
 						</a>";
 
-					$btn_reporte = route('mantenimientos.reporte',$item_id);
-					$btn_reporte = "
-						<a href='$btn_reporte' target='_blank' class='px-1' title='Reporte Falla'>
-							<span class='badge purple text-white shadow'>
-								<i class='fa fa-exclamation-triangle fa-2x'></i>
+					$btn_reporte = "";
+					// $btn_reporte = route('media.download',$item->id);
+					// $btn_reporte = "
+					// 	<a href='$btn_reporte' target='_blank' class='px-1' title='Reporte Falla'>
+					// 		<span class='badge purple text-white shadow'>
+					// 			<i class='fa fa-exclamation-triangle fa-2x'></i>
+					// 		</span>
+					// 	</a>";
+
+					$btn_cotizacion = "";
+					$btn_cotizacion = "
+						<a href='$btn_cotizacion' target='_blank' class='px-1' title='Cotizaciones'>
+							<span class='badge green text-white shadow'>
+								<i class=fa fa-usd fa-2x'></i>
 							</span>
 						</a>";
+					
 
 					$action_buttons = "
 						<div class='row d-flex justify-content-center'>

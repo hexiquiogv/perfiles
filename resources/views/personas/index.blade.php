@@ -4,7 +4,7 @@
 <div class="m-2 p-1">
     <div class="card col-md-12 badge badge-light">
         <div class="d-flex flex-row mx-2 mt-2 mb-1">
-            <div class="h4 pt-1">Agregar Personal</div>
+            <div class="h4 pt-1">Personal</div>
             <div class="pt-1">
                 <a href="{{route('personas.create')}}" 
                     class="text-success text-capitalize mx-2 justify-vertical" 
