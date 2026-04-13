@@ -41,11 +41,15 @@ class Catalogo extends Model
     const REPROGRAMADO = "reprogramado";
     const PROGRAMADO = "programado";
     const EN_PROCESO = "en proceso";
+    const ORDEN_SERVICIO = "orden de servicio";
     const EN_TALLER = "en taller";
+    const CONCLUSION_MANTENIMIENTO = "conclusión de mantenimiento";
+    const FACTURADO = "facturado";
     const CANCELADO = "cancelado";
     const GARANTIA = "garantía";
     const AUTORIZADO = "autorizado";
     const PENDIENTE_AUTORIZAR = "pendiente autorizar";
+    const COTIZANDO = "cotizando";
 
     const MANTENIMIENTOS = 'mantenimientos';
     const PREVENTIVO_5000KM = 'PREVENTIVO 5,000KM'; 

@@ -80,6 +80,14 @@ class Mantenimiento extends Model
                     ->where('document_type_id',$documento_type->id)
                     ->first();
     }
+
+    public function getReporte() {
+        $documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::REPORTE)->first();
+		return Media::where('model_name', 'App\Models\Mantenimiento')
+                    ->where('model_id', $this->id)
+                    ->where('document_type_id',$documento_type->id)
+                    ->first();
+    }
 }
 
 

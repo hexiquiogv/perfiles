@@ -50,6 +50,9 @@ class CatalogosTableSeeder extends Seeder
             Catalogo::GARANTIA,
             Catalogo::AUTORIZADO,
             Catalogo::PENDIENTE_AUTORIZAR,
+            Catalogo::COTIZANDO,
+            Catalogo::ORDEN_SERVICIO,
+            Catalogo::CONCLUSION_MANTENIMIENTO
         ];
         self::store_data($items, Catalogo::ESTATUS_MANTENIMIENTO);
 

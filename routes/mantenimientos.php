@@ -3,6 +3,7 @@
 use App\Models\Catalogo;
 use Illuminate\Http\Request;
 use App\Models\Mantenimiento;
+use App\Models\Media;
 use App\Models\Role;
 
 Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
@@ -50,6 +51,13 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 			return DataTables::of($items)
 		        ->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
+					$btn_cotizacion = "";
+					$btn_delete = "";
+					$btn_edit = "";
+					$btn_show = "";
+					$btn_reporte = "";
+					$btn_orden = "";
+
 					$btn_delete = "#";
 					$btn_delete = "
 						<a href='$btn_delete' class='px-1 delete-button' 
@@ -59,36 +67,67 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 							</span>
 						</a>";
 
-					$btn_edit = route('mantenimientos.edit',$item_id);
-					$btn_edit = "
-						<a href='$btn_edit' class='px-1' title='Editar'>
-							<span class='badge orange text-white shadow'>
-								<i class='fa fa-pencil fa-2x'></i>
-							</span>
-						</a>";
-
-					$btn_reporte = "";
-					// $btn_reporte = route('media.download',$item->id);
-					// $btn_reporte = "
-					// 	<a href='$btn_reporte' target='_blank' class='px-1' title='Reporte Falla'>
-					// 		<span class='badge purple text-white shadow'>
-					// 			<i class='fa fa-exclamation-triangle fa-2x'></i>
-					// 		</span>
-					// 	</a>";
-
-					$btn_cotizacion = "";
-					$btn_cotizacion = "
-						<a href='$btn_cotizacion' target='_blank' class='px-1' title='Cotizaciones'>
-							<span class='badge green text-white shadow'>
-								<i class=fa fa-usd fa-2x'></i>
-							</span>
-						</a>";
 					
+
+					if (is_null($item->estatus)){
+						$btn_edit = route('mantenimientos.edit',$item_id);
+						$btn_edit = "
+							<a href='$btn_edit' class='px-1' title='Editar'>
+								<span class='badge orange text-white shadow'>
+									<i class='fa fa-pencil fa-2x'></i>
+								</span>
+							</a>";
+					} else if(!is_null($item->estatus)){
+						$registro = Mantenimiento::find($item->id);
+						$reporte = $registro->getReporte();
+						if (!is_null($reporte)){
+							$btn_reporte = route('media.download',$reporte->id);
+							$btn_reporte = "
+								<a href='$btn_reporte' class='px-1' title='Ver Reporte'>
+									<span class='badge purple text-white shadow'>
+										<i class='fa fa-exclamation-triangle fa-2x'></i>
+									</span>
+								</a>";
+						}
+
+						if ($item->estatus == Catalogo::EN_PROCESO){
+							$btn_edit = route('mantenimientos.edit',$item_id);
+							$btn_edit = "
+								<a href='$btn_edit' class='px-1' title='Editar'>
+									<span class='badge orange text-white shadow'>
+										<i class='fa fa-pencil fa-2x'></i>
+									</span>
+								</a>";
+							$btn_reporte = "";
+						} 
+						if ($item->estatus == Catalogo::ORDEN_SERVICIO){
+							$btn_orden = "#";
+							$btn_orden = "
+								<a href='$btn_orden' class='px-1' title='Orden de Servicio'>
+									<span class='badge green text-white shadow'>
+										<i class='fa fa-gears fa-2x'></i>
+									</span>
+								</a>";
+						}
+						if ($item->estatus == Catalogo::COTIZANDO){
+							$btn_cotizacion = "#";
+							$btn_cotizacion = "
+								<a href='$btn_cotizacion' class='px-1' title='Cotizaciones'>
+									<span class='badge green text-white shadow'>
+										<i class='fa fa-dollar fa-2x'></i>
+									</span>
+								</a>";
+						}
+
+					}					
 
 					$action_buttons = "
 						<div class='row d-flex justify-content-center'>
 							$btn_edit
+							$btn_show
+							$btn_orden
 							$btn_reporte
+							$btn_cotizacion
 							$btn_delete
 						</div>";
 					

@@ -249,7 +249,7 @@ class MantenimientoController extends Controller
         // ]);
 
         // cambio de estatus
-        $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::EN_PROCESO)->first();
+        $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::ORDEN_SERVICIO)->first();
         $registro->estatus_id = $estatus->id;
         $registro->save();
         
