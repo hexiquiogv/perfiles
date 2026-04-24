@@ -65,7 +65,7 @@ class SignaturePadController extends Controller
         $media->uuid = $uuid;
         $media->mime_type = $image_type;
         $media->model_name = $model_name;
-        $media->model_id = $registro->id;
+        $media->model_id = $registro->uuid;
         $media->document_type_id = $documento_type->id;
         $media->observations = "firma de chofer";
         $media->save();

@@ -4,11 +4,11 @@
 <div class="m-2 p-1">
     <div class="card col-md-12 badge badge-light">
         <div class="d-flex flex-row mx-2 mt-2 mb-1">
-            <div class="h4 pt-1">Reportes de Falla/Servicio</div>
+            <div class="h4 pt-1">Mantenimiento Vehicular</div>
             <div class="pt-1">
                 <a href="{{route('mantenimientos.create')}}" 
                     class="text-success text-capitalize mx-2 justify-vertical" 
-                    style="margin-top: -2px;" title='Reportes de Falla/Servicio'>
+                    style="margin-top: -2px;" title='Mantenimiento Vehicular'>
                     <i class="fa fa-plus-circle fa-2x pt-1"></i> 
                 </a>
             </div>
@@ -39,7 +39,12 @@
                         <th>Area</th>
                         <th>Chofer</th>
 
+                        <th>Proveedor</th>
+                        <th>Servicio(s)</th>
+                        <th>Garantia</th>
+
                         <th>Fecha Reporte</th>
+                        <th>Fecha Entrega</th>
                         <th>Fecha Estatus</th>
                         
                         <th>Estatus</th>
@@ -51,12 +56,7 @@
     </div>
 </div>
 
-@include ('layouts.partials.modal.confirm_deletion',['route'=>'mantenimientos',
-        'modal_question'=>'Esta seguro de querer eliminar el registro?']) 
-@endsection
-
 @push('scripts2')
-    @include('layouts.partials.modal.custom_script_delete')
     <script type="text/javascript">
         $(document).ready(function(){
             var mantenimientos_table = $('#mantenimientos_table').DataTable({
@@ -67,7 +67,7 @@
                 serverSide: false,
                 dom: '<"d-flex flex-row-reverse">t<"d-flex justify-content-between" ip>r',
                 ajax: {
-                        url: "{!! route('reportes_mtto.list') !!}",
+                        url: "{!! route('ordenes.list') !!}",
                 },
                 
                 //scrollX: false,
@@ -87,10 +87,15 @@
                     {data:'area', name:'area', class:'text-uppercase'},
                     {data:'chofer', name:'chofer', class:'text-uppercase', orderable:true, visible:true},
 
+                    {data:'proveedor', name:'proveedor', class:'text-uppercase'},
+                    {data:'servicios', name:'servicios', class:'text-capitalize'},
+                    {data:'garantia', name:'garantia', class:'text-capitalize'},
+                    
                     {data:'fecha_reporte', name:'fecha_reporte'},
+                    {data:'fecha_entregado', name:'fecha_entregado'},
                     {data:'fecha_estatus', name:'fecha_estatus'},
                     
-                    {data:'estatus.name', name:'estatus.name', class:'text-uppercase'},
+                    {data:'estatus', name:'estatus', class:'text-uppercase'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
                         width:'15%',
                         render: function(data,style,row,meta){

@@ -18,35 +18,22 @@ use Auth;
 use Cezpdf;
 use Lang;
 
-
-class MantenimientoController extends Controller
+class OrdenController extends Controller
 {
     public function index()
     {
-        return view('mantenimientos.index');
-    }
-
-    public function create()
-    {
-        $registro = new Mantenimiento;
-        $route = route('mantenimientos.store');
-        $method = "post";
-        $title = "Reporte Mantenimiento - Nuevo Registro";
-        $back_url = route('mantenimientos.index');
-
-        return view('mantenimientos.reporte', 
-                    compact('registro','title','route','method','back_url'));
+        return view('ordenes.index');
     }
 
     public function edit($uuid)
     {
         $registro = Mantenimiento::where('uuid',$uuid)->first();
-        if (is_null($registro)) dd("Reporte no encontrado");
+        if (is_null($registro)) dd("Orden no encontrada");
 
         $route = route('mantenimientos.update',$registro->uuid);
         $method = "patch";
-        $title = "Reporte Mantenimiento - Edición de Registro";
-        $back_url = route('mantenimientos.edit',$registro->uuid);
+        $title = "Orden de Mantenimiento - Edición de Registro";
+        $back_url = route('mantenimientos.orden',$registro->uuid);
 
         return view('mantenimientos.reporte', 
                     compact('registro','title','route','method','back_url'));
@@ -75,48 +62,32 @@ class MantenimientoController extends Controller
 
         $mantenimiento = self::persist_data($request, $mantenimiento);
 
-        $etapa = ($mantenimiento->estatus->name == Catalogo::ORDEN_SERVICIO)?"orden":"edit";
-
-        return redirect()->route("mantenimientos.$etapa",$mantenimiento->uuid)
-                    ->withSuccess("Reporte {$mantenimiento->folio} actualizado exitosamente");
+        return redirect()->route("ordenes.edit",$mantenimiento->uuid)
+                    ->withSuccess("Orden {$mantenimiento->folio} actualizado exitosamente");
     }
 
     private function persist_data(Request $request, Mantenimiento $mantenimiento){        
-        $mantenimiento->folio = $request->folio ?? null;
-        
-        $mantenimiento->vehiculo_id = $request->vehiculo_id ?? null;
-        $vehiculo = Vehiculo::find($mantenimiento->vehiculo_id);
-        if (!is_null($vehiculo)){
-            $mantenimiento->empresa_id = $vehiculo->empresa_id ?? null;
-            $mantenimiento->sucursal_id = $vehiculo->sucursal_id ?? null;
-            $mantenimiento->area_id = $vehiculo->area_id ?? null;
-            $mantenimiento->chofer_id = $request->chofer_id ?? null;
-            $mantenimiento->datos_vehiculo = json_encode($vehiculo->getDatos());
-        }
+        $mantenimiento->fecha_reporte_revisado = $request->fecha_reporte_revisado ?? null;        
+        $mantenimiento->fecha_reporte_autorizado = $request->fecha_reporte_autorizado ?? null;
+        $mantenimiento->programado_para_ingreso = $request->programado_para_ingreso ?? null;
 
-        $mantenimiento->fecha_reporte = $request->fecha_reporte ?? null;
-        $mantenimiento->kilometraje = $request->kilometraje ?? null;
-
+        // todo : consolidar tipo de servicios por checkboxes
+        $mantenimiento->servicios = $request->servicios ?? null;
         $mantenimiento->descripcion_falla = $request->descripcion_falla ?? null;
+
+        $mantenimiento->comentarios = $request->comentarios ?? null;
+        //$mantenimiento->estatus_id = $request->estatus_id ?? null;
+
+        $servicios = isset($request->servicios) ? implode(',',$request->servicios) : "";
+        $mantenimiento->servicios = $servicios;
         
-        $mantenimiento->user_id = Auth::id();        
+        $mantenimiento->user_id = Auth::id();
         $mantenimiento->save();
 
         return $mantenimiento;
     }
 
-    public function destroy($uuid)
-    {
-        $mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
-        if (is_null($mantenimiento)) dd("Reporte no encontrado");
-
-        $mantenimiento->delete();
-
-        return redirect(route('mantenimientos.index'))
-                    ->withSucess("Se eliminó el reporte {$mantenimiento->folio} con éxito");
-    }
-
-    public function reporte($uuid){        
+    public function orden($uuid){        
         $registro = Mantenimiento::where('uuid',$uuid)->first();
         if (is_null($registro)) dd("Reporte no encontrado");
 
@@ -242,16 +213,5 @@ class MantenimientoController extends Controller
         
         return response()->file("storage/$filename");
     }
-
-    public function reporte_download($uuid){
-        $registro = Mantenimiento::where('uuid',$uuid)->first();
-        if (is_null($registro)) dd("Formato de Reporte no encontrado");
-
-        $media = $registro->getReporte();
-        if (is_null($media)) dd("Reporte firmado no encontrado");
-
-        return redirect()->route('media.download',$media->uuid);
-    }
-    
-
 }
+

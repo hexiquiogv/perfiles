@@ -68,8 +68,13 @@ class Mantenimiento extends Model
     }    
 
     public function getFilesAttribute() {
+        $firma = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::FIRMA)->first();
+        $reporte = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::REPORTE)->first();
+
         return Media::where('model_name', 'App\Models\Mantenimiento')
-                    ->where('model_id', $this->id)->get();
+                    ->where('model_id', $this->id)
+                    ->whereNotIn('document_type_id',[$firma->id,$reporte->id])
+                    ->get();
     }
 
     public function getFirmaChoferAttribute() {
@@ -84,7 +89,7 @@ class Mantenimiento extends Model
     public function getReporte() {
         $documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::REPORTE)->first();
 		return Media::where('model_name', 'App\Models\Mantenimiento')
-                    ->where('model_id', $this->id)
+                    ->where('model_id', $this->uuid)
                     ->where('document_type_id',$documento_type->id)
                     ->first();
     }

@@ -14,6 +14,16 @@
         </div>
         <div class="col-md-3 d-flex flex-column">
             <div class="col-12 d-flex justify-content-center">
+                <a href="#" title="Ordenes de Servicio">
+                    <img src="{{asset('images/orden_servicio.jpeg')}}" width="300px" height="300px" class="m-1 p-1 z-depth-3 rounded">
+                </a>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <span class="">Ordenes de Servicio</span>
+            </div>
+        </div> 
+        <div class="col-md-3 d-flex flex-column">
+            <div class="col-12 d-flex justify-content-center">
                 <a href="#" title="Cotizaciones">
                     <img src="{{asset('images/cotizaciones.jpeg')}}" width="300px" height="300px" class="m-1 p-1 z-depth-3 rounded">
                 </a>

@@ -42,13 +42,26 @@ class Vehiculo extends Model
     }
 
     public function chofer() {
-        return $this->hasOne('App\Models\Persona', 'id', 'chofer_id')
-            ->withDefault('name','');
+        return $this->hasOne('App\Models\Persona', 'id', 'chofer_id');
     }
 
     public function estatus() {
         return $this->hasOne('App\Models\Catalogo', 'id', 'estatus_id')
             ->withDefault('name','');
+    }
+
+    public function getDatos(){
+        $datos = $this->toArray();
+        $datos["tipo_vehiculo"] = $this->tipo_vehiculo->name;
+        $datos["marca"] = $this->marca->name;
+        $datos["linea"] = $this->linea->name;
+        $datos["empresa"] = $this->empresa->name;
+        $datos["sucursal"] = $this->sucursal->name;
+        $datos["area"] = $this->area->name;
+        $datos["chofer"] = $this->chofer->fullname;
+        $datos["estatus"] = $this->estatus->name;
+        $datos["chofer"] = $this->chofer->fullname;
+        return $datos;
     }
 
 }
