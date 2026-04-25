@@ -124,6 +124,66 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	            ->make(TRUE);
 	})->name('reportes_mtto.list');	
 
+	Route::view('historicos', 'mantenimientos.historicos')->name('historicos');
+	Route::match(['get', 'post'],'historicos.list', function() {
+		$items = Mantenimiento::with('estatus:id,name')
+					->select('mantenimientos.*');
+		
+		return DataTables::eloquent($items)
+				->addColumn('no_economico', function($item){
+					return json_decode($item->datos_vehiculo)->no_economico;
+				})
+				->addColumn('tipo_vehiculo', function($item){
+					return json_decode($item->datos_vehiculo)->tipo_vehiculo;
+				})
+				->addColumn('marca', function($item){
+					return json_decode($item->datos_vehiculo)->marca;
+				})
+				->addColumn('linea', function($item){
+					return json_decode($item->datos_vehiculo)->linea;
+				})
+				->addColumn('placa', function($item){
+					return json_decode($item->datos_vehiculo)->placa;
+				})
+				->addColumn('empresa', function($item){
+					return json_decode($item->datos_vehiculo)->empresa;
+				})
+				->addColumn('sucursal', function($item){
+					return json_decode($item->datos_vehiculo)->sucursal;
+				})
+				->addColumn('area', function($item){
+					return json_decode($item->datos_vehiculo)->area;
+				})
+				->addColumn('chofer', function($item){
+					return json_decode($item->datos_vehiculo)->chofer;
+				})
+				->addColumn('acciones', function($item){
+					return json_decode($item->datos_vehiculo)->tipo_vehiculo;
+				})
+		        ->addColumn('acciones', function($item){ 
+		        	$item_id = $item->uuid;
+					$btn_orden = "";
+					
+					$btn_reporte = route('reporte.download',$item->uuid);
+					$btn_reporte = "
+						<a href='$btn_reporte' class='px-1' title='Ver Reporte' target='_blank'>
+							<span class='badge purple text-white shadow'>
+								<i class='fa fa-exclamation-triangle fa-2x'></i>
+							</span>
+						</a>";
+					
+
+					$action_buttons = "
+						<div class='row d-flex justify-content-center'>
+							$btn_orden
+							$btn_reporte
+						</div>";
+					
+	                return $action_buttons;
+	            })
+	            ->make(TRUE);
+	})->name('historicos.list');	
+
 	Route::get('signaturepad', 'SignaturePadController@index')->name('signaturepad');
 	Route::post('signaturepad', 'SignaturePadController@upload')->name('signaturepad.upload');
 });	

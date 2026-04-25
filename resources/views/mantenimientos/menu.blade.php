@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-3 d-flex flex-column my-4 pt-4">
             <div class="col-12 d-flex justify-content-center">
-                <a href="#" title="Historial">
+                <a href="{{ route('historicos') }}" title="Historial">
                     <img src="{{asset('images/archiveros.jpeg')}}" width="300px" height="300px" class="m-1 p-1 z-depth-3 rounded">
                 </a>
             </div>
