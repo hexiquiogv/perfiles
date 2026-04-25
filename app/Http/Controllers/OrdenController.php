@@ -30,24 +30,13 @@ class OrdenController extends Controller
         $registro = Mantenimiento::where('uuid',$uuid)->first();
         if (is_null($registro)) dd("Orden no encontrada");
 
-        $route = route('mantenimientos.update',$registro->uuid);
+        $route = route('ordenes.update',$registro->uuid);
         $method = "patch";
         $title = "Orden de Mantenimiento - Edición de Registro";
-        $back_url = route('mantenimientos.orden',$registro->uuid);
+        $back_url = route('ordenes.edit',$registro->uuid);
 
-        return view('mantenimientos.reporte', 
+        return view('ordenes.form', 
                     compact('registro','title','route','method','back_url'));
-    }
-
-    public function store(Request $request)
-    {
-        $mantenimiento = new Mantenimiento;
-        $mantenimiento->uuid = (string)Str::orderedUuid();        
-
-        $mantenimiento = self::persist_data($request, $mantenimiento);
-
-        return redirect()->route('mantenimientos.edit',$mantenimiento->uuid)
-                    ->withSuccess('Reporte almacenado exitosamente');
     }
 
     public function update(Request $request, $uuid)
@@ -67,16 +56,12 @@ class OrdenController extends Controller
     }
 
     private function persist_data(Request $request, Mantenimiento $mantenimiento){        
-        $mantenimiento->fecha_reporte_revisado = $request->fecha_reporte_revisado ?? null;        
-        $mantenimiento->fecha_reporte_autorizado = $request->fecha_reporte_autorizado ?? null;
+        $mantenimiento->fecha_reporte_revisado = now();        
         $mantenimiento->programado_para_ingreso = $request->programado_para_ingreso ?? null;
 
         // todo : consolidar tipo de servicios por checkboxes
         $mantenimiento->servicios = $request->servicios ?? null;
-        $mantenimiento->descripcion_falla = $request->descripcion_falla ?? null;
-
-        $mantenimiento->comentarios = $request->comentarios ?? null;
-        //$mantenimiento->estatus_id = $request->estatus_id ?? null;
+        $mantenimiento->diagnostico = $request->diagnostico ?? null;
 
         $servicios = isset($request->servicios) ? implode(',',$request->servicios) : "";
         $mantenimiento->servicios = $servicios;

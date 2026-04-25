@@ -8,7 +8,7 @@
         </div>
 
         <div class="ml-auto d-flex flex-row p-2">
-            <a href="{!! route('mantenimientos.index') !!}" 
+            <a href="{!! route('ordenes') !!}" 
                     class="m-1 p-1 badge-info z-depth-2">
                 <i class="fa fa-undo fa-2x" aria-hidden="true"></i>
             </a>
@@ -20,98 +20,41 @@
     </div> 
 </div>
 
-<div class="m-4">
-    <form id="mantenimiento_form" method="POST" action="{{ $route }}">
-
-        @csrf
-        {{ method_field($method) }}
-            
-        <div class="form-row">  
-            <div class="md-form col-2 mt-1 py-3">
-                <label class="col-form-label active" style="margin-top: 10px;">Folio</label>
-                <input class="mt-3 col-11" id="folio" type="text" name="folio" {{ $readonly }} 
-                    value="{{ old('folio',$registro->folio ?? '') }}">
-            </div> 
-            <div class="md-form col-2 mt-1 py-3 ml-3">
-                <label class="col-form-label active pl-3" style="margin-top: 10px;">Fecha reporte</label>
-                <input class="mt-3 col-11" id="fecha_reporte" type="date" name="fecha_reporte" {{ $readonly }}
-                    value="{{ old('fecha_reporte',
-                            is_null($registro->fecha_reporte) ? '' :
-                            $registro->fecha_reporte->format('Y-m-d')) }}">
-            </div>                 
-            <div class="col-md-1 ml-2">
-                <div class="md-form"><label class="active">Placa</label></div>
-                <select class="mdb-select md-form" id="vehiculo_id" searchable="Buscar ..." {{ $readonly }}
-                    name="vehiculo_id"></select>
-            </div>  
-            <div class="col-md-4">
-                <div class="md-form"><label class="active">Chofer</label></div>
-                <select class="mdb-select md-form" id="chofer_id" readonly disabled
-                    name="chofer_id"></select>
-            </div>  
-            <div class="md-form col-2 mt-1 py-3">
-                <label class="col-form-label active pl-3" style="margin-top: 10px;">Kilometraje</label>
-                <input class="mt-3 col-11" id="kilometraje" type="text" name="kilometraje" {{ $readonly }}
-                    value="{{ old('kilometraje',$registro->kilometraje) }}">
-            </div> 
+<div class="m-4 d-flex flex-row col-md-12">
+    <div class="d-flex flex-column col-md-3">
+        <div class="z-depth-3 rounded m-2 p-2 d-flex flex-column teal-text">
+            <span class="p-2">No Economico : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->no_economico }}</span></span>
+            <span class="p-2">Placas : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->placa }}</span></span>
+            <span class="p-2">Kilometraje : <span class="black-text">{{ $registro->kilometraje }}</span></span>
+            <span class="p-2">Tipo Vehículo : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->tipo_vehiculo }}</span></span>
+            <span class="p-2">Marca : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->marca }}</span></span>
+            <span class="p-2">Línea : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->linea }}</span></span>
+            <span class="p-2">Modelo : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->modelo }}</span></span>
+            <span class="p-2">Chofer : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->chofer }}</span></span>
+            <span class="p-2">Empresa : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->empresa }}</span></span>
+            <span class="p-2">Sucursal : <span class="black-text">{{ json_decode($registro->datos_vehiculo)->sucursal }}</span></span>
+            <span class="p-2">Reporte : <span class="black-text">{{ $registro->descripcion_falla }}</span></span>
         </div>
+    </div>
+    <div class="d-flex flex-column col-md-8">
+        <form id="mantenimiento_form" method="POST" action="{{ $route }}">
+            @csrf
+            {{ method_field($method) }}
+                
+            <div>
+                <label class="col-form-label active">Seleccione el/los Servicio(s) Requeridos</label>
+                <br>
+                <div id="servicios" class="d-flex flex-wrap col-md-12"></div>
+            </div>
 
-        <div class="form-row">  
-            <div class="col-md-3">
-                <div class="md-form"><label class="active">Tipo Vehiculo</label></div>
-                <select class="mdb-select md-form " id="tipo_vehiculo_id" readonly   ></select>
-            </div> 
-            <div class="col-md-2">
-                <div class="md-form"><label class="active">Marca</label></div>
-                <select class="mdb-select md-form " id="marca_id" readonly  ></select>
-            </div>  
-            <div class="col-md-3">
-                <div class="md-form"><label class="active">Linea</label></div>
-                <select class="mdb-select md-form " id="linea_id" readonly  ></select>
-            </div> 
-            <div class="md-form col-1 mt-1 py-3">
-                <label class="col-form-label active pl-3" style="margin-top: 10px;">Año</label>
-                <input class="mt-3 col-11 " id="modelo" type="text" value="" readonly  >
-            </div> 
-            <div class="md-form col-2 mt-1 py-3 mx-3">
-                <label class="col-form-label active pl-3" style="margin-top: 10px;">No Económico</label>
-                <input class="mt-3 col-11 " id="no_economico" type="text" value="" readonly  >
-            </div> 
-        </div>
+            <div class="form-row mt-4">
+                <label class="col-md-3 active">Diagnósticode Falla</label>
+                <textarea class="col-md-12" id="diagnostico" type="textarea" name="diagnostico" 
+                rows="4">{{old('diagnostico',$registro->diagnostico??'')}}</textarea>
+            </div>
 
-        <div class="form-row">  
-            <div class="col-md-3">
-                <div class="md-form"><label class="active">Empresa</label></div>
-                <select class="mdb-select md-form " id="empresa_id" searchable="Buscar ..." readonly  
-                    name="empresa_id"></select>
-            </div> 
-            <div class="col-md-4">
-                <div class="md-form"><label class="active">Sucursal</label></div>
-                <select class="mdb-select md-form " id="sucursal_id" searchable="Buscar ..." readonly  
-                    name="sucursal_id"></select>
-            </div>  
-            <div class="col-md-4">
-                <div class="md-form"><label class="active">Area</label></div>
-                <select class="mdb-select md-form " id="area_id" searchable="Buscar ..." readonly  
-                    name="area_id"></select>
-            </div> 
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <div>
-            <label class="col-form-label active">Seleccione el/los Servicio(s) Requeridos</label>
-            <br>
-            <div id="servicios" class="d-flex flex-wrap col-md-12"></div>
-        </div>
-
-        <div class="form-row mt-4">
-            <label class="col-md-3 active">Descripción de Falla</label>
-            <textarea class="col-md-12" id="descripcion_falla" type="textarea" 
-            name="descripcion_falla" rows="4" >{{old('descripcion_falla',$registro->descripcion_falla??'')}}</textarea>
-        </div>
-
-    </form>
+        </form>
+    </div>
 </div>
 
 @endsection

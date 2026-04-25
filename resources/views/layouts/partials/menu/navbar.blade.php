@@ -22,7 +22,7 @@
                     <i class="fa fa-bars white-text"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{route('mantenimientos.index')}}">
+                    <a class="dropdown-item" href="{{route('mantenimientos.menu')}}">
                         <i class="fa fa-paste orange-text"></i> Mantenimientos </a>
                     <a class="dropdown-item" href="{{route('personas.index')}}">
                         <i class="fa fa-users blue-text"></i> Personal </a>

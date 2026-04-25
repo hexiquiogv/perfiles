@@ -1,17 +1,11 @@
 @extends('layouts.master')
 
 @section('main-content')
+<div class="my-4 py-4"></div>
 <div class="m-2 p-1">
     <div class="card col-md-12 badge badge-light">
         <div class="d-flex flex-row mx-2 mt-2 mb-1">
-            <div class="h4 pt-1">Mantenimiento Vehicular</div>
-            <div class="pt-1">
-                <a href="{{route('mantenimientos.create')}}" 
-                    class="text-success text-capitalize mx-2 justify-vertical" 
-                    style="margin-top: -2px;" title='Mantenimiento Vehicular'>
-                    <i class="fa fa-plus-circle fa-2x pt-1"></i> 
-                </a>
-            </div>
+            <div class="h4 pt-1">Ordenes de Servicio</div>
             <div class="d-flex flex-row ml-auto pr-2">
                 <span class="p-1 mt-1 h6">Buscar</span>
                 <input type="text" name="search" id="search" class="col-sm-10 form-control">
@@ -39,12 +33,9 @@
                         <th>Area</th>
                         <th>Chofer</th>
 
-                        <th>Proveedor</th>
                         <th>Servicio(s)</th>
-                        <th>Garantia</th>
 
                         <th>Fecha Reporte</th>
-                        <th>Fecha Entrega</th>
                         <th>Fecha Estatus</th>
                         
                         <th>Estatus</th>
@@ -87,15 +78,12 @@
                     {data:'area', name:'area', class:'text-uppercase'},
                     {data:'chofer', name:'chofer', class:'text-uppercase', orderable:true, visible:true},
 
-                    {data:'proveedor', name:'proveedor', class:'text-uppercase'},
                     {data:'servicios', name:'servicios', class:'text-capitalize'},
-                    {data:'garantia', name:'garantia', class:'text-capitalize'},
                     
                     {data:'fecha_reporte', name:'fecha_reporte'},
-                    {data:'fecha_entregado', name:'fecha_entregado'},
                     {data:'fecha_estatus', name:'fecha_estatus'},
                     
-                    {data:'estatus', name:'estatus', class:'text-uppercase'},
+                    {data:'estatus.name', name:'estatus.name', class:'text-uppercase'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
                         width:'15%',
                         render: function(data,style,row,meta){

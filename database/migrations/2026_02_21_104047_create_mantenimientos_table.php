@@ -39,6 +39,7 @@ class CreateMantenimientosTable extends Migration
             $table->double('total_neto')->nullable();
             $table->string('servicios')->nullable();
             $table->text('descripcion_falla')->nullable();
+            $table->text('diagnostico')->nullable();
             $table->text('datos_vehiculo')->nullable();
 
             $table->integer('estatus_id')->nullable(); 
