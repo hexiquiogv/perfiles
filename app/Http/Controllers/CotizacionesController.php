@@ -7,12 +7,8 @@ use App\Models\Mantenimiento;
 use App\Models\Cotizacion;
 use Illuminate\Support\Str;
 
-use Illuminate\Support\Facades\Storage;
 use Telegram\Bot\Laravel\Facades\Telegram;
-use App\Helpers\CodeGenerator;
 use Auth;
-use Cezpdf;
-use Lang;
 
 class CotizacionesController extends Controller
 {
@@ -48,5 +44,22 @@ class CotizacionesController extends Controller
         return redirect()->route('cotizaciones.edit',$registro->uuid)
                     ->withSuccess('cotizacion registrada');
 
+    }
+
+    public function destroy($uuid){
+        $cotizacion = Cotizacion::where('uuid',$uuid)->first();
+        if (is_null($cotizacion)) return back()->withError("Registro no encontrado");
+
+        $oldCotizacion = $cotizacion->replicate();
+        $oldCotizacion->created_at = now();
+        $oldCotizacion->save();
+        $oldCotizacion->delete();
+
+        $orden = Mantenimiento::where('id',$cotizacion->model_id)->first();
+
+        $cotizacion->user_id=Auth::id();
+        $cotizacion->delete();
+        return redirect()->route('cotizaciones.edit',$orden->uuid)
+                    ->withSuccess('cotizacion eliminada');
     }
 }

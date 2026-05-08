@@ -106,18 +106,28 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin'])->group(function
 				->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
 					$btn_seleccionar = "";
-					$btn_eliminar = "";
+					$btn_delete = "#";
+					$btn_delete = "
+						<a href='$btn_delete' class='px-1 delete-button' 
+							title='Eliminar' id='item_$item_id'>
+							<span class='badge badge-danger text-white shadow'>
+								<i class='fa fa-trash fa-2x'></i>
+							</span>
+						</a>";
 
 					$action_buttons = "
 						<div class='row d-flex justify-content-center'>
 							$btn_seleccionar
-							$btn_eliminar
+							$btn_delete
 						</div>";
 					
 	                return $action_buttons;
 	            })
 	            ->make(TRUE);
 	})->name('orden_servicio_cotizaciones.list');	
+
+	Route::post('cotizaciones.delete/{uuid}','CotizacionesController@destroy')
+		->name('cotizaciones.delete');
 
 });	
 
