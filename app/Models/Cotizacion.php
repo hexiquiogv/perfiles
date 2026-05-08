@@ -20,7 +20,8 @@ class Cotizacion extends Model
     }
 
     public function seleccionada() {
-        return $this->hasOne('App\Models\Catalogo', 'id', 'seleccionada_id');
+        return $this->hasOne('App\Models\Catalogo', 'id', 'seleccionada_id')
+                    ->withDefault(['name'=>'']);
     }
 
     

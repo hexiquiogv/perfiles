@@ -15,7 +15,7 @@
                 </a>
             </div>   
             <div class="ml-auto d-flex flex-row p-2">
-                <a href="{!! route('ordenes') !!}" 
+                <a href="{!! route('cotizaciones') !!}" 
                         class="m-1 p-1 badge-info z-depth-2">
                     <i class="fa fa-undo fa-2x px-1" aria-hidden="true"></i>
                 </a>

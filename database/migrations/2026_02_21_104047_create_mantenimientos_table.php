@@ -31,6 +31,7 @@ class CreateMantenimientosTable extends Migration
             $table->date('fecha_reporte_revisado')->nullable();
             $table->date('fecha_reporte_autorizado')->nullable();
             $table->date('programado_para_ingreso')->nullable();
+            $table->string('cotizacion_uuid')->nullable();
             $table->date('fecha_ingresado')->nullable();
             $table->date('fecha_entregado')->nullable();
             

@@ -74,15 +74,16 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin'])->group(function
 							</span>
 						</a>";
 
-					$btn_autorizar = "#";
-					$btn_autorizar = "
-						<a href='$btn_autorizar' class='px-1' title='Autorizar'>
-							<span class='badge pink text-white shadow'>
-								<i class='fa fa-google-wallet fa-2x'></i>
-							</span>
-						</a>";
-
-
+					if (!is_null($item->cotizacion_uuid)){
+						$btn_autorizar = "#";
+						$btn_autorizar = "
+							<a href='$btn_autorizar' class='px-1' title='Autorizar'>
+								<span class='badge pink text-white shadow'>
+									<i class='fa fa-google-wallet fa-2x'></i>
+								</span>
+							</a>";
+					}
+					
 					$action_buttons = "
 						<div class='row d-flex justify-content-center'>
 							$btn_edit
@@ -103,9 +104,21 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin'])->group(function
 					->select('cotizaciones.*');
 
 		return DataTables::eloquent($items)
+				->addColumn('seleccionada', function($item){ 
+					$seleccionada = $item->seleccionada->name;
+					return "<span class='badge badge-success'>$seleccionada</span>";
+				})
 				->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
-					$btn_seleccionar = "";
+					$btn_seleccionar = route('cotizaciones.check',$item_id);
+					$btn_seleccionar = "
+						<a href='$btn_seleccionar' class='px-1' 
+							title='Seleccionar' id='item_$item_id'>
+							<span class='badge badge-success text-white shadow'>
+								<i class='fa fa-check fa-2x'></i>
+							</span>
+						</a>";
+
 					$btn_delete = "#";
 					$btn_delete = "
 						<a href='$btn_delete' class='px-1 delete-button' 
@@ -128,6 +141,9 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin'])->group(function
 
 	Route::post('cotizaciones.delete/{uuid}','CotizacionesController@destroy')
 		->name('cotizaciones.delete');
+
+	Route::get('cotizaciones.check/{uuid}','CotizacionesController@check')
+		->name('cotizaciones.check');
 
 });	
 

@@ -22,6 +22,7 @@ class Catalogo extends Model
     const ESTATUS_PERSONA = 'estatus_persona';
     const SEXO = 'sexo';
     const SI_NO = 'si_no';
+    const SI = 'si';
     const ESTADO_CIVIL = 'estado_civil';
 
     const MARCA = 'marca';

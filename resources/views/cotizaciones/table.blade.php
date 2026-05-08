@@ -7,6 +7,7 @@
                 <th>Proveedor</th>
                 <th>Instalacion</th>
                 <th>Monto</th>
+                <th>Seleccionada</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -41,6 +42,12 @@
                     {data:'proveedor.nombre_corto', name:'proveedor.nombre_corto', class:'nombre text-uppercase'},
                     {data:'instalacion.nombre', name:'instalacion.nombre', class:'text-uppercase'},
                     {data:'monto', name:'monto', width:'5%'}, 
+                    {data: 'seleccionada', name:'seleccionada', class:'text-uppercase',
+                        width:'15%',
+                        render: function(data,style,row,meta){
+                             return $("<div/>").html(data).text();
+                        }
+                    },
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
                         width:'15%',
                         render: function(data,style,row,meta){
