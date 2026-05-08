@@ -3,23 +3,22 @@
 use App\Models\Catalogo;
 use Illuminate\Http\Request;
 use App\Models\Mantenimiento;
+use App\Models\Cotizacion;
 use App\Models\Media;
 use App\Models\Role;
 
-Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
-		Role::SUPER_ADMIN])->group(function () {
+Route::middleware(['roles'=>'allow_to_roles:admin|super_admin'])->group(function () {
+	Route::get('cotizaciones.edit/{uuid}', 'CotizacionesController@edit')
+		->name('cotizaciones.edit');
 
-	Route::get('ordenes.edit/{uuid}', 'OrdenController@edit')
-		->name('ordenes.edit');
+	Route::post('cotizacion/{uuid}', 'CotizacionesController@store')
+		->name('cotizacion');
 
-	Route::patch('ordenes.update/{uuid}', 'OrdenController@update')
-		->name('ordenes.update');
+	Route::get('cotizaciones', 'CotizacionesController@index')
+		->name('cotizaciones');
 
-	Route::get('ordenes', 'OrdenController@index')
-		->name('ordenes');
-
-	Route::match(['get', 'post'],'ordenes.list', function() {
-		$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::ORDEN_SERVICIO)->first();
+	Route::match(['get', 'post'],'cotizaciones.list', function() {
+		$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::COTIZANDO)->first();
 		$items = Mantenimiento::query()
 					->with(['estatus:id,name','chofer'])
 					->where('estatus_id',$estatus->id)
@@ -55,11 +54,11 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 				})
 				->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
-					$btn_cotizacion = "";
+					$btn_autorizar = "";
 					$btn_edit = "";
 					$btn_reporte = "";
 
-					$btn_edit = route('ordenes.edit',$item_id);
+					$btn_edit = route('cotizaciones.edit',$item_id);
 					$btn_edit = "
 						<a href='$btn_edit' class='px-1' title='Editar'>
 							<span class='badge orange text-white shadow'>
@@ -75,11 +74,11 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 							</span>
 						</a>";
 
-					$btn_cotizacion = route('cotizar.orden',$item_id);
-					$btn_cotizacion = "
-						<a href='$btn_cotizacion' class='px-1' title='Cotizar Orden'>
-							<span class='badge green text-white shadow'>
-								<i class='fa fa-list-ul fa-2x'></i>
+					$btn_autorizar = "#";
+					$btn_autorizar = "
+						<a href='$btn_autorizar' class='px-1' title='Autorizar'>
+							<span class='badge pink text-white shadow'>
+								<i class='fa fa-google-wallet fa-2x'></i>
 							</span>
 						</a>";
 
@@ -88,16 +87,37 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 						<div class='row d-flex justify-content-center'>
 							$btn_edit
 							$btn_reporte
-							$btn_cotizacion
+							$btn_autorizar
 						</div>";
 					
 	                return $action_buttons;
 	            })
 	            ->make(TRUE);
-	})->name('ordenes.list');	
+	})->name('cotizaciones.list');	
 
-	Route::get('cotizar.orden/{uuid}', 'OrdenController@cotizar')
-		->name('cotizar.orden');
+	Route::match(['get', 'post'],'orden_servicio_cotizaciones.list/{uuid}', function($uuid) {
+		$mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
+		$items = Cotizacion::where('model_name',get_class($mantenimiento))
+					->where('model_id',$mantenimiento->id)
+					->with(['proveedor:id,nombre_corto','instalacion:id,nombre','seleccionada:id,name'])
+					->select('cotizaciones.*');
+
+		return DataTables::eloquent($items)
+				->addColumn('acciones', function($item){ 
+		        	$item_id = $item->uuid;
+					$btn_seleccionar = "";
+					$btn_eliminar = "";
+
+					$action_buttons = "
+						<div class='row d-flex justify-content-center'>
+							$btn_seleccionar
+							$btn_eliminar
+						</div>";
+					
+	                return $action_buttons;
+	            })
+	            ->make(TRUE);
+	})->name('orden_servicio_cotizaciones.list');	
 
 });	
 

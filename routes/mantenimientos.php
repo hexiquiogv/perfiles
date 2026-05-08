@@ -22,6 +22,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::match(['get', 'post'],'reportes_mtto.list', function() {
 		$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::EN_PROCESO)->first();
 		$items = Mantenimiento::with('estatus:id,name')
+					->where('estatus_id',$estatus->id)
 					->select('mantenimientos.*');
 		
 		return DataTables::eloquent($items)

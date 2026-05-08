@@ -58,12 +58,12 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin|user'])->group(fun
 });
 
 Route::middleware(['auth'])->group(function () {
-	// Route::match(['get', 'post'],'instalacion_items/{uuid}', function(Request $request, $cliente) {
-	// 	$data = Instalacion::where('cliente_id',$cliente)->select('nombre as name','id')->get();
-	// 	return response()->json([
-	//         'status' => 'ok',
-	//         'data' => $data
-	//     ]);
-	// })->name('instalacion_items');
+	Route::match(['get', 'post'],'/instalaciones_proveedor/{proveedor}', function(Request $request, Proveedor $proveedor) {
+		$data = DB::select("Select nombre as name, id from instalaciones where proveedor_id = {$proveedor->id}");
+		return response()->json([
+	        'status' => 'ok',
+	        'data' => $data
+	    ]);
+	})->name('instalaciones_proveedor');
 });
 

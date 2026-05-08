@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 use App\Models\Mantenimiento;
-use App\Models\Vehiculo;
-use App\Models\Instalacion;
 use App\Models\Catalogo;
 use App\Models\Media;
 
@@ -77,14 +75,6 @@ class OrdenController extends Controller
         if (is_null($registro)) dd("Reporte no encontrado");
 
         $variables = [
-            "<unidad>" => $registro->vehiculo->numero_economico,
-            "<tipo_vehiculo>" => $registro->vehiculo->tipo_vehiculo->name,
-            "<marca>" => strtoupper($registro->vehiculo->marca->name),
-            "<linea>" => strtoupper($registro->vehiculo->linea->name),
-            "<modelo>" => $registro->vehiculo->modelo,
-            "<serie>" => strtoupper($registro->vehiculo->numero_serie),
-            "<placas>" => strtoupper($registro->vehiculo->placa),
-            "<chofer>" => strtoupper($registro->vehiculo->chofer->fullname),
             "<falla>" => $registro->descripcion_falla,
             "<empresa>" => strtoupper($registro->empresa->name),
         ];
@@ -197,6 +187,17 @@ class OrdenController extends Controller
         $registro->save();
         
         return response()->file("storage/$filename");
+    }
+
+    public function cotizar($uuid){
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Reporte no encontrado");
+
+        $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::COTIZANDO)->first();
+        $registro->estatus_id = $estatus->id;
+        $registro->save();
+        
+        return redirect()->route("cotizaciones")->withSuccess("Orden {$registro->uuid} enviada para agregar cotizaciones ");
     }
 }
 

@@ -19,6 +19,7 @@ class CreateCotizacionesTable extends Migration
             $table->string('model_name')->nullable();
             $table->string('model_id')->nullable();
             $table->integer('proveedor_id')->nullable();
+            $table->integer('instalacion_id')->nullable();
             $table->double('monto')->nullable();
             $table->text('comentarios')->nullable();
             $table->integer('user_id')->nullable();

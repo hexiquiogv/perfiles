@@ -8,15 +8,19 @@
         </div>
 
         <div class="ml-auto d-flex flex-row p-2">
-            <a href="{!! route('ordenes') !!}" 
-                    class="m-1 p-1 badge-info z-depth-2">
-                <i class="fa fa-undo fa-2x" aria-hidden="true"></i>
-            </a>
-            <a href="#" class="m-1 badge-warning text-white p-1 z-depth-2"
-                    onclick="document.getElementById('mantenimiento_form').submit();">
-                <i class="fa fa-save fa-2x" aria-hidden="true"></i>
-            </a>
-        </div>           
+            <div class="ml-auto d-flex flex-row p-2">
+                <a href="#" id="add_cotizacion" title="Agregar Cotización"
+                        class="m-1 p-1 badge-success z-depth-2">
+                    <i class="fa fa-plus fa-2x px-1" aria-hidden="true"></i>
+                </a>
+            </div>   
+            <div class="ml-auto d-flex flex-row p-2">
+                <a href="{!! route('ordenes') !!}" 
+                        class="m-1 p-1 badge-info z-depth-2">
+                    <i class="fa fa-undo fa-2x px-1" aria-hidden="true"></i>
+                </a>
+            </div>   
+        </div>        
     </div> 
 </div>
 
@@ -37,40 +41,41 @@
         </div>
     </div>
     <div class="d-flex flex-column col-md-8">
-        <form id="mantenimiento_form" method="POST" action="{{ $route }}">
-            @csrf
-            {{ method_field($method) }}
-                
-            <div>
-                <label class="col-form-label active">Seleccione el/los Servicio(s) Requeridos</label>
-                <br>
-                <div id="servicios" class="d-flex flex-wrap col-md-12"></div>
-            </div>
+        <div>
+            <label class="col-form-label active">Seleccione el/los Servicio(s) Requeridos</label>
+            <br>
+            <div id="servicios" class="d-flex flex-wrap col-md-12 readonly"></div>
+        </div>
 
-            <div class="form-row mt-4">
-                <label class="col-md-3 active">Diagnóstico de Falla</label>
-                <textarea class="col-md-12" id="diagnostico" type="textarea" name="diagnostico" 
-                rows="4">{{old('diagnostico',$registro->diagnostico??'')}}</textarea>
-            </div>
+        <div class="form-row mt-4">
+            <label class="col-md-3 active">Diagnóstico de Falla</label>
+            <textarea class="col-md-12" id="diagnostico" type="textarea" name="diagnostico" readonly
+            rows="4">{{$registro->diagnostico??''}}</textarea>
+        </div>
 
-        </form>
+        @include('cotizaciones.table')
     </div>
+
+
 </div>
+
+@include('cotizaciones.proveedor')
+
 
 @endsection
 
 @push('scripts2')
     <script type="text/javascript">
         $(document).ready(function() {
-            dynamicDropdown("{{ route('personal') }}", 
-                {{ old('chofer_id',$registro->chofer_id??0) }}, 'chofer_id');
-            dynamicDropdown("{{ route('flotilla') }}", 
-                {{ old('vehiculo_id',$registro->vehiculo_id??0) }}, 'vehiculo_id');
-            
-            getVehiculo({{ $registro->vehiculo_id }});
-
             dynamicCheckboxes("/items/{{ App\Models\Catalogo::MANTENIMIENTOS }}", 
-                "{{ $registro->servicios }}",  "servicios", "checkbox", "col-md-4");
+                "{{ $registro->servicios }}",  "servicios", "checkbox", "col-md-4 disabled");
+
+            $('#add_cotizacion').on('click', function() {
+            //     old_url = $('#confirm_modal_deletion_buttons_form').attr('action');
+            //     new_url = old_url.replace('confirm_deletion_item_id',catalogo_id);
+            //     $('#confirm_modal_deletion_buttons_form').attr('action', new_url);
+                $('#cotizacion_link').trigger('click');
+            });
         });
     </script>
 @endpush 
