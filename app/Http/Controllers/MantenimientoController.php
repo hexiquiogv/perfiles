@@ -182,7 +182,10 @@ class MantenimientoController extends Controller
         $pdf->ezSetDy(-20, 'makeSpace');   
         $pdf->ezText("FIRMA DE CHOFER",12,array('justification'=>'center'));
 
+        if (is_null($registro->firmaChofer)) return back()->withError('Firma no encontrada');
+
         $firma = 'storage/'.$registro->firmaChofer->url;
+        //$pdf->ezText($firma,12,array('justification'=>'center'));
         $pdf->addPngFromFile($firma, 230, 460, 140, 75);
 
         $pdf->ezSetDy(-45, 'makeSpace');   

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Cotizacion extends Model
 {
     use SoftDeletes;
-    protected   $table = "cotizaciones";
+    protected $table = "cotizaciones";
     protected $dates = ['created_at','updated_at','deleted_at'];
 
     public function proveedor() {

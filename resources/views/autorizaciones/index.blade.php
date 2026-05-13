@@ -4,7 +4,7 @@
 <div class="m-2 p-1">
     <div class="card col-md-12 badge badge-light">
         <div class="d-flex justify-content-between mx-2 mt-2 mb-1 col-md-12">
-            <div class="h4 pt-2">Cotizaciones en Ordenes de Servicio</div>
+            <div class="h4 pt-2">Autorizaciones de Ordenes de Servicio</div>
             <div class="d-flex justify-content-between col-md-3">
                 <div class="d-flex flex-row col-md-11">
                     <span class="p-1 mt-2 h6">Buscar</span>
@@ -21,14 +21,12 @@
     </div>
     <div class="card-block">            
         <div id="table-container" class="p-3 col-md-12">
-            <table class="table table-striped col-md-12" cellspacing="0" 
-            id="mantenimientos_table" data-form="deleteForm">
+            <table class="table table-striped col-md-12" cellspacing="0" id="autorizaciones_table">
                 <thead class="">
                     <tr>
                         <th>Id</th>                        
                         <th>UUID</th>
 
-                        <th>Folio</th>                        
                         <th>Unidad</th>
                         <th>Tipo Vehiculo</th>
                         <th>Marca</th>
@@ -58,7 +56,7 @@
 @push('scripts2')
     <script type="text/javascript">
         $(document).ready(function(){
-            var mantenimientos_table = $('#mantenimientos_table').DataTable({
+            var autorizaciones_table = $('#autorizaciones_table').DataTable({
                 responsive: !0,
                 select: !0,
                 searching: true,
@@ -66,15 +64,13 @@
                 serverSide: false,
                 dom: '<"d-flex flex-row-reverse">t<"d-flex justify-content-between" ip>r',
                 ajax: {
-                        url: "{!! route('cotizaciones.list') !!}",
+                        url: "{!! route('por_autorizar') !!}",
                 },
                 
                 //scrollX: false,
                 columns: [
                     {data:'id', name:'id', searchable:false, orderable:true, width:'8%'},
                     {data:'uuid', name:'uuid', orderable:false, visible:false},
-
-                    {data:'folio', name:'folio'},
                     {data:'no_economico', name:'no_economico'},
                     {data:'tipo_vehiculo', name:'tipo_vehiculo', class:'text-capitalize'},
                     {data:'marca', name:'marca', class:'text-capitalize'},
@@ -104,7 +100,7 @@
         });
 
         $("#search").on('keyup', function() {
-            $("#mantenimientos_table").DataTable().search( this.value ).draw();
+            $("#autorizaciones_table").DataTable().search( this.value ).draw();
         });
     </script>
 @endpush

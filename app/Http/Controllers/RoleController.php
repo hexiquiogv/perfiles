@@ -54,7 +54,7 @@ class RoleController extends Controller
     	$validated = $request->validated();
     	$input = $request->only(['name']);
         $role = new Role($input);
-        $role->guard_name = "";
+        $role->guard_name = "web";
         $role->save();
 
         return redirect()->route('roles.index')

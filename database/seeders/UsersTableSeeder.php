@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
 		Role::create(['name' => Role::SUPER_ADMIN]);
 		Role::create(['name' => Role::ADMIN]);
 		Role::create(['name' => Role::USER]);
+		Role::create(['name' => Role::AUTORIZA]);
 
 		$user = User::create([
 			'name' => 'hexiquio',

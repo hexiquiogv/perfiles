@@ -65,12 +65,12 @@ class SignaturePadController extends Controller
         $media->uuid = $uuid;
         $media->mime_type = $image_type;
         $media->model_name = $model_name;
-        $media->model_id = $registro->uuid;
+        $media->model_id = $registro->id;
         $media->document_type_id = $documento_type->id;
         $media->observations = "firma de chofer";
         $media->save();
 
         return redirect(route("mantenimientos.reporte",$registro->uuid)
-                    )->with('success', 'Firma exitosa y generacion de reporte');
+                    )->with('success', 'Firma exitosa');
     }
 }

@@ -16,6 +16,7 @@ class Role extends \Spatie\Permission\Models\Role
     const ADMIN = 'admin';
     const USER = 'user';
     const SUPERVISOR = 'supervisor';
+    const AUTORIZA = 'autoriza';
 
     public function scopePermitedRoles($query){
         $role = self::SUPER_ADMIN;
