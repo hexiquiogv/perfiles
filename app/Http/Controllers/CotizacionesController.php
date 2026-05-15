@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mantenimiento;
 use App\Models\Cotizacion;
+use App\Models\Autorizacion;
 use App\Models\Catalogo;
 use Illuminate\Support\Str;
+use App\Models\Role;
+use App\Models\User;
 
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 
 class CotizacionesController extends Controller
@@ -117,4 +121,7 @@ class CotizacionesController extends Controller
         return redirect()->route('cotizaciones.edit',$orden->uuid)
                     ->withSuccess('cotizacion seleccionada');
     }
+
+    
+
 }
