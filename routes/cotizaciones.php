@@ -146,6 +146,8 @@ Route::middleware(['roles'=>'allow_to_roles:admin|super_admin'])->group(function
 	Route::get('cotizaciones.check/{uuid}','CotizacionesController@check')
 		->name('cotizaciones.check');
 
+	Route::get('cotizaciones.show/{uuid}', 'CotizacionesController@show')->name('cotizaciones.show');
+
 });	
 
 

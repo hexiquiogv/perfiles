@@ -97,7 +97,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	})->name('ordenes.list');	
 
 	Route::get('cotizar.orden/{uuid}', 'OrdenController@cotizar')
-		->name('cotizar.orden');
+		->name('cotizar.orden');	
 
 });	
 

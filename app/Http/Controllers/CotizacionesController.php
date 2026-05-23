@@ -122,6 +122,14 @@ class CotizacionesController extends Controller
                     ->withSuccess('cotizacion seleccionada');
     }
 
-    
+    public function show($uuid)
+    {
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Orden no encontrada");
+
+        $title = "Orden de Mantenimiento - Cotizacion(es)";
+
+        return view('cotizaciones.show', compact('registro','title'));
+    }
 
 }

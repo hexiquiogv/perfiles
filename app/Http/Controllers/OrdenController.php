@@ -198,6 +198,6 @@ class OrdenController extends Controller
         $registro->save();
         
         return redirect()->route("cotizaciones")->withSuccess("Orden {$registro->uuid} enviada para agregar cotizaciones ");
-    }
+    }    
 }
 

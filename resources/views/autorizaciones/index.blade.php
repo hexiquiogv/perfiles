@@ -40,13 +40,55 @@
 
                         <th>Servicio(s)</th>
 
-                        <th>Fecha Reporte</th>
-                        <th>Fecha Estatus</th>
-                        
-                        <th>Estatus</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
+                <tbody>
+                    @foreach ($items as $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>                        
+                            <td>{{ $item->uuid }}</td>
+
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->no_economico }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->tipo_vehiculo }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->marca }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->linea }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->placa }}</td>
+
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->empresa }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->sucursal }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->area }}</td>
+                            <td>{{ json_decode($item->orden->datos_vehiculo)->chofer }}</td>
+
+                            <td>{{ implode($item->orden->getServicios()) }}</td>
+
+                            <td style="width:15%;">
+                                <div class='row d-flex justify-content-center'>
+                                    <a href='{{ route('reporte.download',$item->orden->uuid) }}' class='px-1' title='Ver Reporte' target='_blank'>
+                                        <span class='badge purple text-white shadow'>
+                                            <i class='fa fa-file fa-2x'></i>
+                                        </span>
+                                    </a>
+                                    <a href='{{ route('cotizaciones.show',$item->orden->uuid) }}' class='px-1' title='Ver Reporte' target='_blank'>
+                                        <span class='badge blue text-white shadow'>
+                                            <i class='fa fa-paste fa-2x'></i>
+                                        </span>
+                                    </a>
+                                    <a class='px-1' title='Autorizar'  
+                                    href='{{ route('signaturepad',[
+                                        'model_name'=>get_class($item),
+                                        'model_id'=>$item->uuid,
+                                        'title'=>"Autorización - ".$item->user->fullname,
+                                        'back_url'=>route('autorizaciones')]) }}'>
+                                        <span class='badge pink text-white shadow'>
+                                            <i class='fa fa-google-wallet fa-2x'></i>
+                                        </span>
+                                    </a>
+		 				        </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
@@ -57,50 +99,12 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var autorizaciones_table = $('#autorizaciones_table').DataTable({
-                responsive: !0,
-                select: !0,
-                searching: true,
-                processing: true,
-                serverSide: false,
-                dom: '<"d-flex flex-row-reverse">t<"d-flex justify-content-between" ip>r',
-                ajax: {
-                        url: "{!! route('por_autorizar') !!}",
-                },
-                
-                //scrollX: false,
-                columns: [
-                    {data:'id', name:'id', searchable:false, orderable:true, width:'8%'},
-                    {data:'uuid', name:'uuid', orderable:false, visible:false},
-                    {data:'no_economico', name:'no_economico'},
-                    {data:'tipo_vehiculo', name:'tipo_vehiculo', class:'text-capitalize'},
-                    {data:'marca', name:'marca', class:'text-capitalize'},
-                    {data:'linea', name:'linea', class:'text-capitalize'},
-                    {data:'placa', name:'placa', class:'text-uppercase'},
-
-                    {data:'empresa', name:'empresa', class:'text-uppercase'},
-                    {data:'sucursal', name:'sucursal', class:'text-uppercase'},
-                    {data:'area', name:'area', class:'text-uppercase'},
-                    {data:'chofer', name:'chofer', class:'text-uppercase', orderable:true, visible:true},
-
-                    {data:'servicios', name:'servicios', class:'text-capitalize'},
-                    
-                    {data:'fecha_reporte', name:'fecha_reporte'},
-                    {data:'fecha_estatus', name:'fecha_estatus'},
-                    
-                    {data:'estatus.name', name:'estatus.name', class:'text-uppercase'},
-                    {data: 'acciones', name:'acciones', searchable:false, orderable:false,
-                        width:'15%',
-                        render: function(data,style,row,meta){
-                             return $("<div/>").html(data).text();
-                        }
-                    }
-                ],
+                dom: '<"d-flex flex-row-reverse">ts<"d-flex justify-content-between" ip>r',
                 order: [ 0, "desc" ]
             });
-        });
-
-        $("#search").on('keyup', function() {
-            $("#autorizaciones_table").DataTable().search( this.value ).draw();
+            $("#search").on('keyup', function() {
+                $("#autorizaciones_table").DataTable().search( this.value ).draw();
+            });
         });
     </script>
 @endpush

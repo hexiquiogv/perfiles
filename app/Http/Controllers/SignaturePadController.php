@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Mantenimiento;
+use App\Models\Autorizacion;
 use App\Models\Catalogo;
 use App\Models\Media;
 use Illuminate\Support\Str; 
@@ -14,13 +15,13 @@ class SignaturePadController extends Controller
 {
     public function index(Request $request)
     {
-        $title = "Firma de Chofer (reporte de falla)";
+        $title = $request->title;
         $model_id = $request->model_id;
         $model_name = $request->model_name;
         $registro = ($model_name)::where('uuid',$model_id)->first();
         if (is_null($registro)) return back()->withError('El registro no encontrado');
         
-        $back_url = route('mantenimientos.edit',$registro->uuid);
+        $back_url = $request->back_url;
 
         return view('signaturePad.form',compact('title','model_id','model_name','back_url'));
         //return view('test.signature_2');
@@ -31,7 +32,7 @@ class SignaturePadController extends Controller
         $model_name = $request['model_name'] ?? null;
         $model_id = $request['model_id'] ?? null;
         $back_url = $request['back_url'] ?? null;
-
+        
         $registro = ($model_name)::where('uuid',$model_id)->first();
         if (is_null($registro)) return back()->withError('El registro no encontrado');
 
@@ -67,10 +68,15 @@ class SignaturePadController extends Controller
         $media->model_name = $model_name;
         $media->model_id = $registro->id;
         $media->document_type_id = $documento_type->id;
-        $media->observations = "firma de chofer";
-        $media->save();
+        $media->observations = "firma";
+        $media->save();     
 
-        return redirect(route("mantenimientos.reporte",$registro->uuid)
-                    )->with('success', 'Firma exitosa');
+        if(get_class($registro) == "App\Models\Autorizacion"){
+            $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::AUTORIZADO)->first();
+            $registro->estatus_id = $estatus->id;
+            $registro->save();
+        }
+
+        return redirect($back_url)->with('success', 'Firma exitosa');
     }
 }

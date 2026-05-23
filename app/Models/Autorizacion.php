@@ -20,4 +20,8 @@ class Autorizacion extends Model
         return $this->hasOne('App\Models\Catalogo', 'id', 'estatus_id')
                 ->withDefault(['name'=>'']);
     }
+
+    public function user() {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Autorizacion;
+use Auth;
 
 class AutorizacionController extends Controller
 {
+    public function index(){
+        $items = Autorizacion::with(['estatus:id,name','orden'])
+					->where('user_id',Auth::id())
+					->whereNull('estatus_id')
+					->select('autorizaciones.*')->get();
+
+		return view('autorizaciones.index',compact('items'));
+    }
+
     public function autorizadores($uuid){
         $orden = Mantenimiento::where('uuid',$uuid)->first();
         if (is_null($orden)) return back()->withError("Registro no encontrado");

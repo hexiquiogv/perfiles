@@ -185,8 +185,6 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	            ->make(TRUE);
 	})->name('historicos.list');	
 
-	Route::get('signaturepad', 'SignaturePadController@index')->name('signaturepad');
-	Route::post('signaturepad', 'SignaturePadController@upload')->name('signaturepad.upload');
 });	
 
 
