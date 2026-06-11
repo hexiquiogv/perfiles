@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Catalogo;
+use App\Models\Cotizacion;
 
 class Mantenimiento extends Model
 {
@@ -53,6 +54,11 @@ class Mantenimiento extends Model
 
     public function getDiasVencimientoAttribute(){
         return 0; 
+    }
+
+    public function cotizacion() {
+        $cotizacion = Cotizacion::where('uuid',$this->cotizacion_uuid)->first();
+        return $cotizacion;            
     }
 
     public function getServicios(){

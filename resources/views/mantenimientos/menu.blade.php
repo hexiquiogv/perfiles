@@ -44,7 +44,7 @@
         </div>
         <div class="col-md-3 d-flex flex-column my-4 pt-4">
             <div class="col-12 d-flex justify-content-center">
-                <a href="#" title="Tallers">
+                <a href="{{ route('taller') }}" title="Tallers">
                     <img src="{{asset('images/taller.jpeg')}}" width="300px" height="300px" class="m-1 p-1 z-depth-3 rounded">
                 </a>
             </div>

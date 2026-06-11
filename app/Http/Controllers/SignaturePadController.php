@@ -32,9 +32,9 @@ class SignaturePadController extends Controller
         $model_name = $request['model_name'] ?? null;
         $model_id = $request['model_id'] ?? null;
         $back_url = $request['back_url'] ?? null;
-        
+                
         $registro = ($model_name)::where('uuid',$model_id)->first();
-        if (is_null($registro)) return back()->withError('El registro no encontrado');
+        if ( is_null($registro) ) return back()->withError('El registro no encontrado');
 
         // $folderPath = public_path('upload/');        
         $image_parts = explode(";base64,", $request->signed);
@@ -56,7 +56,7 @@ class SignaturePadController extends Controller
         
         $documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::FIRMA)->first();
         
-        Media::where('model_name',$model_name)->where('model_id',$registro->id)
+        Media::where('model_name',$model_name)->where('model_id',$model_id)
                     ->where('document_type_id',$documento_type->id)
                     ->delete(); 
 
@@ -66,7 +66,7 @@ class SignaturePadController extends Controller
         $media->uuid = $uuid;
         $media->mime_type = $image_type;
         $media->model_name = $model_name;
-        $media->model_id = $registro->id;
+        $media->model_id = $model_id;
         $media->document_type_id = $documento_type->id;
         $media->observations = "firma";
         $media->save();     
@@ -75,7 +75,14 @@ class SignaturePadController extends Controller
             $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::AUTORIZADO)->first();
             $registro->estatus_id = $estatus->id;
             $registro->save();
-        }
+
+            $firmas = ($model_name)::where('uuid',$model_id)->where('estatus_id','<>',$estatus->id)->count();
+            if ($firmas == 0){
+                $orden = $registro->orden;
+                $orden->estatus_id = $estatus->id;
+                $orden->save();
+            }
+        } 
 
         return redirect($back_url)->with('success', 'Firma exitosa');
     }
