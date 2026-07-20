@@ -199,5 +199,39 @@ class OrdenController extends Controller
         
         return redirect()->route("cotizaciones")->withSuccess("Orden {$registro->uuid} enviada para agregar cotizaciones ");
     }    
+
+    public function taller_edit($uuid){        
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Orden no encontrada");
+
+        $route = route('taller.update',$registro->uuid);
+        $method = "patch";
+        $title = "Orden de Mantenimiento - Edición de Registro";
+        $back_url = route('taller');
+
+        return view('taller.form', 
+                    compact('registro','title','route','method','back_url'));
+    }
+
+    public function talle_update(Request $request, $uuid)
+    {
+        $mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($mantenimiento)) dd("Reporte no encontrado");
+
+        $oldReporte = $mantenimiento->replicate();
+        $oldReporte->created_at = now();
+        $oldReporte->save();
+        $oldReporte->delete();
+
+        $mantenimiento->programado_para_ingreso = $request->programado_para_ingreso ?? null;
+        $mantenimiento->fecha_ingresado = $request->fecha_ingresado ?? null;
+        $mantenimiento->fecha_entregado = $request->fecha_entregado ?? null;
+        $mantenimiento->garantia_id = $request->garantia_id ?? null;
+        $mantenimiento->comentarios_taller = $request->comentarios_taller ?? null;
+        $mantenimiento->save();
+
+        return redirect()->route("taller",$mantenimiento->uuid)
+                    ->withSuccess("Orden {$mantenimiento->folio} actualizada exitosamente");
+    }
 }
 

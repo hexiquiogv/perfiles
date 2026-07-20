@@ -133,9 +133,6 @@
                 </div>  
             </div>
 
-
-            
-
             <div class="form-row">
                 <label class="col-md-3">Comentarios</label>
                 <textarea class="col-md-12" id="comentarios" type="textarea" 

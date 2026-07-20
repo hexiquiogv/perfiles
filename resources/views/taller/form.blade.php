@@ -8,7 +8,7 @@
         </div>
 
         <div class="ml-auto d-flex flex-row p-2">
-            <a href="{!! route('ordenes') !!}" 
+            <a href="{!! route('taller') !!}" 
                     class="m-1 p-1 badge-info z-depth-2">
                 <i class="fa fa-undo fa-2x" aria-hidden="true"></i>
             </a>
@@ -49,8 +49,43 @@
 
             <div class="form-row mt-4">
                 <label class="col-md-3 active">Diagnóstico de Falla</label>
-                <textarea class="col-md-12" id="diagnostico" type="textarea" name="diagnostico" 
+                <textarea class="col-md-12" id="diagnostico" type="textarea" name="diagnostico" disabled
                 rows="4">{{old('diagnostico',$registro->diagnostico??'')}}</textarea>
+            </div>
+
+            <div class="d-flex flex-wrape col-md-12">
+                <div class="md-form col-2 mt-1 py-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Programado </label>
+                    <input class="mt-3 col-11" id="programado_para_ingreso" type="date" name="programado_para_ingreso" 
+                        value="{{ old('programado_para_ingreso',
+                                is_null($registro->programado_para_ingreso) ? '' :
+                                $registro->programado_para_ingreso->format('Y-m-d')) }}">
+                </div>
+                <div class="md-form col-2 mt-1 py-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Fecha ingreso</label>
+                    <input class="mt-3 col-11" id="fecha_ingresado" type="date" name="fecha_ingresado" 
+                        value="{{ old('fecha_ingresado',
+                                is_null($registro->fecha_ingresado) ? '' :
+                                $registro->fecha_ingresado->format('Y-m-d')) }}">
+                </div>  
+                <div class="md-form col-2 mt-1 py-3">
+                    <label class="col-form-label active pl-3" style="margin-top: 10px;">Fecha entregado</label>
+                    <input class="mt-3 col-11" id="fecha_entregado" type="date" name="fecha_entregado" 
+                        value="{{ old('fecha_entregado',
+                                is_null($registro->fecha_entregado) ? '' :
+                                $registro->fecha_entregado->format('Y-m-d')) }}">
+                </div>  
+                <div class="col-md-4">
+                    <div class="md-form"><label class="active">Regreso a garantía?</label></div>
+                    <select class="mdb-select md-form" id="garantia_id" 
+                        name="garantia_id"></select>
+                </div>
+            </div> 
+
+            <div class="form-row">
+                <label class="col-md-3">Comentarios</label>
+                <textarea class="col-md-12" id="comentarios_taller" type="textarea" 
+                name="comentarios_taller" rows="4" >{{old('comentarios_taller',$registro->comentarios_taller??'')}}</textarea>
             </div>
 
         </form>
@@ -62,15 +97,13 @@
 @push('scripts2')
     <script type="text/javascript">
         $(document).ready(function() {
-            dynamicDropdown("{{ route('personal') }}", 
-                {{ old('chofer_id',$registro->chofer_id??0) }}, 'chofer_id');
-            dynamicDropdown("{{ route('flotilla') }}", 
-                {{ old('vehiculo_id',$registro->vehiculo_id??0) }}, 'vehiculo_id');
+            dynamicDropdown("{{ route('items',App\Models\Catalogo::SI_NO) }}", 
+                {{ old('garantia_id',$registro->garantia_id??0) }}, 'garantia_id');
             
             getVehiculo({{ $registro->vehiculo_id }});
 
             dynamicCheckboxes("/items/{{ App\Models\Catalogo::MANTENIMIENTOS }}", 
-                "{{ $registro->servicios }}",  "servicios", "checkbox", "col-md-4");
+                "{{ $registro->servicios }}",  "servicios", "checkbox", "col-md-4 disabled");
         });
     </script>
 @endpush 

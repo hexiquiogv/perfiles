@@ -56,7 +56,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 				->addColumn('acciones', function($item){ 
 		        	$item_id = $item->uuid;
 					$btn_cotizacion = "";
-					$btn_edit = "#";
+					$btn_edit = route("taller.edit",$item_id);
 					$btn_reporte = "#";
 
 					$btn_edit = "
@@ -83,6 +83,10 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	            })
 	            ->make(TRUE);
 	})->name('ordenes_autorizadas.list');	
+
+	Route::get('taller.edit/{uuid}', 'OrdenController@taller_edit')->name('taller.edit');
+
+	Route::patch('taller.update/{uuid}','OrdenController@taller_update')->name('taller.update');
 });	
 
 
