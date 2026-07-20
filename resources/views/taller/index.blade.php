@@ -27,28 +27,18 @@
                     <tr>
                         <th>Id</th>                        
                         <th>UUID</th>
-
-                        <th>Folio</th>                        
                         <th>Unidad</th>
                         <th>Tipo Vehiculo</th>
                         <th>Marca</th>
                         <th>Linea</th>
                         <th>Placas</th>
-
                         <th>Empresa</th>
-                        <th>Sucursal</th>
-                        <th>Area</th>
                         <th>Chofer</th>
-
-                        <th>Servicio(s)</th>
-
                         <th>Fecha Reporte</th>
-                        <th>Fecha Estatus</th>
-
                         <th>Proveedor</th>
                         <th>Instalación</th>
-                        
                         <th>Estatus</th>
+                        <th>Actualización</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -77,7 +67,6 @@
                     {data:'id', name:'id', searchable:false, orderable:true, width:'8%'},
                     {data:'uuid', name:'uuid', orderable:false, visible:false},
 
-                    {data:'folio', name:'folio'},
                     {data:'no_economico', name:'no_economico'},
                     {data:'tipo_vehiculo', name:'tipo_vehiculo', class:'text-capitalize'},
                     {data:'marca', name:'marca', class:'text-capitalize'},
@@ -85,19 +74,28 @@
                     {data:'placa', name:'placa', class:'text-uppercase'},
 
                     {data:'empresa', name:'empresa', class:'text-uppercase'},
-                    {data:'sucursal', name:'sucursal', class:'text-uppercase'},
-                    {data:'area', name:'area', class:'text-uppercase'},
                     {data:'chofer', name:'chofer', class:'text-uppercase', orderable:true, visible:true},
 
-                    {data:'servicios', name:'servicios', class:'text-capitalize'},
-                    
-                    {data:'fecha_reporte', name:'fecha_reporte'},
-                    {data:'fecha_estatus', name:'fecha_estatus'},
+                    {data:'fecha_reporte', name:'fecha_reporte',
+                        width:'12%',
+                        render: function(data,style,row,meta){
+                            if (data == null) return "";
+                            return data.substring(0,10);
+                        }
+                    },               
 
                     {data:'proveedor', name:'proveedor'},
                     {data:'instalacion', name:'instalacions'},
                     
                     {data:'estatus.name', name:'estatus.name', class:'text-uppercase'},
+                    {data:'updated_at', name:'updated_at',
+                        width:'12%',
+                        render: function(data,style,row,meta){
+                            if (data == null) return "";
+                            return data.substring(0,10);
+                        }
+                    },     
+
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,
                         width:'15%',
                         render: function(data,style,row,meta){

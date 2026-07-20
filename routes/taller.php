@@ -11,11 +11,16 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 
 	Route::view('taller', 'taller.index')->name('taller');
 
+	Route::get('taller.orden/{uuid}', 'OrdenController@reporte')->name('taller.orden');
+	Route::get('taller.documentos/{uuid}', 'OrdenController@documentos')->name('taller.documentos');
+
 	Route::match(['get', 'post'],'ordenes_autorizadas.list', function() {
 		$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::AUTORIZADO)->first();
+		$estatus2 = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::EN_TALLER)->first();
 		$items = Mantenimiento::query()
 					->with(['estatus:id,name','chofer'])
 					->where('estatus_id',$estatus->id)
+					->orWhere('estatus_id',$estatus2->id)
 					->select('mantenimientos.*');
 
 		return DataTables::eloquent($items)
@@ -58,18 +63,25 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 					$btn_cotizacion = "";
 					$btn_edit = route("taller.edit",$item_id);
 					$btn_reporte = "#";
+					$btn_orden = route("taller.orden",$item_id);
 
 					$btn_edit = "
 						<a href='$btn_edit' class='px-1' title='Editar'>
-							<span class='badge orange text-white shadow'>
+							<span class='badge orange text-white z-depth-2 p-1'>
 								<i class='fa fa-pencil fa-2x'></i>
 							</span>
 						</a>";
 				
 					$btn_reporte = "
-						<a href='$btn_reporte' class='px-1' title='Ver Orden de Servicio' target='_blank'>
-							<span class='badge purple text-white shadow'>
-								<i class='fa fa-exclamation-triangle fa-2x'></i>
+						<a href='$btn_reporte' class='px-1' title='Ver Reporte' target='_blank'>
+							<span class='badge blue text-white z-depth-2 p-1'>
+								<i class='fa fa-file fa-2x'></i>
+							</span>
+						</a>";
+					$btn_orden = "
+						<a href='$btn_orden' class='px-1' title='Ver Orden de Servicio' target='_blank'>
+							<span class='badge green text-white z-depth-2 p-1'>
+								<i class='fa fa-gears fa-2x'></i>
 							</span>
 						</a>";
 
@@ -77,6 +89,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 						<div class='row d-flex justify-content-center'>
 							$btn_edit
 							$btn_reporte
+							$btn_orden
 						</div>";
 					
 	                return $action_buttons;

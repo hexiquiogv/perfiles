@@ -69,6 +69,7 @@ class Catalogo extends Model
     const DOCUMENT_TYPE = 'document_type';
     const FIRMA = 'firma';
     const REPORTE = 'reporte de falla o mantenimiento';
+    const ORDEN = 'orden de servicio o mantenimiento';
 
     public function scopeFind_by_name($query, $nombre_catalogo=null) {
         if (is_null($nombre_catalogo)) {

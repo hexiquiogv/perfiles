@@ -213,7 +213,7 @@ class OrdenController extends Controller
                     compact('registro','title','route','method','back_url'));
     }
 
-    public function talle_update(Request $request, $uuid)
+    public function taller_update(Request $request, $uuid)
     {
         $mantenimiento = Mantenimiento::where('uuid',$uuid)->first();
         if (is_null($mantenimiento)) dd("Reporte no encontrado");
@@ -232,6 +232,119 @@ class OrdenController extends Controller
 
         return redirect()->route("taller",$mantenimiento->uuid)
                     ->withSuccess("Orden {$mantenimiento->folio} actualizada exitosamente");
+    }
+
+    public function reporte($uuid){        
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Reporte no encontrado");
+
+        $variables = [
+            "<unidad>" => $registro->vehiculo->numero_economico,
+            "<tipo_vehiculo>" => $registro->vehiculo->tipo_vehiculo->name,
+            "<marca>" => strtoupper($registro->vehiculo->marca->name),
+            "<linea>" => strtoupper($registro->vehiculo->linea->name),
+            "<modelo>" => $registro->vehiculo->modelo,
+            "<serie>" => strtoupper($registro->vehiculo->numero_serie),
+            "<placas>" => strtoupper($registro->vehiculo->placa),
+            "<chofer>" => strtoupper($registro->vehiculo->chofer->fullname),
+            "<falla>" => $registro->diagnostico,
+            "<empresa>" => strtoupper($registro->empresa->name),
+        ];
+
+        setlocale(LC_ALL, 'es_ES');
+        $fecha=$registro->updated_at->translatedFormat('l j \\d\\e F \\d\\e Y');
+        
+        $pdf = new Cezpdf($paper = 'A4', $orientation = 'portrait'); // $orientation = 'landscape';
+        
+        $pdf->ezSetMargins($top = 30, $bottom = 30, $left = 30, $right = 30);
+        $pdf->ezSetDy(0, 'makeSpace');
+
+        $logo = "images/logos/transparente.png";
+        $pdf->addPngFromFile($logo, 25, 730, 90, 75);
+
+        $pdf->ezSetDy(-80, 'makeSpace');   
+        $pdf->ezText("FECHA : $fecha",10, array('justification' => 'right'));
+
+        $pdf->ezSetDy(-20, 'makeSpace'); 
+        $pdf->ezText("ORDEN DE SERVICIO/MANTENIMIENTO AUTORIZADA" , 12, array('justification' => 'center')); 
+                 
+        $pdf->ezSetDy(-20, 'makeSpace');   
+        $pdf->ezText("CHOFER : ".$variables["<chofer>"],10);
+        $pdf->ezText("UNIDAD : ".$variables["<unidad>"],10);
+        $pdf->ezText("MARCA : ".$variables["<marca>"],10);
+        $pdf->ezText("MODELO : ".$variables["<modelo>"],10);
+        $pdf->ezText("NUMERO DE SERIE : ".$variables["<serie>"],10);
+        $pdf->ezText("PLACAS : ".$variables["<placas>"],10);
+
+        $pdf->ezSetDy(-20, 'makeSpace'); 
+        $pdf->ezText("DESCRIPCION DETALLADA DE FALLA/SERVICIO MECANICA" , 12, array('justification' => 'center')); 
+        $pdf->ezSetDy(-20, 'makeSpace');     
+        $pdf->ezText($variables["<falla>"] , 10, array('justification' => 'full'));   
+        $pdf->ezSetDy(-20, 'makeSpace'); 
+
+        $proveedor = $registro->cotizacion()->proveedor->nombre_corto;
+        $instalacion = $registro->cotizacion()->instalacion;
+        $pdf->ezText("Acudir a {$proveedor}, {$instalacion->direccion} tel. {$instalacion->telefono}",
+            12,array('justification'=>'center'));
+
+        $qr = CodeGenerator::qrcodeGenerate(route('taller.documentos',$registro->uuid));
+        Storage::disk('public')->put('qr.png',base64_decode($qr));
+
+        $pdf->addPngFromFile("storage/qr.png",400,100,100);
+        $pdf->addText(400,85,8,"EMPRESA : ".$variables["<empresa>"]);
+
+        if (ob_get_contents()) ob_end_clean();
+
+        // Se graba el pdf en el sistema de archivos
+        $filename = "{$uuid}.pdf";
+        $disk = env('FILESYSTEM_DRIVER','local');
+        Storage::disk($disk)->put($filename, $pdf->Output());
+
+        $documento_type = Catalogo::find_item(Catalogo::DOCUMENT_TYPE,Catalogo::ORDEN)->first();
+
+        $model_name = get_class($registro);
+        $model_id = $registro->id;
+        Media::where('model_name',$model_name)->where('model_id',$model_id)
+                    ->where('document_type_id',$documento_type->id)
+                    ->delete(); 
+
+        $media = new Media;
+        $media->extension = "pdf";
+        $media->url = $filename;
+        $media->uuid = (string)Str::orderedUuid(); 
+        $media->mime_type = "application/pdf";
+        $media->model_name = $model_name;
+        $media->model_id = $model_id;
+        $media->document_type_id = $documento_type->id;
+        $media->save();
+
+        // envio mensaje a telegram
+        $reporte = Lang::get("telegram.ingreso_taller");        
+        $mensaje = strtr($reporte, $variables);        
+
+        // $channel_id = env('TELEGRAM_CHANNEL_ID', '');
+        // Telegram::sendMessage([
+        //     'chat_id' => $channel_id,
+        //     'parse_mode' => 'HTML',
+        //     'text' => $mensaje
+        // ]);
+
+        // cambio de estatus
+        $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::EN_TALLER)->first();
+        $registro->estatus_id = $estatus->id;
+        $registro->save();
+        
+        return response()->file("storage/$filename");
+    }
+
+    public function reporte_download($uuid){
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Formato de Reporte no encontrado");
+
+        $media = $registro->getReporte();
+        if (is_null($media)) dd("Reporte firmado no encontrado");
+
+        return redirect()->route('media.download',$media->uuid);
     }
 }
 
