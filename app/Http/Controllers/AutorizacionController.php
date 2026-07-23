@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Autorizacion;
+use App\Models\Mantenimiento;
+use App\Models\Catalogo;
+use App\Models\User;
+use App\Models\Role;
 use Auth;
+
+use Illuminate\Support\Str;
 
 class AutorizacionController extends Controller
 {

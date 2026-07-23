@@ -52,17 +52,6 @@ class MediaController extends Controller
 			$media->observations = $_FILES['uploadFile']['name'];
 			$media->save();
 
-			if ( strtolower(trim($media->document_type->name)) == "factura (pdf)") {
-				$model->factura = $request->factura ?? null;
-				$model->monto  = $request->monto ?? 0;
-
-				$catalogo = Catalogo::where('name',Catalogo::ESTATUS)->whereNull('parent_id')->first();        
-        		$facturada = Catalogo::where('parent_id',$catalogo->id)->where('name','like',Catalogo::FACTURADA)->first();
-        		$model->estatus_id = $facturada->id;
-
-				$model->save();
-			}
-
 			return back()->with('info',"El archivo se ha guardado con éxito.");
 		} 
 

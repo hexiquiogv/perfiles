@@ -1,4 +1,4 @@
-<a id="open_camara_modal" class="black-text" data-toggle="modal" data-target="#camara">
+<a id="open_camara_modal" style="display:none;" data-toggle="modal" data-target="#camara">
 </a>
 <!-- Modal HTML -->
 <div id="camara" class="modal">
@@ -18,7 +18,6 @@
                 <input type="hidden" name="back_url" value={{$back_url}}>
                 <input type="hidden" name="model_id" value={{$model_id}}>
                 <input type="hidden" name="model_name" value={{$model_name}}>
-                <input type="hidden" name="extras" value="">
 
                 <div class="modal-body">
                     <div id="d-flex flex-column">
@@ -27,24 +26,6 @@
                             <select class="mdb-select md-form" id="document_type_id" 
                                 name="document_type_id"></select>
                         </div> 
-
-                        <div id="factura_section" style="display: none;">
-                            <div class="row">     
-                                <div class="col-md-11 d-flex flex-column">
-                                    <div class="md-form ml-3"><label class="active">Número de Factura</label></div>
-                                    <input class="ml-3 form-control" id="factura" type="text" name="factura" value="">
-                                </div>  
-                            </div>
-                            <div class="row">     
-                                <div class="col-md-11 d-flex flex-column">
-                                    <div class="md-form  ml-3"><label class="active">Monto</label></div>
-                                    <input class="ml-3 form-control" id="Monto" type="text" name="monto" value=""
-                                        placeholder="0.00">
-                                </div>  
-                            </div>
-                            <br>
-                        </div>
-                        
                     </div>                    
 
                     <div class="file-field">
@@ -63,7 +44,7 @@
                 <div class="modal-footer">
                     <div class="form-group">
                         <button class='btn btn-primary' id='save_image' type="submit">
-                                Guardar Archivo
+                                Guardar
                         </button>
                     </div>
                 </div>
@@ -79,24 +60,8 @@
 @push('scripts2')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('select[name="document_type_id"]').change(function(e){
-                var document_type = $('select[name="document_type_id"] option:selected').text();
-                $('#monto').val('');
-                $('#factura').val('');
-                $('#monto').prop('required', false);
-                $('#factura').prop('required', false);
-                if (document_type.trim() == "factura (pdf)"){                    
-                    $('#monto').prop('required', true);
-                    $('#factura').prop('required', true);
-                    $('#factura_section').show();
-                } else{
-                    $('#factura_section').hide();
-                }
-                    
-            });
-        
             $("#camara_modal").on('click', function() {
-                $("#open_camara_modal").trigger("click");
+                $("#open_camara_modal").click();
             });
             
             dynamicDropdown("{{ route('items',App\Models\Catalogo::DOCUMENT_TYPE ) }}", 

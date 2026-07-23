@@ -3,7 +3,6 @@
     $("#open_camara_modal").click(function(){
         $('#upload_image_form').trigger("reset");
         $('#fileUploaded').attr('src','');
-        $('#factura_section').hide();
     });
 
     $("#save_image").click(function() {           

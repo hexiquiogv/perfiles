@@ -12,7 +12,6 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::view('taller', 'taller.index')->name('taller');
 
 	Route::get('taller.orden/{uuid}', 'OrdenController@reporte')->name('taller.orden');
-	Route::get('taller.documentos/{uuid}', 'OrdenController@documentos')->name('taller.documentos');
 
 	Route::match(['get', 'post'],'ordenes_autorizadas.list', function() {
 		$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::AUTORIZADO)->first();
@@ -102,4 +101,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 	Route::patch('taller.update/{uuid}','OrdenController@taller_update')->name('taller.update');
 });	
 
+Route::middleware(['web'])->group(function () {
+	Route::get('upload/{uuid}','OrdenController@upload')->name('upload');
+});
 

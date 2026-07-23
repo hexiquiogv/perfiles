@@ -17,8 +17,8 @@
                 <i class="fa fa-camera fa-2x pt-1" aria-hidden="true"></i>
             </a>
             <a class="m-1 py-1 px-2 badge green z-depth-2" target="_blank"
-                href="{{ route('signaturepad',['model_name'=>get_class($registro),'model_id'=>$registro->uuid],
-                'title'=>"Firma Chofer - ".$item->chofer->fullname,'back_url'=>route('mantenimientos.edit',$registro->uuid) }}">
+                href="{{ route('signaturepad',['model_name'=>get_class($registro),'model_id'=>$registro->uuid,
+                'title'=>"Firma Chofer - ".$registro->vehiculo->chofer->fullname,'back_url'=>route('mantenimientos.edit',$registro->uuid)]) }}">
                 <i class="fa fa-send fa-2x pt-1" aria-hidden="true"></i>
             </a>
             @endif
@@ -68,8 +68,7 @@
                     $("#open_camara_modal").trigger("click");
                 });
                 
-                dynamicDropdown("{{ route('items',App\Models\Catalogo::DOCUMENT_TYPE ) }}", 
-                    {{old('document_type_id',0)}}, 'document_type_id');
+                dynamicDropdown("{{ route('items',App\Models\Catalogo::DOCUMENT_TYPE ) }}", {{old('document_type_id',0)}}, 'document_type_id');
 
             @endif
 

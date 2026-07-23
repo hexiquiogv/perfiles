@@ -90,7 +90,7 @@ class MantenimientoController extends Controller
             $mantenimiento->empresa_id = $vehiculo->empresa_id ?? null;
             $mantenimiento->sucursal_id = $vehiculo->sucursal_id ?? null;
             $mantenimiento->area_id = $vehiculo->area_id ?? null;
-            $mantenimiento->chofer_id = $request->chofer_id ?? null;
+            $mantenimiento->chofer_id = $vehiculo->chofer_id ?? null;
             $mantenimiento->datos_vehiculo = json_encode($vehiculo->getDatos());
         }
 

@@ -1,13 +1,11 @@
 <html>
 <head>
-    <title>Laravel Signature Pad Tutorial Example - ItSolutionStuff.com </title>
     <link rel="stylesheet" type="text/css" href="{{ asset('jquerySignature/css/bootstrap.css') }}">
-  
     <script type="text/javascript" src="{{ asset('jquerySignature/js/jquery.min.js') }}" ></script>
     <link type="text/css" href="{{ asset('jquerySignature/css/jquery-ui.css') }}" rel="stylesheet"> 
     <script type="text/javascript" src="{{ asset('jquerySignature/js/jquery-ui.min.js') }}" ></script>
-  
-    <script type="text/javascript" src="{{ asset('jquerySignature/js/jquery.signature.js') }}" ></script>
+    
+    <script type="text/javascript" src="{{ asset('jquerySignature/js/jquery.signature.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('jquerySignature/css/jquery.signature.css') }}">
   
     <style>
@@ -17,7 +15,6 @@
             height: auto;
         }
     </style>
-  
 </head>
 <body class="bg-dark">
 <div class="container">
@@ -59,6 +56,7 @@
 <script type="text/javascript">
     var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
     $('#clear').click(function(e) {
+        alert("clear");
         e.preventDefault();
         sig.signature('clear');
         $("#signature64").val('');

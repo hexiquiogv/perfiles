@@ -35,52 +35,6 @@
     </div>
 </div>
 
-@push('scripts2')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
-
-            $("#firma_modal").on('click', function() {
-                $('#clear').click(function(e) {
-                    e.preventDefault();
-                    sig.signature('clear');
-                    $("#signature64").val('');
-                });
-                $("#open_firma_modal").trigger("click");
-            });
-        });
-
-        function saveFirmaURL(input) {
-
-            $('#save_image').removeAttr('hidden');
-            $('#fileUploaded').attr('src', "");
-
-            var formdata = false;
-            if (window.FormData) {
-                formdata = new FormData();
-                }
-
-            if (input.files && input.files[0]) {
-                var file = input.files[0], reader;
-
-                if (!!file.type.match(/image.*/)) {
-                            if (window.FileReader) {
-                    reader = new FileReader();
-                    reader.onloadend = function (e) {
-                        $('#fileUploaded').attr('src', e.target.result);
-                    $('#fileUploaded').attr('style', 'width:98%;');
-                                    };
-                    reader.readAsDataURL(file);
-                                }
-
-                    if (formdata) {
-                            formdata.append("image", file);
-                    }
-                }
-            }
-        }
-
-    </script>
-@endpush
-
-
+@section('custom_scripts')
+    <script src="{{ asset('jquerySignature/js/appSignature.js') }}"></script>
+@endsection

@@ -287,7 +287,7 @@ class OrdenController extends Controller
         $pdf->ezText("Acudir a {$proveedor}, {$instalacion->direccion} tel. {$instalacion->telefono}",
             12,array('justification'=>'center'));
 
-        $qr = CodeGenerator::qrcodeGenerate(route('taller.documentos',$registro->uuid));
+        $qr = CodeGenerator::qrcodeGenerate(route('upload',$registro->uuid));
         Storage::disk('public')->put('qr.png',base64_decode($qr));
 
         $pdf->addPngFromFile("storage/qr.png",400,100,100);
@@ -345,6 +345,29 @@ class OrdenController extends Controller
         if (is_null($media)) dd("Reporte firmado no encontrado");
 
         return redirect()->route('media.download',$media->uuid);
+    }
+
+    public function upload($uuid){
+        $registro = Mantenimiento::where('uuid',$uuid)->first();
+        if (is_null($registro)) dd("Orden no encontrada");
+
+        if ($registro->estatus->name == "cancelada") dd("Esa orden ha sido cancelada");
+
+        $title = "Orden de Servicio/Mantenimiento - carga de factura (pdf y xml)";
+        $back_url = route("upload",$registro->uuid);
+
+        $facturar = 0;
+        // $catalogo = Catalogo::where('name',Catalogo::DOCUMENT_TYPE)->whereNull('parent_id')->first();
+        // $documentos = Catalogo::where('parent_id',$catalogo->id)->where('name','like','factura%')->select('name','id');
+
+
+        foreach ($registro->files as $file) {
+            if ($file->document_type->name == "Factura (XML)" || $file->document_type->name == "Factura (PDF)"){
+                $facturar = $facturar + 1;
+            }
+        }
+
+        return view('taller.factura', compact('registro','title','back_url','facturar'));
     }
 }
 
