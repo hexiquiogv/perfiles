@@ -4,7 +4,7 @@
 <div class="m-2 p-1">
     <div class="card col-md-12 badge badge-light">
         <div class="d-flex justify-content-between mx-2 mt-2 mb-1 col-md-12">
-            <div class="h4 pt-2">Cotizaciones en Ordenes de Servicio</div>
+            <div class="h4 pt-2">Ordenes de Servicio - Cotizaciones</div>
             <div class="d-flex justify-content-between col-md-3">
                 <div class="d-flex flex-row col-md-11">
                     <span class="p-1 mt-2 h6">Buscar</span>
@@ -88,8 +88,20 @@
 
                     {data:'servicios', name:'servicios', class:'text-capitalize'},
                     
-                    {data:'fecha_reporte', name:'fecha_reporte'},
-                    {data:'fecha_estatus', name:'fecha_estatus'},
+                    {data:'fecha_reporte', name:'fecha_reporte',
+                            width:'12%',
+                            render: function(data,style,row,meta){
+                                if (data == null) return "";
+                                return data.substring(0,10);
+                            }
+                        },
+                    {data:'fecha_estatus', name:'fecha_estatus',
+                            width:'12%',
+                            render: function(data,style,row,meta){
+                                if (data == null) return "";
+                                return data.substring(0,10);
+                            }
+                        },
                     
                     {data:'estatus.name', name:'estatus.name', class:'text-uppercase'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,

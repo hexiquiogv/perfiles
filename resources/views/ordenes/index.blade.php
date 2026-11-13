@@ -88,8 +88,20 @@
 
                     {data:'servicios', name:'servicios', class:'text-capitalize'},
                     
-                    {data:'fecha_reporte', name:'fecha_reporte'},
-                    {data:'fecha_estatus', name:'fecha_estatus'},
+                    {data:'fecha_reporte', name:'fecha_reporte',
+                            width:'12%',
+                            render: function(data,style,row,meta){
+                                if (data == null) return "";
+                                return data.substring(0,10);
+                            }
+                        },
+                    {data:'fecha_estatus', name:'fecha_estatus',
+                            width:'12%',
+                            render: function(data,style,row,meta){
+                                if (data == null) return "";
+                                return data.substring(0,10);
+                            }
+                        },
                     
                     {data:'estatus.name', name:'estatus.name', class:'text-uppercase'},
                     {data: 'acciones', name:'acciones', searchable:false, orderable:false,

@@ -82,7 +82,12 @@ class SignaturePadController extends Controller
                 $orden->estatus_id = $estatus->id;
                 $orden->save();
             }
-        } 
+        } else {
+            $estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::COTIZANDO)->first();
+            //$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::ORDEN_SERVICIO)->first();
+            $registro->estatus_id = $estatus->id;
+            $registro->save();
+        }
 
         return redirect($back_url)->with('success', 'Firma exitosa');
     }

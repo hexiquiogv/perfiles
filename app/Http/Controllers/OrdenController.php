@@ -49,7 +49,7 @@ class OrdenController extends Controller
 
         $mantenimiento = self::persist_data($request, $mantenimiento);
 
-        return redirect()->route("ordenes.edit",$mantenimiento->uuid)
+        return redirect()->route("cotizaciones.edit",$mantenimiento->uuid)
                     ->withSuccess("Orden {$mantenimiento->folio} actualizado exitosamente");
     }
 

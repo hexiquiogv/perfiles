@@ -27,9 +27,11 @@ class CotizacionesController extends Controller
         if (is_null($registro)) dd("Orden no encontrada");
 
         $title = "Orden de Mantenimiento - Cotizaciones";
-        $back_url = route('ordenes',$registro->uuid);
+        $back_url = route('cotizaciones');
+        $route = route('ordenes.update',$registro->uuid);
+        $method = "patch";
 
-        return view('cotizaciones.form', compact('registro','title','back_url'));
+        return view('cotizaciones.form', compact('registro','title','back_url','route','method'));
     }
 
     public function store(Request $request, $uuid){

@@ -23,6 +23,7 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 		$estatus = Catalogo::find_item(Catalogo::ESTATUS_MANTENIMIENTO,Catalogo::EN_PROCESO)->first();
 		$items = Mantenimiento::with('estatus:id,name')
 					->where('estatus_id',$estatus->id)
+					->orWhere('estatus_id',NULL)
 					->select('mantenimientos.*');
 		
 		return DataTables::eloquent($items)
@@ -74,7 +75,8 @@ Route::middleware(['roles'=>"allow_to_roles:".Role::ADMIN.'|'.
 							</a>";
 					}
 
-					if ( is_null($item->estatus) || $item->estatus->name == Catalogo::EN_PROCESO ) {
+					if ( is_null($item->estatus_id) || $item->estatus->name == Catalogo::EN_PROCESO ) {
+						$btn_edit = route('mantenimientos.edit',$item_id);
 						$btn_edit = "
 							<a href='$btn_edit' class='px-1' title='Editar'>
 								<span class='badge orange text-white shadow'>

@@ -16,7 +16,7 @@
             <a id="camara_modal" class="upload_form_modal m-1 py-1 px-2 badge black z-depth-2" href="#">
                 <i class="fa fa-camera fa-2x pt-1" aria-hidden="true"></i>
             </a>
-            <a class="m-1 py-1 px-2 badge green z-depth-2" target="_blank"
+            <a class="m-1 py-1 px-2 badge green z-depth-2"
                 href="{{ route('signaturepad',['model_name'=>get_class($registro),'model_id'=>$registro->uuid,
                 'title'=>"Firma Chofer - ".$registro->vehiculo->chofer->fullname,'back_url'=>route('mantenimientos.edit',$registro->uuid)]) }}">
                 <i class="fa fa-send fa-2x pt-1" aria-hidden="true"></i>

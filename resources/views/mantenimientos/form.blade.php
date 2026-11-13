@@ -59,17 +59,17 @@
     <div class="form-row">  
         <div class="col-md-3">
             <div class="md-form"><label class="active">Empresa</label></div>
-            <select class="mdb-select md-form " id="empresa_id" searchable="Buscar ..." readonly  
+            <select class="mdb-select md-form " id="empresa_id" readonly  
                 name="empresa_id"></select>
         </div> 
         <div class="col-md-4">
             <div class="md-form"><label class="active">Sucursal</label></div>
-            <select class="mdb-select md-form " id="sucursal_id" searchable="Buscar ..." readonly  
+            <select class="mdb-select md-form " id="sucursal_id" readonly  
                 name="sucursal_id"></select>
         </div>  
         <div class="col-md-4">
             <div class="md-form"><label class="active">Area</label></div>
-            <select class="mdb-select md-form " id="area_id" searchable="Buscar ..." readonly  
+            <select class="mdb-select md-form " id="area_id" readonly  
                 name="area_id"></select>
         </div> 
     </div>
